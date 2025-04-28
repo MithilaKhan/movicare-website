@@ -16,9 +16,12 @@ export default {
     },
     extend: {
       colors: {
-        primary: "#0A2369",
+        primary: "#286A25",
         secondary: "#54A7C3",
-        base: "#5C5C5C",
+        base: "#5C5C5C", 
+        content1:"#070707" , 
+        content2:"#828282" , 
+        content3:"#525252"
       },
     },
   },
