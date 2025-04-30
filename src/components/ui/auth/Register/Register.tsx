@@ -27,15 +27,11 @@ const Register: React.FC = () => {
     <div>
       <div className="mb-6">
         <h1 className="text-[25px] font-semibold mb-2">Register Now</h1>
-        <p className="text-[#11D279]">
-          To proceed with your application, we first need some information from
-          you
-        </p>
       </div>
       <ConfigProvider
         theme={{
           token: {
-            borderRadius: 0,
+            borderRadius: 10,
           },
           components: {
             Input: {
@@ -48,11 +44,8 @@ const Register: React.FC = () => {
         <Form onFinish={onFinish} layout="vertical">
           <TextInput name="name" label="Full Name" />
           <TextInput name="email" label="Email" />
-          <TextInput name="contact" label="Contact Number" />
-
           <Form.Item
             name="password"
-            label="Password"
             rules={[
               {
                 required: true,
@@ -69,7 +62,6 @@ const Register: React.FC = () => {
 
           <Form.Item
             name="confirm_password"
-            label="Confirm Password"
             dependencies={["password"]}
             hasFeedback
             rules={[
@@ -117,7 +109,7 @@ const Register: React.FC = () => {
           <Form.Item>
             <button
               type="submit"
-              className="w-full h-[45px] text-white font-medium text-lg bg-primary rounded-lg flex items-center justify-center mt-4"
+              className="w-full h-[45px] text-white font-medium text-lg bg-primary rounded-full flex items-center justify-center mt-4"
             >
               Sign up
             </button>

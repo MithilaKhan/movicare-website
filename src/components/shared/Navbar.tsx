@@ -20,15 +20,15 @@ const Navbar = () => {
   }
   const navOptions = [
     { label: "Home", path: "/" },
-    { label: "I'm a Brand", path: "/brand" },
-    { label: "I'm a Creator", path: "/creator" },
-    { label: "Contact Us", path: "/contact" },
+    { label: "Services", path: "/services" },
+    { label: "About", path: "/about" },
+    { label: "Contact ", path: "/contact" },
   ]; 
 
-
+  const logoSrc = ["/", "/home", "/services"].includes(pathname) ? "/logo.png" : "/logo2.png";
 
   return (
-    <div className="  w-full text-[#aababc] absolute top-0 left-0  z-50 ">
+    <div className={` w-full   absolute top-0 left-0  z-50 ${pathname === "/" || pathname === "/home" || pathname === "/services" ? "text-[#aababc]" : "text-content2 "}`}>
       <div className="navbar flex  py-6 container  justify-between items-center relative">
         {/* Mobile menu toggle */}
         <button
@@ -39,11 +39,12 @@ const Navbar = () => {
         </button>
 
         {/* Logo */}
-       <img src="/logo.png" alt="" className=" w-16 h-16" />
+       <img src={logoSrc} alt="" className=" w-16 h-16 object-fill" />
         {/* Nav Menu */}
         <div
           ref={menuRef}
-          className={`absolute lg:relative top-16 left-0 lg:top-0  lg:left-auto w-full lg:w-auto lg:flex flex-col lg:flex-row bg-[#224e54] lg:rounded-full lg:px-6 shadow-lg lg:shadow-none p-5 lg:p-0 space-y-4 lg:space-y-0 lg:space-x-6 transition-all duration-300 z-50 text-[16px] ${isMenuOpen ? "block" : "hidden"
+          className={`absolute lg:relative top-16 left-0 lg:top-0  lg:left-auto w-full lg:w-auto lg:flex flex-col lg:flex-row 
+            ${pathname === "/" || pathname === "/home" || pathname === "/services" ? "bg-[#000000]/20" : "bg-[#f0f3f1] "}    lg:rounded-full lg:px-6 shadow-lg lg:shadow-none p-5 lg:p-0 space-y-4 lg:space-y-0 lg:space-x-6 transition-all duration-300 z-50 text-[16px] ${isMenuOpen ? "block" : "hidden"
             }`}
         >
           {navOptions.map((option, index) => {
@@ -82,9 +83,9 @@ const Navbar = () => {
 
 profile?.data ? <div className="flex items-center gap-2" onClick={()=>router.push("/brand-home")}> 
  <img className="lg:w-12 lg:h-12 w-10 h-10 rounded-full" src={profile?.data?.profile} alt="profile" /> 
- <p className="text-white text-lg lg:block hidden">{profile?.data?.name}</p>
+ <p className={` text-lg lg:block hidden ${pathname === "/" || pathname === "/home" || pathname === "/services" ? "text-white" : "text-content2 "} `}>{profile?.data?.name}</p>
 </div> :  <Link href="/login">
-            <CmnButton className=" py-3 px-8 rounded-xl font-medium">Login</CmnButton>
+            <CmnButton className=" py-3 px-8 rounded-xl font-medium text-content1">Login</CmnButton>
           </Link>
           }
 
@@ -92,7 +93,7 @@ profile?.data ? <div className="flex items-center gap-2" onClick={()=>router.pus
  
           {/* reserve your ride   */}
             <div> 
-  <button className="text-[14px] text-[#070707] bg-white py-3 px-4 rounded-full font-medium"> Reserve Your Ride </button>
+  <button className={`text-[14px]  py-3 px-4 rounded-full font-medium  ${pathname === "/" || pathname === "/home" || pathname === "/services" ? "text-[#070707] bg-white" : "bg-primary text-white "} `}> Reserve Your Ride </button>
             </div>
          
         </div>

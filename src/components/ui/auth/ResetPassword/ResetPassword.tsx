@@ -1,5 +1,5 @@
 "use client"
-import { Button, Form, Input } from "antd";
+import { Form, Input } from "antd";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -25,16 +25,6 @@ const ResetPassword = () => {
 
             <Form.Item
               name="newPassword" 
-              label={ <p
-                style={{
-                  display: "block",
-                  color: "#5C5C5C",
-                }}
-              
-                className="font-semibold "
-              >
-                New Password
-              </p>}
               rules={[
                 {
                   required: true,
@@ -59,15 +49,6 @@ const ResetPassword = () => {
            
             <Form.Item
               style={{ marginBottom: 0 }} 
-              label={ <p
-                style={{
-                  display: "block",
-                  color: "#5C5C5C",
-                }}
-                className="font-semibold"
-              >
-                Confirm Password
-              </p>}
               name="confirmPassword"
               dependencies={["newPassword"]}
               hasFeedback
@@ -103,21 +84,23 @@ const ResetPassword = () => {
             </Form.Item>
       
 
-            <Form.Item style={{marginBottom: 0}}>
-            <Button
-              htmlType="submit"
+            <Form.Item>
+            <button
+             
+              type="submit"
               style={{
                 width: '100%',
                 height: 45,
                 color: "white",
                 fontWeight: "400px",
                 fontSize: "18px",
-                background: "#0a2369",
-                marginTop: 20
+           
+                marginTop: 10
               }}
+              className="flex items-center justify-center bg-primary rounded-full"
             >
-             Update
-            </Button>
+            Update
+            </button>
           </Form.Item>
 
 

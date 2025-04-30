@@ -22,8 +22,7 @@ const Login = () => {
         <div 
     >
         <div className=" mb-6">
-          <h1 className="text-[25px] font-semibold mb-2">Log in to your account</h1>
-          <p className="text-[#11D279]"> Please enter your email and password to continue</p>
+          <h1 className="text-[25px] font-semibold mb-2">Log in to your account </h1>
         </div>
         <Form
           onFinish={onFinish}
@@ -34,7 +33,6 @@ const Login = () => {
 
             <Form.Item
               name="password"
-              label={<p>Password</p>}
               rules={[
                 {
                   required: true,
@@ -79,7 +77,7 @@ const Login = () => {
            
                 marginTop: 20
               }}
-              className="flex items-center justify-center bg-primary rounded-lg"
+              className="flex items-center justify-center bg-primary rounded-full"
             >
               {/* {isLoading? < Spinner/> : "Sign in"} */} Sign in
             </button>

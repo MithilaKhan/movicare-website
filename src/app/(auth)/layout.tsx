@@ -13,11 +13,11 @@ const layout = ({children}: {children: React.ReactNode}) => {
         
         <div
             style={{
-                backgroundImage: `url('/safety.png')`,
-                backgroundPosition: 'center',
+                backgroundImage: `url('/login.svg')`,
+                backgroundPosition: 'top',
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: 'cover',
-              
+                filter: 'blur(5px)',
                 position: 'absolute',
                 top: 0,
                 left: 0,

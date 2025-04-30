@@ -1,22 +1,22 @@
 import React from 'react';
 import Banner from './Banner';
-import Navbar from '@/components/shared/Navbar';
 import Companies from './Companies';
 import WhyChoose from './WhyChoose';
 import EasyStress from './EasyStress';
 import ClientReview from './ClientReview';
-import GotQuestions from './GotQuestions';
+import ReadyFor from '@/components/shared/ReadyFor';
+import GotQuestions from '@/components/shared/GotQuestions';
 
 const HomeMain = () => {
     return (
         <div>
           <Banner /> 
-          <Navbar /> 
           <Companies/> 
           <WhyChoose /> 
           <EasyStress/> 
           <ClientReview/> 
-          <GotQuestions/>
+          <GotQuestions/> 
+          <ReadyFor/>
         </div>
     );
 };

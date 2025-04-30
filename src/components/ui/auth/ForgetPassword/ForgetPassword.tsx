@@ -24,7 +24,7 @@ const ForgetPassword = () => {
         <Form layout="vertical" onFinish={onFinish}>
           
             <Form.Item
-              label={<p>Email</p>}
+             
               name="email"
               id="email"
               rules={[
@@ -56,9 +56,9 @@ const ForgetPassword = () => {
                 fontWeight: "400px",
                 fontSize: "18px",
            
-                marginTop: 20
+                marginTop: 10
               }}
-              className="flex items-center justify-center bg-primary rounded-lg"
+              className="flex items-center justify-center bg-primary rounded-full"
             >
              Send OTP
             </button>

@@ -1,5 +1,5 @@
 "use client"
-import { Button, Form, Typography } from "antd";
+import {  Form, Typography } from "antd";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react"
 import OTPInput from "react-otp-input";
@@ -77,21 +77,23 @@ const VerifyOtp = () => {
             </p>
           </div>
 
-          <Form.Item style={{marginBottom: 0}}>
-            <Button
-              htmlType="submit"
+          <Form.Item>
+            <button
+             
+              type="submit"
               style={{
-                width: "100%",
-                height: 40,
-                border: "1px solid #d9d9d9",
-                outline: "none",
-                boxShadow: "none",
-                background: "#0A2369",
-                color: "white"
+                width: '100%',
+                height: 45,
+                color: "white",
+                fontWeight: "400px",
+                fontSize: "18px",
+           
+                marginTop: 10
               }}
+              className="flex items-center justify-center bg-primary rounded-full"
             >
             Verify
-            </Button>
+            </button>
           </Form.Item>
         </Form>
     </div>
