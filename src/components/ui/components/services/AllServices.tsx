@@ -1,3 +1,5 @@
+"use client"
+import { useRouter } from "next/navigation";
 
 interface ServiceType {
     id: number;
@@ -45,7 +47,8 @@ interface ServiceType {
   ]; 
 
 
-const AllServices = () => {
+const AllServices = () => { 
+  const router = useRouter()
     return ( 
 
         <div className="container mx-auto ">  
@@ -61,7 +64,8 @@ const AllServices = () => {
           <h2 className="text-[48px] font-semibold mb-6 text-[#070707]">{service.title}</h2>
           <p className="text-content2 mb-6 text-[20px]">{service.description}</p>
           <button 
-            className="bg-primary text-white py-3 px-6 rounded-full text-sm transition-colors duration-300"
+            className="bg-primary text-white py-3 px-6 rounded-full text-sm transition-colors duration-300" 
+            onClick={() => router.push("/select-service")}
           >
             {service.buttonText}
           </button>
