@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Button, message, Steps } from 'antd';
 import SelectServiceStep from './SelectServiceStep/SelectServiceStep';
 import SelectLocation from './SelectLocationStep/SelectLocation';
+import SelectDate from './SelectDate/SelectDate';
 
 const SelectServiceMainPage = () => { 
 
@@ -29,8 +30,12 @@ const SelectServiceMainPage = () => {
         },
         {
             title:  <p className='text-[14px] w-full'>Select Date & Travelers</p> ,
+            content: <SelectDate />,
+        }, 
+        {
+            title:  <p className='text-[14px] w-full'>Select Ride Option </p> ,
             content: 'Second-content',
-        },
+        }, 
         {
             title:  <p className='text-[14px] w-full'>Review & Checkout</p> ,
             content: 'Last-content',
