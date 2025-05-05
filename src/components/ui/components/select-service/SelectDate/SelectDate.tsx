@@ -47,12 +47,12 @@ const SelectDate = () => {
                     </div>
 
                     <Form.Item
-                        name="service"
-                        label={<p className="text-content2 text-sm">Services</p>}
+                        name="adults"
+                        label={<p className="text-content2 text-sm">Adults</p>}
                         className="mt-4"
                         rules={[{ required: true, message: "Please select a service" }]}
                     >
-                        <Input type="number" />
+                         <Input type="number"  placeholder="Write adult number" style={{ height: "48px"}}/>
                     </Form.Item>
 
                     {/* <Form.Item className="mt-8 w-full">
