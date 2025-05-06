@@ -25,7 +25,7 @@ const SelectServiceStep = ({ next }: { next: () => void }) => {
 
     return (
         <div className="flex w-full gap-4 mt-[56px]">
-            <div className="bg-white border border-[#e0dfdf] p-8 rounded-lg w-3/4">
+            <div className="bg-white border border-[#e0dfdf] p-8 pb-0 rounded-lg w-3/4">
                 <Form
                     layout="vertical"
                     form={form}
@@ -38,7 +38,7 @@ const SelectServiceStep = ({ next }: { next: () => void }) => {
                     <Form.Item
                         name="service"
                         label={<p className="text-content2 text-sm">Services</p>}
-                        className="mt-4"
+                        className="mt-4 "
                         rules={[{ required: true, message: "Please select a service" }]}
                     >
                         <Select
@@ -49,11 +49,11 @@ const SelectServiceStep = ({ next }: { next: () => void }) => {
                         />
                     </Form.Item>
 
-                    <Form.Item className="mt-8 w-full">
+                    <Form.Item className=" w-full">
                         <button
                             type="submit"
                             className={`${isServiceSelected ? "bg-primary" : "bg-[#b5b5b5] cursor-not-allowed"
-                                } text-white py-3 px-6 rounded-full text-[16px] transition-colors duration-300 w-full`}
+                                } text-white py-3 px-6 mt-6 rounded-full text-[16px] transition-colors duration-300 w-full`}
                             disabled={!isServiceSelected}
                         >
                             Choose Locations

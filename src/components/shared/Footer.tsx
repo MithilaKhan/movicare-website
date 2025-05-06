@@ -89,13 +89,12 @@ const Footer = () => {
             <div> 
 <h1 className="text-[14px] font-normal mb-6 text-[#a0a2a1]">Navigation</h1>
    <ul className="space-y-4 text-[16px] text-white font-normal">
-     <p className="cursor-pointer  " onClick={()=>router.push("/")} >Home</p>
-     <p className="cursor-pointer  " onClick={()=>router.push("/")} >Transport Services</p>
-     <p className="cursor-pointer  " onClick={()=>router.push("/")} >Activities & Tours</p> 
      <p className="cursor-pointer  " onClick={()=>router.push("/terms")} >Terms & Conditions</p> 
+     <p className="cursor-pointer  " onClick={()=>router.push("/services")} >Transport Services</p>
+     <p className="cursor-pointer  " onClick={()=>router.push("/services")} >Activities & Tours</p> 
      <p className="cursor-pointer  " onClick={()=>router.push("/")} >Rates & Booking</p>
-     <p className="cursor-pointer  " onClick={()=>router.push("/")} >Contact Us</p>
-     <p className="cursor-pointer  " onClick={()=>router.push("/")} >About us</p>
+     <p className="cursor-pointer  " onClick={()=>router.push("/privacy")} >Privacy Policy</p>
+     <p className="cursor-pointer  " onClick={()=>router.push("/about")} >About us</p>
 
    </ul> 
             </div> 

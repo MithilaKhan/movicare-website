@@ -6,9 +6,12 @@
     background-color: #f0f3f1 !important;
 } 
 
-/* .ant-picker-calendar .ant-picker-cell-disabled {
-    background-color: #bd0f0f !important; 
-    color: aliceblue !important;
-    border: 1px solid #7a0303 !important; 
-    width: 50% !important;
-} */
+.ant-steps .ant-steps-item-finish .ant-steps-item-icon {
+    background-color: #286a25 !important;
+    border-color: #286a25 !important; 
+    color: white !important;
+} 
+
+.steps .ant-steps-icon {
+    color: white !important;
+}

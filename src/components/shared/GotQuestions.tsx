@@ -84,7 +84,7 @@ const GotQuestions = () => {
             expandIconPosition="end"
             style={{ background: "#ffffff", color: '#222222' }}
             items={getItems(panelStyle)} 
-            activeKey={['3']}
+            defaultActiveKey={['3']}
           />
         </div>
       </div>

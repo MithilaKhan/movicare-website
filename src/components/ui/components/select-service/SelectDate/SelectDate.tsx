@@ -3,77 +3,115 @@ import { Form, Input } from "antd";
 import PriceDetails from "../PriceDetails";
 import 'react-calendar/dist/Calendar.css';
 import Calender from "./Calender";
-const SelectDate = () => {
-    const [form] = Form.useForm();
+import { IoIosArrowBack } from "react-icons/io";
+import { useState } from "react";
 
-    const onFinish = () => {
+const SelectDate = ({ next, prev }: { next: () => void; prev: () => void }) => {
+  const [form] = Form.useForm();
+  const [isServiceSelected, setIsServiceSelected] = useState(false);
 
-    }
-    return (
-        <div className="flex w-full gap-4 mt-[56px]">
-            <div className="bg-white border border-[#e0dfdf] p-8 rounded-lg w-3/4">
+  const onValuesChange = () => {
+    const values = form.getFieldsValue();
+    const requiredFields = ["checkoutDate", "hour", "minute", "adults", "kids"];
+    const allFilled = requiredFields.every((field) => values[field] !== undefined && values[field] !== "");
+    setIsServiceSelected(allFilled);
+  };
 
-                <Form
-                    layout="vertical"
-                    form={form}
-                    onFinish={onFinish}
-                    className="w-full h-auto"
-                >
-                    <p className="text-xl text-[#070707] font-medium pb-6">Select Your Service</p>
+  const onFinish = () => {
+    next();
+  };
 
-                    <div className="">
-                        <Form.Item name="checkoutDate">
-                         
-          <div className=" border border-[#ebe9e9] rounded-lg p-8">
-            <Calender unavailableDay={["2025-05-06", "2023-05-02"]} />
-            <div className=" text-end  px-3 flex items-center  gap-4">
-              <p className=" flex items-center  gap-1 py-2 ">
-                <span className=" w-4 h-4 rounded-full bg-red-600"></span>{" "}
-                <span className=" font-medium text-gray-500">Unavailable</span>
-              </p>
-            </div> 
-
-            <div> 
-                <p className=" text-sm text-[#525252] font-medium pt-4 ">Travel’s Time </p> 
-                <div className="flex items-center gap-2 mt-2">
-                    <Input type="number" className="w-1/2" placeholder="Hour" style={{ height: "48px"}}/>
-                    <Input type="number" className="w-1/2" placeholder="Minute" style={{ height: "48px"}}/> 
-                </div> 
-
-                <p className=" text-[000000] text-[16px] pt-5 font-medium "> Choose the date and time for your trip, then select the service that best fits your needs </p>           
-                </div>
+  return (
+    <div className="flex w-full gap-4 mt-[56px]">
+      <div className="bg-white border border-[#e0dfdf] p-8 pb-4 rounded-lg w-3/4">
+        <Form
+          layout="vertical"
+          form={form}
+          onFinish={onFinish}
+          onValuesChange={onValuesChange}
+          className="w-full h-auto"
+        >
+          <div className="flex items-center gap-1 pb-6">
+            <span onClick={() => prev()}>
+              <IoIosArrowBack size={20} color="#286a25" className="pt-1 cursor-pointer" />
+            </span>
+            <span className="text-xl text-[#070707] font-medium">
+              Select Date & Travelers
+            </span>
           </div>
-                        </Form.Item>
-                    </div>
 
-                    <Form.Item
-                        name="adults"
-                        label={<p className="text-content2 text-sm">Adults</p>}
-                        className="mt-4"
-                        rules={[{ required: true, message: "Please select a service" }]}
-                    >
-                         <Input type="number"  placeholder="Write adult number" style={{ height: "48px"}}/>
-                    </Form.Item>
+          <Form.Item
+            name="checkoutDate"
+            // rules={[{ required: true, message: "Please select a date" }]}
+          >
+            <div className="border border-[#ebe9e9] rounded-lg p-8">
+              <Calender unavailableDay={["2025-05-04", "2025-05-02"]} />
 
-                    {/* <Form.Item className="mt-8 w-full">
-                        <button
-                            type="submit"
-                            className={`${isServiceSelected ? "bg-primary" : "bg-[#b5b5b5] cursor-not-allowed"
-                                } text-white py-3 px-6 rounded-full text-[16px] transition-colors duration-300 w-full`}
-                            disabled={!isServiceSelected}
-                        >
-                            Choose Locations
-                        </button>
-                    </Form.Item> */}
-                </Form>
+              <div>
+                <p className="text-sm text-[#525252] font-medium pt-4">Travel’s Time</p>
+                <div className="flex items-center gap-2 mt-2">
+                  <Form.Item
+                    name="hour"
+                    noStyle
+                    rules={[{ required: true, message: "Please enter hour" }]}
+                  >
+                    <Input type="number" placeholder="Hour" className="w-1/2" style={{ height: "48px" }} />
+                  </Form.Item>
+                  <Form.Item
+                    name="minute"
+                    noStyle
+                    rules={[{ required: true, message: "Please enter minute" }]}
+                  >
+                    <Input type="number" placeholder="Minute" className="w-1/2" style={{ height: "48px" }} />
+                  </Form.Item>
+                </div>
+                <p className="text-[#000000] text-[16px] pt-5 font-medium">
+                  Choose the date and time for your trip, then select the service that best fits your needs
+                </p>
+              </div>
             </div>
+          </Form.Item>
 
-            {/* Price Details Panel */}
-            <div className="w-1/4">
-                <PriceDetails />
-            </div>
-        </div>
-    );
+          <Form.Item
+            name="adults"
+            label={<p className="text-content2 text-sm">Adults</p>}
+            className="mt-4"
+            rules={[{ required: true, message: "Please select a Adults number" }]}
+          >
+            <Input type="number" placeholder="Write adult number" style={{ height: "48px" }} />
+          </Form.Item>
+
+          <Form.Item
+            name="kids"
+            label={<p className="text-content2 text-sm">Kids</p>}
+            className="mt-4"
+            rules={[{ required: true, message: "Please select a kids number" }]}
+          >
+            <Input type="number" placeholder="Write kids number" style={{ height: "48px" }} />
+          </Form.Item>
+
+          <p className="text-[17px] text-[#000000] mb-8">
+            Each <span className="font-medium"> adult costs $300 </span>, and each <span className="font-medium"> child (under 12) costs $150 </span>. Wheelchair users are accommodated with no additional charge.
+          </p>
+
+          <Form.Item className=" w-full">
+            <button
+              type="submit"
+              className={`${isServiceSelected ? "bg-primary" : "bg-[#b5b5b5] cursor-not-allowed"
+                } text-white py-3 px-6 rounded-full text-[16px] transition-colors duration-300 w-full`}
+              disabled={!isServiceSelected}
+            >
+              See Result
+            </button>
+          </Form.Item>
+        </Form>
+      </div>
+
+      <div className="w-1/4">
+        <PriceDetails />
+      </div>
+    </div>
+  );
 };
 
 export default SelectDate;

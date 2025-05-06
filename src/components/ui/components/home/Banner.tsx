@@ -30,18 +30,18 @@ const Banner = () => {
             backgroundColor: "#ffe6f7"
         }}>
 
-            <div className='flex flex-col items-center justify-start h-full pt-[200px]'>
+            <div className='flex flex-col items-center lg:justify-start justify-center h-full lg:pt-[200px] pt-4'>
 
-                <div className='text-[56px] text-white'> <p>  <span className='font-bold'>Accessible </span>  Transportation,  </p>
-                    <div className='flex items-center gap-2 font-bold'>
+                <div className='lg:text-[56px] text-[32px] text-white lg:text-start text-center '> <p>  <span className='font-bold'>Accessible </span>  Transportation,  </p>
+                    <div className='flex items-center lg:justify-start justify-center gap-2 font-bold'>
                         <span>  Redefined in  </span>
-                        <img src="/FlagIcon.png" alt="" className='w-[49px] h-[49px] mx-3' />
+                        <img src="/FlagIcon.png" alt="" className='w-[49px] h-[49px] mx-3 lg:block hidden' />
                         <span>Costa Rica </span>
                     </div>
                 </div>
-                <p className='text-[18px] text-[#d1d6d4]  w-1/3 text-center mt-4 tracking-wide'> Safe, comfortable, and hassle-free mobility for wheelchair users and individuals with reduced mobility.</p>
+                <p className='text-[18px] text-[#d1d6d4] px-1 lg:px-0  lg:w-1/3 w-full  text-center mt-4 tracking-wide'> Safe, comfortable, and hassle-free mobility for wheelchair users and individuals with reduced mobility.</p>
 
-                <div className='flex items-center gap-4 mt-10'>
+                <div className='flex lg:flex-row flex-col items-center gap-4 mt-10'>
                     <ConfigProvider
                         theme={{
                             components: {
