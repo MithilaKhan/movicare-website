@@ -38,7 +38,7 @@ const ReviewCheckOut = ({  prev }: { prev: () => void }) => {
   ];  
 
 
-  const addtionalServicesOption = [
+  const additionalServicesOption = [
     { value: "Accessible Van Rentals", label: "Additional Service 1 ($100)" },
     { value: "Custom Route Planning", label: "Additional Service 2 ($100)" },
     { value: "Medical & Daily Transport", label: "Additional Service 3 ($100)" },
@@ -180,7 +180,7 @@ const ReviewCheckOut = ({  prev }: { prev: () => void }) => {
                 placeholder="Choose the type of transportation"
                 className="w-full rounded-lg p-2"
                 style={{ height: 45 }}
-                options={addtionalServicesOption}
+                options={additionalServicesOption}
                 // suffixIcon={<FiEdit3 size={20} color="#286a25" />} 
               /> 
             </Form.Item>

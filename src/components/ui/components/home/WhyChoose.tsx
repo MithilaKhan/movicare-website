@@ -43,14 +43,14 @@ const features = [
 
 const WhyChoose = () => {
     return (
-        <div className='py-16 container mx-auto'>
+        <div className='lg:py-16 py-6 container mx-auto'>
              <div className="mx-auto  ">
       {/* Hero Section */}
-      <div className="text-center pb-[56px]">
-        <h1 className="text-[32px] font-semibold text-content1 mb-6">
+      <div className="text-center lg:pb-[56px] pb-8">
+        <h1 className="lg:text-[32px] text-[28px] font-semibold text-content1 lg:mb-6 mb-3">
           Why Choose MoviCare?
         </h1>
-        <p className="text-lg text-content2 max-w-lg tracking-wide mx-auto">
+        <p className="lg:text-lg text-[16px] text-content2 max-w-lg tracking-wide mx-auto">
           More than just transportation – a service designed for your independence.
         </p>
       </div>

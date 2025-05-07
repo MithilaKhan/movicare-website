@@ -18,14 +18,14 @@ const Footer = () => {
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
             objectFit: 'cover',
-            backgroundColor: "#ffe6f7"
+   
         }}> 
 
         <div className=" flex lg:flex-row flex-col items-center justify-between pt-[56px]  text-white container mx-auto"> 
-            <div className="lg:w-[45%] w-full space-y-5 flex flex-col items-start gap-[50px]">  
+            <div className="lg:w-[45%] w-full space-y-5 flex flex-col items-start lg:gap-[50px] gap-5">  
 
              <div className="">
-     <h1 className="text-[14px] font-normal mb-6 text-[#a0a2a1]">Contact us</h1>
+     <h1 className="text-[14px] font-normal lg:mb-6 mb-2 text-[#a0a2a1]">Contact us</h1>
    <ul className="space-y-4 text-[16px] text-white font-normal">
      <p className=" " >+1 (480) 555-0103</p>
      <p className=" ">Hello@Movicare.com</p>
@@ -39,7 +39,7 @@ const Footer = () => {
    </ul>
 </div> 
 
-<div className="flex items-center justify-between gap-[96px]"> 
+<div className="flex lg:flex-row flex-col items-center justify-between lg:gap-[96px] gap-10"> 
 <div className=" w-full">
  <h1 className="text-[14px] font-normal mb-6 text-[#a0a2a1]">Follow us</h1>
    <div className="flex gap-5">
@@ -84,10 +84,10 @@ const Footer = () => {
 
             </div> 
  
- <div className="lg:w-[45%] w-full space-y-5 flex flex-col items-center gap-[50px]"> 
+ <div className="lg:w-[45%] w-full space-y-5 flex flex-col lg:items-center lg:gap-[50px] "> 
 
             <div> 
-<h1 className="text-[14px] font-normal mb-6 text-[#a0a2a1]">Navigation</h1>
+<h1 className="text-[14px] font-normal mb-6 lg:mt-0 mt-10 text-[#a0a2a1]">Navigation</h1>
    <ul className="space-y-4 text-[16px] text-white font-normal">
      <p className="cursor-pointer  " onClick={()=>router.push("/terms")} >Terms & Conditions</p> 
      <p className="cursor-pointer  " onClick={()=>router.push("/services")} >Transport Services</p>
@@ -99,7 +99,7 @@ const Footer = () => {
    </ul> 
             </div> 
 
-            <div className="flex justify-between ms-24  gap-[96px]"> 
+            <div className="flex justify-between lg:ms-24  gap-[96px]"> 
 <p className=" text-sm text-[#a0a2a1]"> © 2025 — Movicare </p> 
 <p className=" flex items-center gap-3  text-sm text-[#a0a2a1] ">  <span>En </span> <span>Es </span></p>
             </div>

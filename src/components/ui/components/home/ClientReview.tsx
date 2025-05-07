@@ -62,7 +62,6 @@ const ClientReview = () => {
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
             objectFit: 'cover',
-            backgroundColor: "#ffe6f7"
         }} >
             <div className="mx-auto  ">
 

@@ -8,7 +8,6 @@ const ServicesBanner = () => {
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
             objectFit: 'cover',
-            backgroundColor: "#ffe6f7"
         }}>
             <div className='  text-white max-w-3xl'>
                 <p className='uppercase text-[18px]  text-center tracking-wide '>OUR SERVICES </p>

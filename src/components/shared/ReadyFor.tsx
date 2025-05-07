@@ -9,7 +9,6 @@ const ReadyFor = () => {
             backgroundPosition: 'bottom',
             backgroundRepeat: 'no-repeat',
             objectFit: 'cover',
-            backgroundColor: "#ffe6f7"
         }}>
             <div className=' pt-[120px] flex items-start justify-center h-full'>
                 <div className=' flex flex-col items-center justify-center gap-4'>
