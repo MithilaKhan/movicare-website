@@ -48,11 +48,11 @@ const Footer = () => {
                   <FaFacebook size={25} />
                 </div>
 
-                <div className="p-2  rounded-full border border-[#a0a2a1]lg:w-[50px] w-10 h-10 lg:h-[50px] flex items-center justify-center text-white">
+                <div className="lg:p-2 p-1  rounded-full border border-[#a0a2a1] lg:w-[50px] w-10 h-10 lg:h-[50px] flex items-center justify-center text-white">
                   <FaInstagram size={25} />
                 </div>
 
-                <div className="p-2  rounded-full border border-[#a0a2a1]lg:w-[50px] w-10 h-10 lg:h-[50px] flex items-center justify-center text-white">
+                <div className="lg:p-2 p-1   rounded-full border border-[#a0a2a1] lg:w-[50px] w-10 h-10 lg:h-[50px] flex items-center justify-center text-white">
                   <FaLinkedin size={25} />
                 </div>
 
@@ -99,7 +99,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          <div className=" w-full">
+          <div className=" w-full block lg:hidden">
             <h1 className="text-[14px] font-normal lg:mb-6 mb-3 text-[#a0a2a1]">Let’s chat</h1>
             <div className="flex gap-5">
 
@@ -126,10 +126,13 @@ const Footer = () => {
         </div>
       </div> 
 
-      <div className=" flex  lg:hidden justify-between lg:ms-24  gap-[96px] px-2 mt-5 py-3">
+<div className="block lg:hidden"> 
+      <div className=" flex   justify-between lg:ms-24  gap-[96px] px-2 mt-5 py-3">
         <p className=" text-sm text-[#a0a2a1]"> © 2025 — Movicare </p>
         <p className=" flex items-center gap-3  text-sm text-[#a0a2a1] ">  <span>En </span> <span>Es </span></p>
       </div>
+
+</div>
 
     </div>
   );
