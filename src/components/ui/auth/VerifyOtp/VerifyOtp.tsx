@@ -53,7 +53,7 @@ const VerifyOtp = () => {
                 height: 50,
                 width: 50,
                 borderRadius: "8px",
-                margin: "16px",
+                margin: "10px",
                 fontSize: "20px",
                 border: "1px solid #818181",
                 color: "#2B2A2A",

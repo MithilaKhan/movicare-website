@@ -2,112 +2,137 @@
 import { PhoneCall } from "lucide-react";
 import { useRouter } from "next/navigation";
 import {
-    FaFacebook,
-    FaInstagram,
-    FaLinkedin,
-    FaTelegramPlane,
-    FaWhatsapp,
-  } from "react-icons/fa";
+  FaFacebook,
+  FaInstagram,
+  FaLinkedin,
+  FaTelegramPlane,
+  FaWhatsapp,
+} from "react-icons/fa";
 
-const Footer = () => { 
+const Footer = () => {
   const router = useRouter();
-    return (
-        <div className="bg-black lg:h-[510px] lg:pb-0 pb-5"  style={{
-            backgroundImage: `url('/footerbg.svg')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            objectFit: 'cover',
-   
-        }}> 
+  return (
+    <div className="bg-black lg:h-[510px] lg:pb-0 pb-5" style={{
+      backgroundImage: `url('/footerbg.svg')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      objectFit: 'cover',
 
-        <div className=" flex lg:flex-row flex-col items-center justify-between pt-[56px]  text-white container mx-auto"> 
-            <div className="lg:w-[45%] w-full space-y-5 flex flex-col items-start lg:gap-[50px] gap-5">  
+    }}>
 
-             <div className="">
-     <h1 className="text-[14px] font-normal lg:mb-6 mb-2 text-[#a0a2a1]">Contact us</h1>
-   <ul className="space-y-4 text-[16px] text-white font-normal">
-     <p className=" " >+1 (480) 555-0103</p>
-     <p className=" ">Hello@Movicare.com</p>
-   </ul>
-</div> 
+      <div className=" flex lg:flex-row flex-row lg:items-center items-start justify-between pt-[56px]  text-white container mx-auto gap-8">
+        <div className="lg:w-[45%] w-full space-y-5 flex flex-col items-start lg:gap-[50px] gap-5">
 
-             <div className="">
-     <h1 className="text-[14px] font-normal mb-6 text-[#a0a2a1]">Location</h1>
-   <ul className="space-y-4 text-[16px] text-white font-normal">
-     <p className=" " >2972 Westheimer Rd. Santa Ana, Illinois 85486 </p>
-   </ul>
-</div> 
+          <div className="">
+            <h1 className="lg:text-[14px] text-[12px] font-normal lg:mb-6 mb-2 text-[#a0a2a1]">Contact us</h1>
+            <ul className="space-y-4 lg:text-[16px] text-sm text-white font-normal">
+              <p className=" " >+1 (480) 555-0103</p>
+              <p className=" ">Hello@Movicare.com</p>
+            </ul>
+          </div>
 
-<div className="flex lg:flex-row flex-col items-center justify-between lg:gap-[96px] gap-10"> 
-<div className=" w-full">
- <h1 className="text-[14px] font-normal mb-6 text-[#a0a2a1]">Follow us</h1>
-   <div className="flex gap-5">
- 
-       <div className="p-2  rounded-full border border-[#a0a2a1] w-[50px] h-[50px] flex items-center justify-center text-white">
-         <FaFacebook size={25} />
-       </div>
-    
-       <div className="p-2  rounded-full border border-[#a0a2a1] w-[50px] h-[50px] flex items-center justify-center text-white">
-         <FaInstagram size={25} />
-       </div>
-  
-       <div className="p-2  rounded-full border border-[#a0a2a1] w-[50px] h-[50px] flex items-center justify-center text-white">
-         <FaLinkedin size={25} />
-       </div>
- 
-   </div>  
-   </div> 
+          <div className="">
+            <h1 className="lg:text-[14px] text-[12px] font-normal lg:mb-6 mb-3 text-[#a0a2a1]">Location</h1>
+            <ul className="space-y-4 lg:text-[16px] text-sm text-white font-normal">
+              <p className=" tracking-wide" >2972 Westheimer Rd. Santa Ana, Illinois 85486 </p>
+            </ul>
+          </div>
 
-<div className=" w-full">
- <h1 className="text-[14px] font-normal mb-6 text-[#a0a2a1]">Let’s chat</h1>
-   <div className="flex gap-5">
- 
-       <div className="p-2  rounded-full border border-[#a0a2a1] w-[50px] h-[50px] flex items-center justify-center text-white">
-         <PhoneCall size={25} />
-       </div>
-    
-       <div className="p-2  rounded-full border border-[#a0a2a1] w-[50px] h-[50px] flex items-center justify-center text-white">
-         <FaTelegramPlane size={25} />
-       </div>
-  
+          <div className="flex lg:flex-row flex-row items-center justify-between lg:gap-[96px] gap-0">
+            <div className=" w-full">
+              <h1 className="lg:text-[14px] text-[12px] font-normal lg:mb-6 mb-3 text-[#a0a2a1]">Follow us</h1>
+              <div className="flex gap-5">
 
-       <div className="p-2  rounded-full border border-[#a0a2a1] w-[50px] h-[50px] flex items-center justify-center text-white">
-         <FaWhatsapp size={25} />
-       </div>
- 
-   </div>  
-   </div>
+                <div className="lg:p-2 p-1  rounded-full border border-[#a0a2a1] lg:w-[50px] w-10 h-10 lg:h-[50px] flex items-center justify-center text-white">
+                  <FaFacebook size={25} />
+                </div>
 
-</div>
+                <div className="p-2  rounded-full border border-[#a0a2a1]lg:w-[50px] w-10 h-10 lg:h-[50px] flex items-center justify-center text-white">
+                  <FaInstagram size={25} />
+                </div>
 
+                <div className="p-2  rounded-full border border-[#a0a2a1]lg:w-[50px] w-10 h-10 lg:h-[50px] flex items-center justify-center text-white">
+                  <FaLinkedin size={25} />
+                </div>
 
-            </div> 
- 
- <div className="lg:w-[45%] w-full space-y-5 flex flex-col lg:items-center lg:gap-[50px] "> 
-
-            <div> 
-<h1 className="text-[14px] font-normal mb-6 lg:mt-0 mt-10 text-[#a0a2a1]">Navigation</h1>
-   <ul className="space-y-4 text-[16px] text-white font-normal">
-     <p className="cursor-pointer  " onClick={()=>router.push("/terms")} >Terms & Conditions</p> 
-     <p className="cursor-pointer  " onClick={()=>router.push("/services")} >Transport Services</p>
-     <p className="cursor-pointer  " onClick={()=>router.push("/services")} >Activities & Tours</p> 
-     <p className="cursor-pointer  " onClick={()=>router.push("/")} >Rates & Booking</p>
-     <p className="cursor-pointer  " onClick={()=>router.push("/privacy")} >Privacy Policy</p>
-     <p className="cursor-pointer  " onClick={()=>router.push("/about")} >About us</p>
-
-   </ul> 
-            </div> 
-
-            <div className="flex justify-between lg:ms-24  gap-[96px]"> 
-<p className=" text-sm text-[#a0a2a1]"> © 2025 — Movicare </p> 
-<p className=" flex items-center gap-3  text-sm text-[#a0a2a1] ">  <span>En </span> <span>Es </span></p>
+              </div>
             </div>
- </div>
+
+            <div className=" w-full lg:block hidden">
+              <h1 className="text-[14px] font-normal lg:mb-6 mb-3 text-[#a0a2a1]">Let’s chat</h1>
+              <div className="flex gap-5">
+
+                <div className="p-2  rounded-full border border-[#a0a2a1] lg:w-[50px] w-10 h-10 lg:h-[50px] flex items-center justify-center text-white">
+                  <PhoneCall size={25} />
+                </div>
+
+                <div className="p-2  rounded-full border border-[#a0a2a1] lg:w-[50px] w-10 h-10 lg:h-[50px] flex items-center justify-center text-white">
+                  <FaTelegramPlane size={25} />
+                </div>
+
+
+                <div className="p-2  rounded-full border border-[#a0a2a1] lg:w-[50px] w-10 h-10 lg:h-[50px] flex items-center justify-center text-white">
+                  <FaWhatsapp size={25} />
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+
         </div>
-     
+
+        <div className="lg:w-[45%] w-full space-y-5 flex flex-col lg:items-center lg:gap-[50px] ">
+
+          <div>
+            <h1 className="lg:text-[14px] text-[12px] font-normal mb-6 lg:mt-0 mt-0 text-[#a0a2a1]">Navigation</h1>
+            <ul className="lg:space-y-4 space-y-3 lg:text-[16px] text-sm text-white font-normal">
+              <p className="cursor-pointer  " onClick={() => router.push("/terms")} >Terms & Conditions</p>
+              <p className="cursor-pointer  " onClick={() => router.push("/services")} >Transport Services</p>
+              <p className="cursor-pointer  " onClick={() => router.push("/services")} >Activities & Tours</p>
+              <p className="cursor-pointer  " onClick={() => router.push("/")} >Rates & Booking</p>
+              <p className="cursor-pointer  " onClick={() => router.push("/privacy")} >Privacy Policy</p>
+              <p className="cursor-pointer  " onClick={() => router.push("/about")} >About us</p>
+
+            </ul>
+          </div>
+
+          <div className=" w-full">
+            <h1 className="text-[14px] font-normal lg:mb-6 mb-3 text-[#a0a2a1]">Let’s chat</h1>
+            <div className="flex gap-5">
+
+              <div className="p-2  rounded-full border border-[#a0a2a1] lg:w-[50px] w-10 h-10 lg:h-[50px] flex items-center justify-center text-white">
+                <PhoneCall size={25} />
+              </div>
+
+              <div className="p-2  rounded-full border border-[#a0a2a1] lg:w-[50px] w-10 h-10 lg:h-[50px] flex items-center justify-center text-white">
+                <FaTelegramPlane size={25} />
+              </div>
+
+
+              <div className="p-2  rounded-full border border-[#a0a2a1] lg:w-[50px] w-10 h-10 lg:h-[50px] flex items-center justify-center text-white">
+                <FaWhatsapp size={25} />
+              </div>
+
+            </div>
+          </div>
+
+          <div className="lg:flex hidden  justify-between lg:ms-24  gap-[96px]">
+            <p className=" text-sm text-[#a0a2a1]"> © 2025 — Movicare </p>
+            <p className=" flex items-center gap-3  text-sm text-[#a0a2a1] ">  <span>En </span> <span>Es </span></p>
+          </div>
+        </div>
+      </div> 
+
+      <div className=" flex  lg:hidden justify-between lg:ms-24  gap-[96px] px-2 mt-5 py-3">
+        <p className=" text-sm text-[#a0a2a1]"> © 2025 — Movicare </p>
+        <p className=" flex items-center gap-3  text-sm text-[#a0a2a1] ">  <span>En </span> <span>Es </span></p>
       </div>
-    );
+
+    </div>
+  );
 };
 
 export default Footer; 

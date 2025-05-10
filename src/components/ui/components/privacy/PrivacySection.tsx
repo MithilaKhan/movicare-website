@@ -14,11 +14,11 @@ interface PrivacySectionProps {
     className,
   }: PrivacySectionProps) {
     return (
-      <section className={` mb-10 last:mb-0  ${className}`}>
-        <h2 className="text-2xl font-bold text-content1 mb-4">{title}</h2>
+      <section className={` lg:mb-10 mb-8 last:mb-0  ${className}`}>
+        <h2 className="lg:text-2xl text-xl font-bold text-content1 lg:mb-4 mb-2">{title}</h2>
         
         {content && content.map((paragraph, index) => (
-          <p key={index} className="text-content2 text-lg mb-4 leading-relaxed">
+          <p key={index} className="text-content2 lg:text-lg text-[16px] lg:mb-4 mb-2 leading-relaxed">
             {paragraph}
           </p>
         ))}
@@ -27,7 +27,7 @@ interface PrivacySectionProps {
           <ul className=" mt-3 space-y-2">
             {bulletPoints.map((point, index) => (
               <li key={index} className="text-content2 leading-relaxed flex items-start">
-                <span className="inline-block h-1.5 w-1.5 rounded-full bg-content2 text-lg mt-2 mr-2"></span>
+                <span className="inline-block h-1.5 w-1.5 rounded-full bg-content2 lg:text-lg text-[16px] mt-2 mr-2"></span>
                 {point}
               </li>
             ))}

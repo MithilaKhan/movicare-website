@@ -25,42 +25,42 @@ const content = {
 const EasyStress = () => {
     return (
         <div className=" my-16 bg-[#202020] mx-auto">
-            <div className=" container mx-auto pt-[120px] pb-[80px]">
-                <div className=" mx-auto px-4 ">
+            <div className=" container mx-auto lg:pt-[120px] pt-20 pb-[80px]">
+                <div className=" mx-auto lg:px-4 px-1 ">
 
                     {/* title  */}
 
-                    <div className="flex flex-col items-center justify-center mb-16">
+                    <div className="flex flex-col items-center justify-center lg:mb-16 mb-8">
 
-                        <h2 className="text-[32px] font-semibold text-white mb-6 max-w-[430px] text-center tracking-wide">
+                        <h2 className="lg:text-[32px] text-[24px] w-full font-semibold text-white mb-6 lg:max-w-[430px] text-center tracking-wide">
                             {content.heading}
                         </h2>
-                        <p className="text-xl text-[#a6a6a6] ">
+                        <p className="lg:text-xl text-[#a6a6a6] text-center text-[16px]  ">
                             {content.subtext}
                         </p>
                     </div>
 
 
                     {/* Steps Grid */}
-                    <div className="flex w-full gap-[100px] mb-16 items-center">
-                        <div className=" w-[35%] flex flex-col   gap-10">
+                    <div className="flex lg:flex-row flex-col-reverse w-full lg:gap-[100px] gap-8 lg:mb-16 mb-0 items-center">
+                        <div className=" lg:w-[35%] w-full flex flex-col   gap-10">
                             {steps.map((step, index) => (
                                 <div
                                     key={index}
                                     className=" "
                                 >
 
-                                    <div className={` ${step.number === "01" ? "text-white" : "text-[#363636]"}  text-[80px] font-extrabold" `} >
+                                    <div className={` ${step.number === "01" ? "text-white" : "text-[#363636]"}  lg:text-[80px]  text-[70px] font-extrabold" `} >
                                         {step.number}
                                     </div>
-                                    <h3 className="text-2xl font-medium text-white -mt-2 pb-3">{step.title}</h3>
+                                    <h3 className="lg:text-2xl text-xl  font-medium text-white -mt-2 pb-3">{step.title}</h3>
 
-                                    <p className="text-content3 text-lg ">{step.description}</p>
+                                    <p className="text-content3 lg:text-lg text-[16px] ">{step.description}</p>
                                 </div>
                             ))}
                         </div>
 
-                        <div className="w-[65%] flex justify-center items-center">
+                        <div className="lg:w-[65%] w-full flex justify-center items-center">
                             <img src="/easyStress.svg" alt="" className="w-full" />
                         </div>
                     </div>
@@ -68,15 +68,15 @@ const EasyStress = () => {
 
                     {/* section 2  */}
 
-                    <div className=" flex lg:flex-row flex-col items-end w-full justify-center pt-20 gap-32 ">
- {/* image   */}
- <div className="w-1/2"> 
-    <img src="/easyStress2.png" alt="" className=" w-full h-[400px] " />
- </div>
+                    <div className=" flex lg:flex-row flex-col items-end w-full justify-center pt-20 lg:gap-32 gap-8 ">
+                        {/* image   */}
+                        <div className="lg:w-1/2 w-full ">
+                            <img src="/easyStress2.png" alt="" className=" w-full h-[400px] " />
+                        </div>
 
                         {/* Content Section */}
-                        <div className=" w-1/2 ">
-                            <p className="text-lg text-[#a6a6a6] leading-relaxed">
+                        <div className=" lg:w-1/2 w-full ">
+                            <p className="lg:text-lg text-[16px] text-[#a6a6a6] leading-relaxed">
                                 {content.paragraph}
                             </p>
                         </div>

@@ -47,7 +47,7 @@ const SelectServiceMainPage = () => {
     const items = steps.map((item) => ({ key: item.title, title: item.title }));
 
     return (
-        <div className='w-full pt-[180px] bg-[#f7f8f7] min-h-screen'>
+        <div className='w-full lg:pt-[180px] pt-32 bg-[#f7f8f7] min-h-screen'>
             <div className='container'>
 
                 <Steps current={current} items={items} labelPlacement="vertical" style={{ width: '100%' }} size="small" className='steps' />

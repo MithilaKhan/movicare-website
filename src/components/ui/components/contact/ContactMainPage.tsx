@@ -5,7 +5,7 @@ import GotQuestions from '@/components/shared/GotQuestions';
 
 const ContactMainPage = () => {
     return (
-        <div className='pt-[140px] container'>
+        <div className='lg:pt-[140px] pt-32 container'>
             <ContactHeader/> 
             <SendMessage/> 
             <GotQuestions/>

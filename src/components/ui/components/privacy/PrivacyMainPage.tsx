@@ -14,7 +14,7 @@ const PrivacyMainPage = () => {
         <main className="flex min-h-screen flex-col items-center container ">
         <PrivacyHeader />
         
-        <div className="w-full py-[120px] ">
+        <div className="w-full lg:py-[120px] py-12 ">
           <PrivacySection
             title="Introduction"
             content={[

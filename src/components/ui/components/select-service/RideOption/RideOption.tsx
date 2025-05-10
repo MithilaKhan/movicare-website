@@ -76,8 +76,8 @@ const RideOption = ({ next, prev }: { next: () => void; prev: () => void }) => {
     };
 
     return (
-        <div className="flex w-full gap-4 mt-[56px]">
-            <div className="bg-white border border-[#e0dfdf] p-8 pb-4 rounded-lg w-3/4">
+        <div className="flex lg:flex-row flex-col-reverse w-full gap-4 mt-[56px]">
+            <div className="bg-white border border-[#e0dfdf] lg:p-8 p-3 pb-4 rounded-lg lg:w-3/4 w-full">
                 <Form
                     layout="vertical"
                     form={form}
@@ -109,7 +109,7 @@ const RideOption = ({ next, prev }: { next: () => void; prev: () => void }) => {
                             />
                         </Form.Item>
 
-                        <div className="flex items-center gap-2">
+                        <div className="flex lg:flex-row flex-col items-center gap-2">
                             <Form.Item
                                 name="pickUpCity"
                                 label={<p className="text-content2 text-sm">Pick up city</p>}
@@ -152,7 +152,7 @@ const RideOption = ({ next, prev }: { next: () => void; prev: () => void }) => {
                             />
                         </Form.Item>
 
-                        <div className="flex items-center gap-2 mt-2">
+                        <div className="flex lg:flex-row flex-col items-center gap-2 mt-2">
                             <Form.Item
                                 name="adults"
                                 label={<p className="text-content2 text-sm">Adults</p>}
@@ -199,7 +199,7 @@ const RideOption = ({ next, prev }: { next: () => void; prev: () => void }) => {
                             const isSelected = selectedService === service.id;
                             return (
                                 <div key={service.id} className="bg-[#f5f5f5] rounded-lg shadow-sm overflow-hidden">
-                                    <div className="p-6">
+                                    <div className="lg:p-6 p-3">
                                         <div className="mb-4">
                                             <Image
                                                 src={service.image}
@@ -210,8 +210,8 @@ const RideOption = ({ next, prev }: { next: () => void; prev: () => void }) => {
                                             />
                                         </div>
 
-                                        <h2 className="text-xl font-medium text-[#000000] mb-1">{service.title}</h2>
-                                        <p className="text-content2 mb-2 text-[18px]">{service.description}</p>
+                                        <h2 className="lg:text-xl text-lg font-medium text-[#000000] mb-1">{service.title}</h2>
+                                        <p className="text-content2 mb-2 lg:text-[18px] text-[16px]">{service.description}</p>
 
                                         <div className="space-y-2 mb-6">
                                             {service.features.map((feature, index) => (
@@ -242,7 +242,7 @@ const RideOption = ({ next, prev }: { next: () => void; prev: () => void }) => {
                 </Form>
             </div>
 
-            <div className="w-1/4">
+            <div className="lg:w-1/4 w-full">
                 <PriceDetails />
             </div>
         </div>

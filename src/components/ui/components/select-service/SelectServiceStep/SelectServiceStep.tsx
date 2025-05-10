@@ -24,8 +24,8 @@ const SelectServiceStep = ({ next }: { next: () => void }) => {
     };
 
     return (
-        <div className="flex w-full gap-4 mt-[56px]">
-            <div className="bg-white border border-[#e0dfdf] p-8 pb-0 rounded-lg w-3/4">
+        <div className="flex lg:flex-row flex-col-reverse w-full gap-4 mt-[56px] lg:mb-0 mb-5">
+            <div className="bg-white border border-[#e0dfdf] p-8 pb-0 rounded-lg lg:w-3/4 w-full">
                 <Form
                     layout="vertical"
                     form={form}
@@ -63,7 +63,7 @@ const SelectServiceStep = ({ next }: { next: () => void }) => {
             </div>
 
             {/* Price Details Panel */}
-            <div className="w-1/4">
+            <div className="lg:w-1/4 w-full">
                 <PriceDetails />
             </div>
         </div>

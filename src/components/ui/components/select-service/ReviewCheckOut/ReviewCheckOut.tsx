@@ -68,8 +68,8 @@ const ReviewCheckOut = ({  prev }: { prev: () => void }) => {
   };
 
   return (
-    <div className="flex w-full gap-4 mt-[56px]">
-      <div className="bg-white border border-[#e0dfdf] p-8 pb-4 rounded-lg w-3/4">
+    <div className="flex lg:flex-row flex-col-reverse w-full gap-4 mt-[56px]">
+      <div className="bg-white border border-[#e0dfdf] lg:p-8 p-3 pb-4 rounded-lg lg:w-3/4 w-full">
         <Form
           layout="vertical"
           form={form}
@@ -80,7 +80,7 @@ const ReviewCheckOut = ({  prev }: { prev: () => void }) => {
             <span onClick={() => prev()}>
               <IoIosArrowBack size={20} color="#286a25" className="pt-1 cursor-pointer" />
             </span>
-            <span className="text-xl text-[#070707] font-medium">Choose Your Ride Option</span>
+            <span className="lg:text-xl text-lg text-[#070707] font-medium">Choose Your Ride Option</span>
           </div>
 
           <div className=" pb-4">
@@ -99,7 +99,7 @@ const ReviewCheckOut = ({  prev }: { prev: () => void }) => {
               />
             </Form.Item>
 
-            <div className="flex items-center gap-2">
+            <div className="flex lg:flex-row flex-col items-center gap-2">
               <Form.Item
                 name="pickUpCity"
                 label={<p className="text-content2 text-sm">Pick up city</p>}
@@ -142,7 +142,7 @@ const ReviewCheckOut = ({  prev }: { prev: () => void }) => {
               />
             </Form.Item>
 
-            <div className="flex items-center gap-2 mt-2">
+            <div className="flex lg:flex-row flex-col items-center gap-2 mt-2">
               <Form.Item
                 name="adults"
                 label={<p className="text-content2 text-sm">Adults</p>}
@@ -201,7 +201,7 @@ const ReviewCheckOut = ({  prev }: { prev: () => void }) => {
         </Form>
       </div>
 
-      <div className="w-1/4">
+      <div className="lg:w-1/4 w-full">
       <div className=" bg-[#f0f3f1] border border-[#e0dfdf] p-8 rounded-lg h-[295px]">
         <p className="text-xl font-[#070707] font-medium">Price Details</p>
         <div className="flex flex-col gap-y-5 mt-4">

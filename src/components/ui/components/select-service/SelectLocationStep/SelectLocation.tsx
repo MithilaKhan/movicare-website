@@ -51,8 +51,8 @@ const SelectLocation = ({ next, prev }: { next: () => void; prev: () => void }) 
   };
 
   return (
-    <div className="flex w-full gap-4 mt-[56px]">
-      <div className="bg-white border border-[#e0dfdf] p-8 rounded-lg w-3/4">
+    <div className="flex lg:flex-row flex-col-reverse w-full gap-4 mt-[56px]">
+      <div className="bg-white border border-[#e0dfdf] p-8 rounded-lg lg:w-3/4 w-full">
         <Form
           layout="vertical"
           form={form}
@@ -64,7 +64,7 @@ const SelectLocation = ({ next, prev }: { next: () => void; prev: () => void }) 
             <span onClick={() => prev()}>
               <IoIosArrowBack size={20} color="#286a25" className="pt-1 cursor-pointer" />
             </span>
-            <span className="text-xl text-[#070707] font-medium">
+            <span className="lg:text-xl text-[16px] text-[#070707] font-medium">
               Select Pickup & Drop-off Location
             </span>
           </div>
@@ -131,7 +131,7 @@ const SelectLocation = ({ next, prev }: { next: () => void; prev: () => void }) 
       </div>
 
       {/* Price Details Panel */}
-      <div className="w-1/4">
+      <div className="lg:w-1/4 w-full">
         <PriceDetails />
       </div>
     </div>

@@ -57,12 +57,12 @@ const AllServices = () => {
                 services.map((service, index) => (
                     <div 
                     key={service.id}
-                    className={`flex flex-col md:flex-row items-center justify-between mt-[120px]   transition-all duration-700 ease-out ${index % 2 !== 0 ? "md:flex-row-reverse" : ""}`}
+                    className={`flex flex-col md:flex-row items-center justify-between lg:mt-[120px] mt-10   transition-all duration-700 ease-out ${index % 2 !== 0 ? "md:flex-row-reverse" : ""}`}
 
       >
         <div className="w-full md:w-1/2 mb-8 md:mb-0 md:px-6">
-          <h2 className="text-[48px] font-semibold mb-6 text-[#070707]">{service.title}</h2>
-          <p className="text-content2 mb-6 text-[20px]">{service.description}</p>
+          <h2 className="lg:text-[48px] text-[28px] font-semibold lg:mb-6 mb-3 text-[#070707]">{service.title}</h2>
+          <p className="text-content2 mb-6 lg:text-[20px] text-[16px]">{service.description}</p>
           <button 
             className="bg-primary text-white py-3 px-6 rounded-full text-sm transition-colors duration-300" 
             onClick={() => router.push("/select-service")}
@@ -76,7 +76,7 @@ const AllServices = () => {
             <img
               src={service.imageUrl}
               alt={service.title}
-              className="object-contain transition-transform duration-500 hover:scale-105 w-[100%] h-[618px] "
+              className="object-contain transition-transform duration-500 hover:scale-105 w-[100%] lg:h-[618px]  h-[380px] "
             />
           </div>
         </div>

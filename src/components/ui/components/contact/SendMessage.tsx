@@ -4,13 +4,13 @@ import { Form, Input } from "antd";
 
 const SendMessage = () => {
     return (
-        <div className=" grid grid-cols-1 md:grid-cols-2 gap-8 pt-[56px] items-center">
+        <div className=" grid grid-cols-1 md:grid-cols-2 gap-8 lg:pt-[56px] pt-8 items-center">
 
             <div>
-                <h2 className="text-[32px] font-semibold text-content1 mb-6">
+                <h2 className="lg:text-[32px] text-2xl font-semibold text-content1 lg:mb-6 mb-3">
                     Send Us a Message
                 </h2>
-                <p className="text-content2 mb-10 leading-8 text-[16px]">
+                <p className="text-content2 lg:mb-10  mb-5 leading-8 lg:text-[16px] text-sm">
                     We’re here to help! Fill out the form below, and we’ll get back to you as soon as possible.
                 </p>
                 <Form className="space-y-4" layout="vertical">

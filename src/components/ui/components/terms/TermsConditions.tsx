@@ -13,7 +13,7 @@ const TermsConditions = () => {
         <main className="flex min-h-screen flex-col items-center container ">
         <TermsHeader />
         
-        <div className="w-full py-[120px] ">
+        <div className="w-full lg:py-[120px] py-12 ">
           <TermsSection
             title="Introduction"
             content={[

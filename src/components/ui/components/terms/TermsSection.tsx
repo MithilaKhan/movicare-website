@@ -15,10 +15,10 @@ export default function TermsSection({
 }: TermsSectionProps) {
   return (
     <section className={` mb-10 last:mb-0  ${className}`}>
-      <h2 className="text-2xl font-bold text-content1 mb-4">{title}</h2>
+      <h2 className="lg:text-2xl text-xl font-bold text-content1 mb-4">{title}</h2>
       
       {content && content.map((paragraph, index) => (
-        <p key={index} className="text-content2 text-lg mb-4 leading-relaxed">
+        <p key={index} className="text-content2 lg:text-lg text-[16px] mb-4 leading-relaxed">
           {paragraph}
         </p>
       ))}

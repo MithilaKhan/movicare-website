@@ -22,8 +22,8 @@ const SelectDate = ({ next, prev }: { next: () => void; prev: () => void }) => {
   };
 
   return (
-    <div className="flex w-full gap-4 mt-[56px]">
-      <div className="bg-white border border-[#e0dfdf] p-8 pb-4 rounded-lg w-3/4">
+    <div className="flex lg:flex-row flex-col-reverse w-full gap-4 mt-[56px]">
+      <div className="bg-white border border-[#e0dfdf] lg:p-8 p-2 pb-4 rounded-lg lg:w-3/4 w-full">
         <Form
           layout="vertical"
           form={form}
@@ -44,12 +44,12 @@ const SelectDate = ({ next, prev }: { next: () => void; prev: () => void }) => {
             name="checkoutDate"
             // rules={[{ required: true, message: "Please select a date" }]}
           >
-            <div className="border border-[#ebe9e9] rounded-lg p-8">
+            <div className="border border-[#ebe9e9] rounded-lg lg:p-8 p-2">
               <Calender unavailableDay={["2025-05-04", "2025-05-02"]} />
 
               <div>
                 <p className="text-sm text-[#525252] font-medium pt-4">Travel’s Time</p>
-                <div className="flex items-center gap-2 mt-2">
+                <div className="flex lg:flex-row flex-col items-center gap-2 mt-2">
                   <Form.Item
                     name="hour"
                     noStyle
@@ -65,7 +65,7 @@ const SelectDate = ({ next, prev }: { next: () => void; prev: () => void }) => {
                     <Input type="number" placeholder="Minute" className="w-1/2" style={{ height: "48px" }} />
                   </Form.Item>
                 </div>
-                <p className="text-[#000000] text-[16px] pt-5 font-medium">
+                <p className="text-[#000000] lg:text-[16px] text-sm pt-5 font-medium">
                   Choose the date and time for your trip, then select the service that best fits your needs
                 </p>
               </div>
@@ -90,7 +90,7 @@ const SelectDate = ({ next, prev }: { next: () => void; prev: () => void }) => {
             <Input type="number" placeholder="Write kids number" style={{ height: "48px" }} />
           </Form.Item>
 
-          <p className="text-[17px] text-[#000000] mb-8">
+          <p className="lg:text-[17px] text-sm text-[#000000] mb-8">
             Each <span className="font-medium"> adult costs $300 </span>, and each <span className="font-medium"> child (under 12) costs $150 </span>. Wheelchair users are accommodated with no additional charge.
           </p>
 
@@ -107,7 +107,7 @@ const SelectDate = ({ next, prev }: { next: () => void; prev: () => void }) => {
         </Form>
       </div>
 
-      <div className="w-1/4">
+      <div className="lg:w-1/4 w-full">
         <PriceDetails />
       </div>
     </div>

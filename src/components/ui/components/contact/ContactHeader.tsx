@@ -24,10 +24,10 @@ const features = [
 const ContactHeader = () => {
     return (
         <div> 
-         <div className="pb-[56px]"> 
-            <p className=" uppercase text-[16px] text-primary font-normal pb-6 ">CONTACT US</p> 
-            <p className=" text-[50px] font-normal text-content1 pb-6"> <span>Get in Touch with  </span> <span className="font-bold"> MoviCare </span></p> 
-            <p className="text-content2 text-lg font-normal leading-relaxed">Have questions or need assistance? We’re here to help! Contact us for bookings, support, or any inquiries about our services. </p>
+         <div className="lg:pb-[56px] pb-10"> 
+            <p className=" uppercase text-[16px] text-primary font-normal lg:pb-6 pb-2 ">CONTACT US</p> 
+            <p className=" lg:text-[50px] text-[32px] font-normal text-content1 lg:pb-6 pb-2"> <span>Get in Touch with  </span> <span className="font-bold"> MoviCare </span></p> 
+            <p className="text-content2 lg:text-lg text-[16px] font-normal leading-relaxed">Have questions or need assistance? We’re here to help! Contact us for bookings, support, or any inquiries about our services. </p>
 
          </div> 
 
@@ -45,12 +45,12 @@ const ContactHeader = () => {
               flexDirection: 'column'
             }}
           >
-            <div className="mb-8 flex justify-start">
+            <div className="lg:mb-8 mb-4 flex justify-start">
               <div className=" text-primary">
                 {feature.icon}
               </div>
             </div>
-            <h3 className="text-2xl font-semibold text-content1 mb-3">
+            <h3 className="lg:text-2xl text-xl font-semibold text-content1 mb-3">
               {feature.title}
             </h3>
             <p className="text-content2 flex-grow text-[16px]">

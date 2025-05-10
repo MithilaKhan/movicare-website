@@ -146,7 +146,7 @@ const Navbar = () => {
             className="lg:hidden z-50  pb-2"
             onClick={() => setDrawerVisible(true)} // Open Drawer on mobile
           >
-            <HiOutlineMenuAlt3 size={30} color="#fff" />
+            <HiOutlineMenuAlt3 size={30} className={`${pathname === "/" || pathname === "/home" || pathname === "/services" ? "text-white" : "text-content3 "} cursor-pointer `}  />
           </button> 
 
           {/* Right Icons */}
@@ -166,7 +166,7 @@ const Navbar = () => {
         title={
           <div className="flex items-center justify-between">
             <img src="/logo.png" alt="" className=" w-16 h-16 object-fill" />
-            <p> <IoCloseSharp onClick={() => setDrawerVisible(false)} size={24} color="#fff" className="cursor-pointer" /> </p>
+            <p> <IoCloseSharp onClick={() => setDrawerVisible(false)} size={24} color="#fff"  className="cursor-pointer" /> </p>
           </div>
         }
         placement="left"
