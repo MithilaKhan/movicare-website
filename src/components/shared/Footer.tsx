@@ -1,6 +1,8 @@
 "use client";
 import { PhoneCall } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie"; 
 import {
   FaFacebook,
   FaInstagram,
@@ -10,7 +12,55 @@ import {
 } from "react-icons/fa";
 
 const Footer = () => {
-  const router = useRouter();
+  const router = useRouter(); 
+   const [language, setLanguage] = useState<string | null>("en") 
+
+
+  // for translate  
+
+   useEffect(() => {
+    const storedLanguage = Cookies.get("currentLanguage");
+    if (storedLanguage) {
+      setLanguage(storedLanguage);
+    }
+  }, []);  
+
+
+    // Switch Language Function
+  const switchLanguage = (lang: string) => {
+    // Store selected language in cookies
+    Cookies.set("currentLanguage", lang, { expires: 30 });
+
+    // Correctly set the Google Translate cookie (googtrans)
+    const googleTransValue = `/en/${lang}`;
+
+    // Remove any existing "googtrans" cookies before setting a new one
+    document.cookie =
+      "googtrans=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;"; 
+
+      // after add domain 
+    // document.cookie =
+    //   "googtrans=; domain=.1plus1dating.com; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;"; // Replace with your actual domain
+
+    // Now, set the new "googtrans" cookie
+    document.cookie = `googtrans=${googleTransValue}; path=/; max-age=${
+      30 * 24 * 60 * 60
+    }`; 
+
+    // for domain 
+    // document.cookie = `googtrans=${googleTransValue}; domain=.1plus1dating.com; path=/; max-age=${
+    //   30 * 24 * 60 * 60
+    // };`;
+
+    // Update state
+    setLanguage(lang);
+
+    // Reload the page to apply the translation
+    window.location.reload();
+  };
+  
+
+
   return (
     <div className="bg-black lg:h-[510px] lg:pb-0 pb-5" style={{
       backgroundImage: `url('/footerbg.svg')`,
@@ -121,7 +171,7 @@ const Footer = () => {
 
           <div className="lg:flex hidden  justify-between lg:ms-24  gap-[96px]">
             <p className=" text-sm text-[#a0a2a1]"> © 2025 — Movicare </p>
-            <p className=" flex items-center gap-3  text-sm text-[#a0a2a1] ">  <span>En </span> <span>Es </span></p>
+            <p className=" flex items-center gap-3  text-sm text-[#a0a2a1] ">  <span className={`${language === "en" ? "font-bold text-white" : " text-[#FFFFFF]/60 font-normal"}`} onClick={() => switchLanguage("en")}>En </span> <span  className={`text-[#FFFFFF]/60 cursor-pointer ${language === "es" ? "font-bold text-white" : " text-[#FFFFFF]/60 font-normal"}`} onClick={() => switchLanguage("es")}>Es </span></p>
           </div>
         </div>
       </div> 
@@ -129,7 +179,7 @@ const Footer = () => {
 <div className="block lg:hidden"> 
       <div className=" flex   justify-between lg:ms-24  gap-[96px] px-2 mt-5 py-3">
         <p className=" text-sm text-[#a0a2a1]"> © 2025 — Movicare </p>
-        <p className=" flex items-center gap-3  text-sm text-[#a0a2a1] ">  <span>En </span> <span>Es </span></p>
+         <p className=" flex items-center gap-3  text-sm text-[#a0a2a1] ">  <span className={`${language === "en" ? "font-bold text-white" : " text-[#FFFFFF]/60 font-normal"}`} onClick={() => switchLanguage("en")}>En </span>  <span  className={`text-[#FFFFFF]/60 cursor-pointer ${language === "es" ? "font-bold text-white" : " text-[#FFFFFF]/60 font-normal"}`} onClick={() => switchLanguage("es")}>Es </span></p>
       </div>
 
 </div>

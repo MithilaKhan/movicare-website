@@ -15,7 +15,10 @@
 .goog-te-gadget {
   display: none !important;
 } 
-
+/* Hide the Google Translate banner */
+.goog-te-banner-frame {
+  display: none !important;
+}
 /* Remove pop-up preview */
 .goog-te-balloon-frame {
   display: none !important;
@@ -37,6 +40,11 @@
  
 .VIpgJd-ZVi9od-aZ2wEe {
   display: none !important;
+} 
+
+::selection {
+  background: #286a25 !important;
+  color: white !important;
 }
 
 /* finish there  */
