@@ -4,13 +4,61 @@ import { HiChevronDown, HiOutlineMenuAlt3 } from "react-icons/hi";
 import { Drawer } from 'antd'; // Import Drawer from Ant Design
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { IoCloseSharp } from "react-icons/io5";
+import { IoCloseSharp } from "react-icons/io5"; 
+import Cookies from "js-cookie"; 
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [drawerVisible, setDrawerVisible] = useState(false);
-  const [openDropdowns, setOpenDropdowns] = useState<{ [key: number]: boolean }>({});
+  const [openDropdowns, setOpenDropdowns] = useState<{ [key: number]: boolean }>({});  
+  const [language, setLanguage] = useState<string | null>("en") 
+
+
+  // for translate  
+
+   useEffect(() => {
+    const storedLanguage = Cookies.get("currentLanguage");
+    if (storedLanguage) {
+      setLanguage(storedLanguage);
+    }
+  }, []);  
+
+
+    // Switch Language Function
+  const switchLanguage = (lang: string) => {
+    // Store selected language in cookies
+    Cookies.set("currentLanguage", lang, { expires: 30 });
+
+    // Correctly set the Google Translate cookie (googtrans)
+    const googleTransValue = `/en/${lang}`;
+
+    // Remove any existing "googtrans" cookies before setting a new one
+    document.cookie =
+      "googtrans=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;"; 
+
+      // after add domain 
+    // document.cookie =
+    //   "googtrans=; domain=.1plus1dating.com; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;"; // Replace with your actual domain
+
+    // Now, set the new "googtrans" cookie
+    document.cookie = `googtrans=${googleTransValue}; path=/; max-age=${
+      30 * 24 * 60 * 60
+    }`; 
+
+    // for domain 
+    // document.cookie = `googtrans=${googleTransValue}; domain=.1plus1dating.com; path=/; max-age=${
+    //   30 * 24 * 60 * 60
+    // };`;
+
+    // Update state
+    setLanguage(lang);
+
+    // Reload the page to apply the translation
+    window.location.reload();
+  };
+ 
+
 
   const toggleDropdown = (index: number) => {
     setOpenDropdowns(prev => ({
@@ -76,7 +124,8 @@ const Navbar = () => {
           <div className="bg-[#202020] text-white h-[40px] flex items-center justify-center">
             <div className=" flex items-center justify-between lg:text-[16px] text-xs container ">
               <p className=" flex items-center gap-1 "> <span className="font-thin tracking-wide">Need Support Call Us: </span> <span> +1 (480) 555-0103 </span>  </p>
-              <p className="flex items-center gap-3"> <span className=" text-white font-bold lg:text-[16px] text-xs cursor-pointer">En</span> <span className="text-[#FFFFFF]/60 cursor-pointer">Es</span></p>
+              <p className="flex items-center gap-3"> <span className={`  lg:text-[16px] text-xs cursor-pointer 
+              ${language === "en" ? "font-bold text-white" : " text-[#FFFFFF]/60 font-normal"}`} onClick={() => switchLanguage("en")}>En</span> <span className={`text-[#FFFFFF]/60 cursor-pointer ${language === "es" ? "font-bold text-white" : " text-[#FFFFFF]/60 font-normal"}`} onClick={() => switchLanguage("es")}>Es</span></p>
             </div>
           </div>
         ) : ""
