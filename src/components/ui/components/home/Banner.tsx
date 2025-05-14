@@ -1,4 +1,4 @@
-import { ConfigProvider, DatePicker, Select } from 'antd';
+import { ConfigProvider, DatePicker, Input, Select } from 'antd';
 import { BsCalendar4 } from 'react-icons/bs';
 import { GrLocationPin } from 'react-icons/gr';
 import { IoChevronDownSharp } from 'react-icons/io5';
@@ -46,10 +46,10 @@ const Banner = () => {
                         <ConfigProvider
                             theme={{
                                 components: {
-                                    Select: {
-                                        clearBg: "#53645f",
-                                        borderRadiusLG: 5,
-                                    },
+                                    // Select: {
+                                    //     clearBg: "#53645f",
+                                    //     borderRadiusLG: 5,
+                                    // },
                                 },
                                 token: {
                                     colorPrimary: '#53645f',
@@ -61,14 +61,16 @@ const Banner = () => {
                                 },
 
                             }}
-                        >
-                            <Select
+                        > 
+
+                        <Input  placeholder="Enter pickup location"   style={{ width: "100%", height: "48px" }}  prefix={<SiRelay size={20} color='#ffffff' className='mx-2' />}  />
+                            {/* <Select
                                 placeholder="Enter pickup location"
                                 style={{ width: "100%", height: "48px" }}
                                 options={locations}
                                 prefix={<SiRelay size={20} color='#ffffff' className='mx-2' />}
                                 suffixIcon={<IoChevronDownSharp size={16} color='#ffffff' />}
-                            />
+                            /> */}
                         </ConfigProvider>
 
 
@@ -104,7 +106,8 @@ const Banner = () => {
                             theme={{
                                 components: {
                                     Select: {
-                                        clearBg: "#53645f",
+                                        clearBg: "#53645f", 
+
                                     },
                                 },
                                 token: {
@@ -122,7 +125,8 @@ const Banner = () => {
                             <DatePicker placeholder="Select date & time"
                                 style={{width: "100%", height: "48px" }}
                                 prefix={<BsCalendar4 size={18} color='#ffffff' className='mx-2' />}
-                                suffixIcon={""}
+                                suffixIcon={""} 
+                                showToday={false}
                             />
                         </ConfigProvider>
 

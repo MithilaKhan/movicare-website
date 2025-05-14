@@ -57,6 +57,7 @@ const AllServices = () => {
                 services.map((service, index) => (
                     <div 
                     key={service.id}
+                    id={`service-${service.id}`}
                     className={`flex flex-col md:flex-row items-center justify-between lg:mt-[120px] mt-10   transition-all duration-700 ease-out ${index % 2 !== 0 ? "md:flex-row-reverse" : ""}`}
 
       >

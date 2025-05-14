@@ -146,7 +146,9 @@ const Navbar = () => {
 
               if (isDropdown) {
                 return (
-                  <div key={index} className="relative group hidden lg:block">
+                  <div key={index} className="relative group hidden lg:block"   onMouseEnter={() => setIsDropdownOpen(true)}
+  // onMouseLeave={() => setIsDropdownOpen(false)} 
+  >
                     <div
                       className="flex items-center cursor-pointer px-3 py-[14px] rounded-lg"
                       onClick={() => setIsDropdownOpen(prev => !prev)}
