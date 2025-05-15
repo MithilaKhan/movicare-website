@@ -3,29 +3,30 @@ import { useState, useRef, useEffect } from "react";
 import { HiChevronDown, HiOutlineMenuAlt3 } from "react-icons/hi";
 import { Drawer } from 'antd'; // Import Drawer from Ant Design
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { IoCloseSharp } from "react-icons/io5"; 
-import Cookies from "js-cookie"; 
+import { usePathname, useRouter } from "next/navigation";
+import { IoCloseSharp } from "react-icons/io5";
+import Cookies from "js-cookie";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [drawerVisible, setDrawerVisible] = useState(false);
-  const [openDropdowns, setOpenDropdowns] = useState<{ [key: number]: boolean }>({});  
+  const [openDropdowns, setOpenDropdowns] = useState<{ [key: number]: boolean }>({});
   const [language, setLanguage] = useState<string | null>("en") 
+  const router  = useRouter()
 
 
   // for translate  
 
-   useEffect(() => {
+  useEffect(() => {
     const storedLanguage = Cookies.get("currentLanguage");
     if (storedLanguage) {
       setLanguage(storedLanguage);
     }
-  }, []);  
+  }, []);
 
 
-    // Switch Language Function
+  // Switch Language Function
   const switchLanguage = (lang: string) => {
     // Store selected language in cookies
     Cookies.set("currentLanguage", lang, { expires: 30 });
@@ -35,16 +36,15 @@ const Navbar = () => {
 
     // Remove any existing "googtrans" cookies before setting a new one
     document.cookie =
-      "googtrans=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;"; 
+      "googtrans=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
 
-      // after add domain 
+    // after add domain 
     // document.cookie =
     //   "googtrans=; domain=.1plus1dating.com; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;"; // Replace with your actual domain
 
     // Now, set the new "googtrans" cookie
-    document.cookie = `googtrans=${googleTransValue}; path=/; max-age=${
-      30 * 24 * 60 * 60
-    }`; 
+    document.cookie = `googtrans=${googleTransValue}; path=/; max-age=${30 * 24 * 60 * 60
+      }`;
 
     // for domain 
     // document.cookie = `googtrans=${googleTransValue}; domain=.1plus1dating.com; path=/; max-age=${
@@ -57,7 +57,7 @@ const Navbar = () => {
     // Reload the page to apply the translation
     window.location.reload();
   };
- 
+
 
 
   const toggleDropdown = (index: number) => {
@@ -90,7 +90,13 @@ const Navbar = () => {
     },
     { label: "About", path: "/about" },
     { label: "Contact ", path: "/contact" },
-  ];
+  ]; 
+
+
+    const handleServiceClick = (id: string) => {
+    router.push(`/services?scrollTo=${id}`);
+  }; 
+
 
   useEffect(() => {
     setIsDropdownOpen(false);
@@ -136,7 +142,7 @@ const Navbar = () => {
 
 
           {/* Logo */}
-          <img src={logoSrc} alt="" className=" w-16 h-16 object-fill" />
+          <img src={logoSrc} alt="" onClick={() => router.push("/")} className=" w-16 h-16 object-fill cursor-pointer" />
 
           {/* Nav Menu for Large Devices */}
           <div ref={menuRef} className={`absolute lg:relative top-16 left-0 lg:top-0 lg:left-auto w-full lg:w-auto lg:flex flex-col lg:flex-row ${pathname === "/" || pathname === "/home" || pathname === "/services" ? "bg-[#000000]/20" : "bg-[#f0f3f1] "} lg:rounded-full lg:px-6 shadow-lg lg:shadow-none p-5 lg:p-0 space-y-4 lg:space-y-0 lg:space-x-6 transition-all duration-300 z-50 text-[16px] ${isMenuOpen ? "block" : "hidden"}`}>
@@ -146,9 +152,9 @@ const Navbar = () => {
 
               if (isDropdown) {
                 return (
-                  <div key={index} className="relative group hidden lg:block"   onMouseEnter={() => setIsDropdownOpen(true)}
-  // onMouseLeave={() => setIsDropdownOpen(false)} 
-  >
+                  <div key={index} className="relative group hidden lg:block" onMouseEnter={() => setIsDropdownOpen(true)}
+                  // onMouseLeave={() => setIsDropdownOpen(false)} 
+                  >
                     <div
                       className="flex items-center cursor-pointer px-3 py-[14px] rounded-lg"
                       onClick={() => setIsDropdownOpen(prev => !prev)}
@@ -162,16 +168,15 @@ const Navbar = () => {
                     </div>
 
                     {/* Dropdown on hover */}
-                    <div className={`absolute top-full left-0 mt-2 py-4 px-2 w-[240px] ${pathname === "/" || pathname === "/home" || pathname === "/services" ? "bg-[#000000]/20 backdrop-blur-lg border-none drop-shadow-none text-white" : "bg-[#f0f3f1] text-[#4E4E4E] "} border rounded-md shadow-lg z-50 transition-all duration-300 ${isDropdownOpen ? "block" : "hidden"}`}>
-                      {option.subOptions?.map((subOption, subIndex) => (
-                        <Link
-                          key={subIndex}
-                          href={`/services`}
-                          className="block px-4 py-2.5 text-sm hover:bg-white hover:text-content3 rounded-full"
-                          onClick={() => setIsDropdownOpen(false)}
+                    <div className={`absolute top-full left-0 mt-2 py-4 px-2 w-[240px] ${pathname === "/" || pathname === "/home" || pathname === "/services" ? "bg-[#000000]/20 backdrop-blur-lg border-none drop-shadow-none text-white" : "bg-[#f0f3f1] text-[#4E4E4E] "} border rounded-md shadow-lg z-50 transition-all duration-300 cursor-pointer ${isDropdownOpen ? "block" : "hidden"}`}>
+                      {option.subOptions?.map((subOption:{value: string, label: string}, subIndex) => (
+                        <div
+                          key={subIndex}   
+                          className="block px-4 py-2.5 text-sm hover:bg-white hover:text-content3 rounded-full cursor-pointer"
+                          onClick={() =>{ handleServiceClick(subOption.value); setIsDropdownOpen(false)}}
                         >
                           {subOption.label}
-                        </Link>
+                        </div>
                       ))}
                     </div>
                   </div>
@@ -182,7 +187,7 @@ const Navbar = () => {
                 <Link
                   key={index}
                   href={option.path}
-                  className={`nav-link flex flex-col items-center justify-center px-3 py-[14px] rounded-lg ${isActive ? ["/", "/home", "/services"].includes(option.path) ? "text-[#FFFFFF]" : "text-content2" : "hover:text-content2"}`}
+                  className={`nav-link flex flex-col items-center justify-center px-3 py-[14px] rounded-lg cursor-pointer ${isActive ? ["/", "/home", "/services"].includes(option.path) ? "text-[#FFFFFF]" : "text-content2" : "hover:text-content2"}`}
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {option.label}
@@ -190,15 +195,15 @@ const Navbar = () => {
               );
             })}
           </div>
- 
 
-           {/* Mobile menu toggle */}
-           <button
+
+          {/* Mobile menu toggle */}
+          <button
             className="lg:hidden z-50  pb-2"
             onClick={() => setDrawerVisible(true)} // Open Drawer on mobile
           >
-            <HiOutlineMenuAlt3 size={30} className={`${pathname === "/" || pathname === "/home" || pathname === "/services" ? "text-white" : "text-content3 "} cursor-pointer `}  />
-          </button> 
+            <HiOutlineMenuAlt3 size={30} className={`${pathname === "/" || pathname === "/home" || pathname === "/services" ? "text-white" : "text-content3 "} cursor-pointer `} />
+          </button>
 
           {/* Right Icons */}
           <div className="nav-icons lg:flex items-center gap-x-4  hidden ">
@@ -217,7 +222,7 @@ const Navbar = () => {
         title={
           <div className="flex items-center justify-between">
             <img src="/logo.png" alt="" className=" w-16 h-16 object-fill" />
-            <p> <IoCloseSharp onClick={() => setDrawerVisible(false)} size={24} color="#fff"  className="cursor-pointer" /> </p>
+            <p> <IoCloseSharp onClick={() => setDrawerVisible(false)} size={24} color="#fff" className="cursor-pointer" /> </p>
           </div>
         }
         placement="left"
@@ -252,9 +257,9 @@ const Navbar = () => {
                     {isOpen && (
                       <div className="py-4">
                         {option.subOptions?.map((subOption, subIndex) => (
-                          <Link key={subIndex} href="/services" onClick={() => setDrawerVisible(false)}>
+                          <p key={subIndex}  onClick={() =>{handleServiceClick(subOption.value) ; setDrawerVisible(false)}}>
                             <div className="py-2 text-[#FFFFFF]/60 text-lg">{subOption.label}</div>
-                          </Link>
+                          </p>
                         ))}
                       </div>
                     )}
@@ -264,7 +269,7 @@ const Navbar = () => {
 
               return (
                 <Link key={index} href={option.path} onClick={() => setDrawerVisible(false)}>
-                  <div className={`py-3 px-4 text-2xl font-light border-b border-[#4E4E4E] pb-6 ${isActive ? "text-[#FFFFFF]" : "text-[#FFFFFF]/60"}`}>
+                  <div className={`py-3 px-4 text-2xl font-light cursor-pointer border-b border-[#4E4E4E] pb-6 ${isActive ? "text-[#FFFFFF]" : "text-[#FFFFFF]/60"}`}>
                     {option.label}
                   </div>
                 </Link>
@@ -273,9 +278,9 @@ const Navbar = () => {
           </div>
 
           <div className=" absolute bottom-4  ">
-            <div className="w-[300px]"> 
+            <div className="w-[300px]">
 
-              <button className={`text-[14px] py-3 w-full   rounded-full  font-medium text-[#070707] bg-white `}>Reserve Your Ride</button> 
+              <button className={`text-[14px] py-3 w-full   rounded-full  font-medium text-[#070707] bg-white `}>Reserve Your Ride</button>
 
               <Link href="/login">
                 <p className=" text-[16px] font-normal text-white text-center mt-5">Login</p>

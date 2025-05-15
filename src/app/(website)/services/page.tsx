@@ -1,10 +1,12 @@
 import ServicesMainPage from '@/components/ui/components/services/ServicesMainPage';
-import React from 'react';
+import React, { Suspense } from 'react';
 
 const ServicesPage = () => {
     return (
         <div>
-             <ServicesMainPage/>
+                  <Suspense fallback={<div>Loading...</div>}>
+                <ServicesMainPage />
+            </Suspense>
         </div>
     );
 };

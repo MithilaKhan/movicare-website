@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import ServicesBanner from './ServicesBanner';
 import AllServices from './AllServices';
