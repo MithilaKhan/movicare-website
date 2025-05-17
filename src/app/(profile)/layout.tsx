@@ -23,7 +23,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
 
                 {/* Main content */}
                 <div className={`flex-1 lg:w-[calc(100%-300px)]`}>
-                    <div className={` bg-[#FBFBFB]  lg:px-4 px-0 pt-4 pb-0 h-[calc(100vh-100px)] border-s-8 border-t-8 border-[#F4F4F4] rounded-md shadow-md`}>
+                    <div className={` bg-[#f7f8f7]  lg:pt-10 lg:px-10 px-0 pt-6 pb-0 h-[calc(100vh-100px)]  rounded-md shadow-md`}>
                         <ConfigProvider
                             theme={{
                                 token: {

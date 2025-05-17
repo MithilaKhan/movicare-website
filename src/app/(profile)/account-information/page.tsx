@@ -1,11 +1,12 @@
+import AccountInformation from '@/components/ui/profile/account-information/AccountInformation';
 import React from 'react';
 
-const AccountInformation = () => {
+const AccountInformationPage = () => {
     return (
         <div>
-            this is profile page 
+            <AccountInformation />
         </div>
     );
 };
 
-export default AccountInformation;
+export default AccountInformationPage;
