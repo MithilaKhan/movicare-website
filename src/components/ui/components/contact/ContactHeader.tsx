@@ -38,11 +38,13 @@ const ContactHeader = () => {
             key={index}
             hoverable
             className="w-full h-full flex flex-col shadow-md hover:shadow-lg transition-shadow duration-300 whyChoose-card pb-[63px] pt-6 "
-            bodyStyle={{
-              padding: '24px',
-              flex: 1,
-              display: 'flex',
-              flexDirection: 'column'
+            styles={{ 
+               body:{
+                padding: '24px',
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'column'
+               }
             }}
           >
             <div className="lg:mb-8 mb-4 flex justify-start">

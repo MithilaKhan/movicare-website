@@ -74,7 +74,7 @@ const ProfileNavbar = () => {
           {/* Language Selector */}
           <Select
             style={{ width: 140, height: 50, border: 'none' }}
-            bordered={false}
+          variant="borderless"
             value={language}
             onChange={handleSelectLanguage} 
             suffixIcon={<IoIosArrowDown size={18} />}
@@ -104,7 +104,7 @@ const ProfileNavbar = () => {
 
           {/* Profile Section */}
           <Link
-            href="/settings"
+            href="/account-information"
             className="flex items-center gap-2 h-[55px] px-2 rounded-md hover:bg-gray-100 transition"
           >
             <Image

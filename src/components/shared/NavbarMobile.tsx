@@ -12,7 +12,7 @@ const NavbarMobile = ({ toggleDropdown, drawerVisible, openDropdowns, navOptions
         path?: string | undefined,
         subOptions?: { label: string, value: string }[] | undefined
     }[],
-    setDrawerVisible: (visible: boolean) => void, pathname: string,
+    setDrawerVisible: (open: boolean) => void, pathname: string,
     handleServiceClick: (id: string) => void
 }) => {
 
@@ -28,14 +28,14 @@ const NavbarMobile = ({ toggleDropdown, drawerVisible, openDropdowns, navOptions
             placement="left"
             closable={false}
             onClose={() => setDrawerVisible(false)}
-            visible={drawerVisible}
+            open={drawerVisible}
             width="90%"
             style={{ backgroundColor: "#202020" }}
             className=" relative"
         >
             <div className="flex flex-col ">
                 <div className=" flex flex-col ">
-                    {navOptions.map((option, index) => {
+                    {navOptions.map((option:{ label: string, path?: string, subOptions?: { label: string, value: string }[] | undefined}, index:number) => {
                         const isActive = pathname === option.path;
                         const isDropdown = !!option.subOptions;
                         const isOpen = openDropdowns[index]; // Check if this dropdown is open
@@ -68,7 +68,7 @@ const NavbarMobile = ({ toggleDropdown, drawerVisible, openDropdowns, navOptions
                         }
 
                         return (
-                            <Link key={index}  href={option.path} onClick={() => setDrawerVisible(false)}>
+                            <Link key={index}  href={option.path ?? "/"} onClick={() => setDrawerVisible(false)}>
                                 <div className={`py-3 px-4 text-2xl font-light cursor-pointer border-b border-[#4E4E4E] pb-6 ${isActive ? "text-[#FFFFFF]" : "text-[#FFFFFF]/60"}`}>
                                     {option.label}
                                 </div>

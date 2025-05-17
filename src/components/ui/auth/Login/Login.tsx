@@ -12,7 +12,7 @@ const Login = () => {
 
   const onFinish = async (values: { email: string, password: string }) => {
 
-    localStorage.setItem(values?.email, "userEmail")
+    localStorage.setItem( "userEmail" , values?.email)
     router.push("/")
 
   };

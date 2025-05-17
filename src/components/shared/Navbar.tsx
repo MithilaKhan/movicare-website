@@ -1,3 +1,4 @@
+"use client"
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useState, useRef, useEffect } from "react";
 import { HiChevronDown, HiOutlineMenuAlt3 } from "react-icons/hi";
@@ -6,17 +7,23 @@ import { usePathname, useRouter } from "next/navigation";
 
 import Cookies from "js-cookie";
 import NavbarMobile from "./NavbarMobile";
+import Image from "next/image";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [openDropdowns, setOpenDropdowns] = useState<{ [key: number]: boolean }>({});
-  const [language, setLanguage] = useState<string | null>("en") 
-  const router  = useRouter() 
-  const userEmail =  localStorage.getItem("userEmail") 
-  console.log(userEmail);
+  const [language, setLanguage] = useState<string | null>("en")
+  const router = useRouter()
+  const [userEmail, setUserEmail] = useState<string | null>(null);
 
+
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("userEmail");
+    setUserEmail(storedEmail);
+    console.log(storedEmail);
+  }, []);
 
   // for translate  
 
@@ -92,12 +99,12 @@ const Navbar = () => {
     },
     { label: "About", path: "/about" },
     { label: "Contact ", path: "/contact" },
-  ]; 
+  ];
 
 
-    const handleServiceClick = (id: string) => {
+  const handleServiceClick = (id: string) => {
     router.push(`/services?scrollTo=${id}`);
-  }; 
+  };
 
 
   useEffect(() => {
@@ -171,11 +178,11 @@ const Navbar = () => {
 
                     {/* Dropdown on hover */}
                     <div className={`absolute top-full left-0 mt-2 py-4 px-2 w-[240px] ${pathname === "/" || pathname === "/home" || pathname === "/services" ? "bg-[#000000]/20 backdrop-blur-lg border-none drop-shadow-none text-white" : "bg-[#f0f3f1] text-[#4E4E4E] "} border rounded-md shadow-lg z-50 transition-all duration-300 cursor-pointer ${isDropdownOpen ? "block" : "hidden"}`}>
-                      {option.subOptions?.map((subOption:{value: string, label: string}, subIndex) => (
+                      {option.subOptions?.map((subOption: { value: string, label: string }, subIndex) => (
                         <div
-                          key={subIndex}   
+                          key={subIndex}
                           className="block px-4 py-2.5 text-sm hover:bg-white hover:text-content3 rounded-full cursor-pointer"
-                          onClick={() =>{ handleServiceClick(subOption.value); setIsDropdownOpen(false)}}
+                          onClick={() => { handleServiceClick(subOption.value); setIsDropdownOpen(false) }}
                         >
                           {subOption.label}
                         </div>
@@ -209,9 +216,27 @@ const Navbar = () => {
 
           {/* Right Icons */}
           <div className="nav-icons lg:flex items-center gap-x-4  hidden ">
-            <Link href="/login">
-              <p className=" text-sm font-normal text-content1">Login</p>
-            </Link>
+            {
+              userEmail ? <Link
+                href="/account-information"
+                className="flex items-center gap-2 h-[55px] px-2 rounded-md cursor-pointer  transition"
+              >
+                <Image
+                  src="/user1.jpg"
+                  alt={'User Profile'}
+                  width={40}
+                  height={40}
+                  className="rounded-full"
+                />
+                <h2 className="text-black text-[16px] font-semibold">
+                  mithila
+                </h2>
+              </Link> :
+                <Link href="/login">
+                  <p className=" text-sm font-normal text-content1">Login</p>
+                </Link>
+            }
+
             <div>
               <button className={`text-[14px] py-3 px-4 rounded-full font-medium ${pathname === "/" || pathname === "/home" || pathname === "/services" ? "text-[#070707] bg-white" : "bg-primary text-white"}`}>Reserve Your Ride</button>
             </div>
@@ -220,7 +245,7 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Drawer */}
-<NavbarMobile toggleDropdown={toggleDropdown} drawerVisible={drawerVisible} openDropdowns={openDropdowns} navOptions={navOptions} setDrawerVisible={setDrawerVisible} pathname={pathname} handleServiceClick={handleServiceClick} />
+      <NavbarMobile toggleDropdown={toggleDropdown} drawerVisible={drawerVisible} openDropdowns={openDropdowns} navOptions={navOptions} setDrawerVisible={setDrawerVisible} pathname={pathname} handleServiceClick={handleServiceClick} />
     </div>
   );
 };
