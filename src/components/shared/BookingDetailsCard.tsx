@@ -3,12 +3,14 @@ import { Clock } from 'lucide-react';
 import { BookingCardProps } from '../ui/profile/current-booking/CurrentBooking';
 import StatusBadge from '../ui/profile/current-booking/StatusBadge';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import RebookModal from '../ui/profile/booking-history/RebookModal';
 
 
 
-const BookingDetailsCard = ({ booking , type }: {booking:BookingCardProps , type: string }) => {    
-    
-    const router = useRouter()
+const BookingDetailsCard = ({ booking, type }: { booking: BookingCardProps, type: string }) => {
+  const [isRebookOpen, setIsRebookOpen] = useState(false);
+  const router = useRouter()
 
   return (
     <div className="mb-6 rounded-lg border p-4 border-gray-200 bg-white overflow-hidden shadow-sm ">
@@ -16,10 +18,10 @@ const BookingDetailsCard = ({ booking , type }: {booking:BookingCardProps , type
       <div className="bg-[#f4f7f4] border border-[#d6e2d6] px-4 py-3 flex justify-between items-center rounded-xl">
         <div className="flex items-center space-x-3">
           <span className="text-sm font-medium text-[#000000]">{booking.date}</span>
-          <StatusBadge status={booking.status} />  
+          <StatusBadge status={booking.status} />
         </div>
         <div className="flex items-center text-gray-700">
-          <Clock className="h-4 w-4 mr-1 text-primary"  />
+          <Clock className="h-4 w-4 mr-1 text-primary" />
           <span className="text-sm text-[#000000]">{booking.time}</span>
         </div>
       </div>
@@ -37,13 +39,13 @@ const BookingDetailsCard = ({ booking , type }: {booking:BookingCardProps , type
 
         <div className=" flex flex-col justify-center items-center">
           <div className="relative ">
-            <img 
-              src="/class.svg" 
-              alt="Shuttle" 
+            <img
+              src="/class.svg"
+              alt="Shuttle"
               className="opacity-90 h-16 w-[175px]"
             />
-          </div> 
-             <p className="text-xs text-content1/50 font-medium ">{booking.vehicleClass}</p>
+          </div>
+          <p className="text-xs text-content1/50 font-medium ">{booking.vehicleClass}</p>
         </div>
 
         <div className="">
@@ -57,21 +59,25 @@ const BookingDetailsCard = ({ booking , type }: {booking:BookingCardProps , type
                 <span className="text-sm text-content1/70 ps-3">{booking.passengers.kids} Kids</span>
               )}
             </div>
-         
+
           </div>
         </div>
-      </div> 
+      </div>
 
-      {/* rebook and review option   */} 
+      {/* rebook and review option   */}
       {
-        type === "Booking History" && (  
-            <div className=' flex items-center justify-between gap-10 mt-6 mb-3 '> 
-              <button className=' h-11 flex items-center justify-center text-sm font-medium bg-primary gap-2 text-white   rounded-full w-full hover:bg-white hover:text-primary hover:border hover:border-primary '> Rebook </button>   
-              <button className=' h-11 flex items-center justify-center text-sm font-medium bg-white gap-2 text-[#000000] border border-primary   rounded-full w-full hover:bg-primary hover:text-white ' 
-               onClick={() => router.push("/reviews-feedback")}>  Leave a Review </button>
-            </div>
-         )
-      }
+        type === "Booking History" && (
+          <div className=' flex items-center justify-between gap-10 mt-6 mb-3 '> 
+
+            <button className=' h-11 flex items-center justify-center text-sm font-medium bg-primary gap-2 text-white   rounded-full w-full hover:bg-white hover:text-primary hover:border hover:border-primary ' onClick={() => setIsRebookOpen(true)}> Rebook </button> 
+
+            <button className=' h-11 flex items-center justify-center text-sm font-medium bg-white gap-2 text-[#000000] border border-primary   rounded-full w-full hover:bg-primary hover:text-white '
+              onClick={() => router.push("/reviews-feedback")}>  Leave a Review </button> 
+
+          </div>
+        )
+      } 
+      <RebookModal open={isRebookOpen} setOpen={setIsRebookOpen} />
     </div>
   );
 };

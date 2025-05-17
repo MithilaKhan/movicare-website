@@ -6,10 +6,22 @@ import { Calendar } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 
 const Calender = ({ unavailableDay }: { unavailableDay: string[] }) => {
-  const [value, setValue] = useState<Dayjs>(dayjs()); 
+  const [value, setValue] = useState<Dayjs>(dayjs());
+  const [selectedDates, setSelectedDates] = useState<string[]>([]); // store selected dates
 
   const disabledDate = (date: Dayjs): boolean => {
     return unavailableDay?.some((d: string) => dayjs(date).isSame(dayjs(d), "day"));
+  };
+
+  const toggleDate = (date: Dayjs) => {
+    const formatted = date.format("YYYY-MM-DD");
+    if (disabledDate(date)) return; // skip if date is disabled
+
+    setSelectedDates((prev) =>
+      prev.includes(formatted)
+        ? prev.filter((d) => d !== formatted)
+        : [...prev, formatted]
+    );
   };
 
   const changeMonth = (direction: "prev" | "next") => {
@@ -20,7 +32,12 @@ const Calender = ({ unavailableDay }: { unavailableDay: string[] }) => {
   const changeYear = (direction: "prev" | "next") => {
     const newValue = direction === "prev" ? value.subtract(1, "year") : value.add(1, "year");
     setValue(newValue);
-  };
+  }; 
+
+  const baseStyle =
+  "w-full h-full flex items-center justify-center transition-all";
+const innerStyle =
+  "w-10 h-10 flex items-center justify-center rounded-full"; 
 
   return (
     <div>
@@ -32,37 +49,49 @@ const Calender = ({ unavailableDay }: { unavailableDay: string[] }) => {
         headerRender={() => {
           return (
             <div className="flex items-center justify-between py-3 px-4">
-              {/* Month Controls */}
               <div className="flex items-center space-x-4">
-                <LeftOutlined
-                  className="cursor-pointer"
-                  onClick={() => changeMonth("prev")}
-                />
+                <LeftOutlined className="cursor-pointer" onClick={() => changeMonth("prev")} />
                 <p className="text-[#333333] text-[16px] leading-6 font-semibold">
-                  {dayjs(value).format("MMMM")} {/* Only month name */}
+                  {dayjs(value).format("MMMM")}
                 </p>
-                <RightOutlined
-                  className="cursor-pointer"
-                  onClick={() => changeMonth("next")}
-                />
+                <RightOutlined className="cursor-pointer" onClick={() => changeMonth("next")} />
               </div>
-              {/* Year Controls */}
               <div className="flex items-center space-x-4">
-                <LeftOutlined
-                  className="cursor-pointer"
-                  onClick={() => changeYear("prev")}
-                />
+                <LeftOutlined className="cursor-pointer" onClick={() => changeYear("prev")} />
                 <p className="text-[#333333] text-[16px] leading-6 font-semibold">
-                  {dayjs(value).format("YYYY")} {/* Only year */}
+                  {dayjs(value).format("YYYY")}
                 </p>
-                <RightOutlined
-                  className="cursor-pointer"
-                  onClick={() => changeYear("next")}
-                />
+                <RightOutlined className="cursor-pointer" onClick={() => changeYear("next")} />
               </div>
             </div>
           );
         }}
+ fullCellRender={(date) => {
+    const formatted = date.format("YYYY-MM-DD");
+    const isSelected = selectedDates.includes(formatted);
+    const isDisabled = disabledDate(date);
+    const selectedStyle = isSelected ? "bg-primary text-white rounded-full " : "";
+    const disabledStyle = isDisabled
+      ? "cursor-not-allowed text-gray-400"
+      : "cursor-pointer";
+
+    const handleClick = () => {
+      if (!isDisabled) {
+        toggleDate(date);
+      }
+    };
+
+    return (
+      <div
+         className={`${baseStyle} ${disabledStyle}`} 
+        onClick={handleClick}
+      > 
+      <div className={`${innerStyle} ${selectedStyle}`}> 
+        <span className="text-sm font-medium">{date.date()}</span>
+      </div>
+      </div>
+    );
+  }}
       />
     </div>
   );
