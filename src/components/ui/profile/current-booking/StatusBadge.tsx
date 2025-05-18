@@ -9,7 +9,7 @@ const statusStyles: Record<StatusBadgeProps['status'], string> = {
 };
 
 const StatusBadge = ({ status }: StatusBadgeProps) => {
-  const baseStyles = 'px-3 py-1 text-sm font-medium rounded-full';
+  const baseStyles = 'lg:px-3 px-2 py-1 lg:text-sm text-xs font-medium rounded-full';
   const statusClass = statusStyles[status] || 'text-gray-700 bg-gray-100';
 
   return (

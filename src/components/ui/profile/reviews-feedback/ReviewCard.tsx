@@ -10,7 +10,7 @@ const ReviewCard = ({ review }: { review: ReviewType }) => {
         <div>
             <div className=" bg-white p-4 rounded-xl border border-gray-200">
 
-                <div className=" border border-gray-200 rounded-xl p-4 flex justify-between items-center">
+                <div className=" border border-gray-200 rounded-xl p-4 flex lg:flex-row gap-2 flex-col justify-between items-center">
                     <div>
                         <ConfigProvider
                             theme={{
@@ -24,12 +24,12 @@ const ReviewCard = ({ review }: { review: ReviewType }) => {
                             <Rate disabled allowHalf  defaultValue={review.rating} />
                         </ConfigProvider>  </div>
 
-                    <div className=" flex items-center ">
-                        <p className="flex items-center gap-2 text-content1 text-sm font-medium border-e border-gray-200 pe-3"> <span> {review?.pickUpCity} </span> <span><IoMdArrowForward size={16} color="#7e7f7e" /> </span> <span> {review?.dropOffCity} </span> </p>
-                        <p className=" text-content1 text-sm font-medium border-e border-gray-200 ps-3 pe-3"> {review?.date} </p>
-                        <p className="flex items-center ps-3 ">
+                    <div className=" flex flex-wrap items-center ">
+                        <p className="flex items-center gap-2 text-content1 lg:text-sm text-xs font-medium border-e border-gray-200 lg:pe-3 pe-1"> <span> {review?.pickUpCity} </span> <span><IoMdArrowForward size={16} color="#7e7f7e" /> </span> <span> {review?.dropOffCity} </span> </p>
+                        <p className=" text-content1 lg:text-sm text-xs font-medium border-e border-gray-200 lg:ps-3 ps-1 lg:pe-3 pe-1"> {review?.date} </p>
+                        <p className="flex items-center justify-end lg:ps-3 ps-1  ">
                             <Clock className="h-4 w-4 mr-1 text-primary " />
-                            <span className="text-sm text-[#000000]">{review?.time}</span>
+                            <span className="lg:text-sm text-xs text-[#000000]">{review?.time}</span>
                         </p>
                     </div>
                 </div>

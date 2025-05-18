@@ -21,7 +21,7 @@ const AccountInformation = () => {
       <p className="text-xl font-medium text-content1 pb-6">Account Information</p>
 
       <Form layout="vertical" className="w-full">
-        <div className="flex lg:flex-row flex-col justify-between gap-6 border-b border-[#d8dbd9] pb-5 w-full">
+        <div className="flex lg:flex-row flex-col justify-between lg:gap-6  border-b border-[#d8dbd9] lg:pb-5 w-full">
           <Form.Item
             name="name"
             className="w-full"
@@ -58,7 +58,7 @@ const AccountInformation = () => {
           </Form.Item>
         </div>
 
-        <div className="pt-12">
+        <div className="lg:pt-12 pt-5">
           <Form.Item
             name="currentPassword"
             label={<p>Current Password</p>}
@@ -71,7 +71,7 @@ const AccountInformation = () => {
             />
           </Form.Item>
 
-          <div className="flex lg:flex-row flex-col justify-between gap-6">
+          <div className="flex lg:flex-row flex-col justify-between lg:gap-6">
             <Form.Item
               name="newPassword"
               label={<p>New Password</p>}
@@ -126,11 +126,11 @@ const AccountInformation = () => {
           </div>
 
           <Form.Item>
-            <div className="mt-5 flex items-center gap-5">
-              <button type="submit" className="bg-primary text-white py-3 px-6 rounded-full">
+            <div className="mt-5 flex items-center lg:justify-start justify-between lg:gap-5">
+              <button type="submit" className="bg-primary text-white py-3 lg:px-6 px-4 rounded-full lg:text-[16px] text-sm">
                 Change Password
               </button>
-              <div className="text-sm text-content1">
+              <div className="lg:text-sm text-xs text-content1">
                 <span>Forgot Your Password?</span>{" "}
                 <span
                   className="text-primary font-medium cursor-pointer"

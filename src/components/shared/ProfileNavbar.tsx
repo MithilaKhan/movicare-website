@@ -7,6 +7,8 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Cookies from "js-cookie";
 import { IoIosArrowDown } from 'react-icons/io';
+import SidebarForMobile from './SidebarForMobile';
+import { RxHamburgerMenu } from 'react-icons/rx';
 
 const ProfileNavbar = () => {
   const router = useRouter();
@@ -14,7 +16,8 @@ const ProfileNavbar = () => {
     name: 'John Doe',
     email: 'B2DyY@example.com',
   };
-  const [language, setLanguage] = useState<string | null>("en")
+  const [language, setLanguage] = useState<string | null>("en") 
+    const [drawerVisible, setDrawerVisible] = useState(false);
 
   // for translate  
 
@@ -66,9 +69,21 @@ const ProfileNavbar = () => {
   };
 
   return (
-    <div className="w-full h-[100px] bg-white overflow-hidden border-b border-gray-200 ">
-      <div className="flex items-center justify-between h-full px-[60px]">
-        <img src="/logo2.png" alt="" onClick={() => router.push("/")} className=" w-16 h-16 object-fill cursor-pointer" />
+    <div className="w-full lg:h-[100px] h-20 bg-white overflow-hidden border-b border-gray-200 ">
+      <div className="flex items-center justify-between h-full lg:px-[60px] px-5"> 
+
+<div className=' flex items-center gap-2'>  
+        {/* Mobile menu toggle */}
+          <button
+            className="lg:hidden z-50  pb-2"
+            onClick={() => setDrawerVisible(true)} // Open Drawer on mobile
+          >
+            <RxHamburgerMenu size={22} className={`text-content3 cursor-pointer `} />
+          </button> 
+   <img src="/logo2.png" alt="" onClick={() => router.push("/")} className=" lg:w-16 lg:h-16 w-14 h-14 object-fill cursor-pointer" /> 
+
+</div>
+             
 
         <div className="flex items-center gap-3 h-full">
           {/* Language Selector */}
@@ -84,9 +99,9 @@ const ProfileNavbar = () => {
                 <img
                   src="/englend.jpg"
                   alt="English Flag"
-                  className="mr-2 rounded-full w-8 h-8"
+                  className="mr-2 rounded-full lg:w-8 lg:h-8 w-6 h-6"
                 />
-                <span className='text-[16px] font-medium'> English </span>
+                <span className='lg:text-[16px] text-sm font-medium'> English </span>
               </div>
             </Select.Option>
             <Select.Option value="es">
@@ -94,15 +109,16 @@ const ProfileNavbar = () => {
                 <img
                   src="/spain.jpg"
                   alt="Swedish Flag"
-                  className="mr-2 rounded-full w-8 h-8"
+                  className="mr-2 rounded-full lg:w-8 lg:h-8 w-6 h-6"
                 />
-                <span className='text-[16px] font-medium'> Spanish </span>
+                <span className='lg:text-[16px] text-sm font-medium'> Spanish </span>
 
               </div>
             </Select.Option>
           </Select>
 
-          {/* Profile Section */}
+          {/* Profile Section */} 
+          <div className=' lg:block hidden'> 
           <Link
             href="/account-information"
             className="flex items-center gap-2 h-[55px] px-2 rounded-md hover:bg-gray-100 transition"
@@ -118,8 +134,11 @@ const ProfileNavbar = () => {
               {profileData?.name || 'Guest'}
             </h2>
           </Link>
+
+          </div>
         </div>
-      </div>
+      </div> 
+      <SidebarForMobile drawerVisible={drawerVisible} setDrawerVisible={setDrawerVisible} />
     </div>
   );
 };

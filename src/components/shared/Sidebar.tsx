@@ -1,10 +1,11 @@
 "use client"
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { LuMessageSquareText, LuTicket } from 'react-icons/lu';
 import { AiOutlineFieldTime } from 'react-icons/ai';
 import { RxPerson } from 'react-icons/rx';
+import { MdLogout } from 'react-icons/md';
 
 const menuItems = [
   {
@@ -30,7 +31,14 @@ const menuItems = [
 ];
 
 const Sidebar = () => {
-  const pathname = usePathname();
+  const pathname = usePathname();  
+  const  router =  useRouter();
+
+  const handleLogOut = () => {
+    localStorage.removeItem("userEmail"); 
+    router.push("/login");
+
+  };
 
   return (
     <div className="h-full">
@@ -39,7 +47,7 @@ const Sidebar = () => {
           {menuItems.map((item) => {
             const isActive = pathname === item.key;
 
-            return (
+            return ( 
               <Link href={item.key} key={item.key}>
                 <div className="border-b border-[#E7E7E7] p-2 ps-[30px] h-[70px] flex items-center">
                   <div
@@ -55,8 +63,10 @@ const Sidebar = () => {
                 </div>
               </Link>
             );
-          })}
-        </div>
+          })} 
+
+        </div> 
+        <div className=' text-[16px] text-[#FF2F2F] flex items-center gap-1 font-medium ps-[40px] pb-10 cursor-pointer ' onClick={handleLogOut}> <span> <MdLogout size={22} /> </span> <span>Log Out  </span></div>
       </div>
     </div>
   );
