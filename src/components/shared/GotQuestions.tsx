@@ -8,13 +8,14 @@ import type { CollapseProps } from 'antd';
 import { Collapse, theme } from 'antd';
 import { Plus } from 'lucide-react';
 import { useGetFaqsQuery } from '@/redux/features/others/faq/faqSlice';
+import { useRouter } from 'next/navigation';
 
 
 const GotQuestions = () => {
 
   const { token } = theme.useToken();
   const { data } = useGetFaqsQuery(undefined);
-  console.log(data, "faq data");
+  const router = useRouter();
 
   const getItems = (panelStyle: CSSProperties, data: any[]): CollapseProps['items'] => {
     return data?.slice(0, 5)?.map((faq, index) => ({
@@ -53,7 +54,7 @@ const GotQuestions = () => {
           <p className=' text-content2 lg:text-lg text-[16px] lg:pb-10 pb-5  text-center lg:text-start'>Everything You Need to Know About Booking, Accessibility & More!</p>
 
           <div className=' flex items-center lg:justify-start justify-center lg:pb-0 pb-8'>
-            <button className=' flex items-center text-sm justify-center gap-2 text-primary border border-primary rounded-full py-3 px-6'> <span> Contact Us</span>
+            <button className=' flex items-center text-sm justify-center gap-2 text-primary border border-primary rounded-full py-3 px-6' onClick={() => router.push('/contact')}> <span> Contact Us</span>
               <span> <PiArrowBendUpRightBold size={14} /> </span>
             </button>
           </div>
