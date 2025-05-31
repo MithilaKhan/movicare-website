@@ -22,7 +22,7 @@ const Navbar = () => {
   useEffect(() => {
     const storedEmail = localStorage.getItem("userEmail");
     setUserEmail(storedEmail);
-    console.log(storedEmail);
+
   }, []);
 
   // for translate  
@@ -224,16 +224,16 @@ const Navbar = () => {
                 <Image
                   src="/user1.jpg"
                   alt={'User Profile'}
-                  width={40}
-                  height={40}
+                  width={44}
+                  height={44}
                   className="rounded-full"
                 />
-                <h2 className="text-black text-[16px] font-semibold">
+                <h2 className={` text-[16px] font-medium ${ pathname === "/services" ? "text-white": "text-content1"}`}>
                   mithila
                 </h2>
               </Link> :
                 <Link href="/login">
-                  <p className=" text-sm font-normal text-content1">Login</p>
+                  <p className={`text-sm font-normal ${ pathname === "/services" ? "text-white": "text-content1"} `}>Login</p>
                 </Link>
             }
 

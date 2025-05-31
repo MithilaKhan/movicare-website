@@ -1,24 +1,12 @@
-import { ConfigProvider, DatePicker, Input, Select } from 'antd';
+import { ConfigProvider, DatePicker, Input } from 'antd';
 import { BsCalendar4 } from 'react-icons/bs';
 import { GrLocationPin } from 'react-icons/gr';
-import { IoChevronDownSharp } from 'react-icons/io5';
 import { PiArrowBendUpRightBold } from 'react-icons/pi';
 import { SiRelay } from 'react-icons/si';
 
 const Banner = () => {
 
-    const locations = [
-        { value: 'san_jose', label: 'San José' },
-        { value: 'liberia', label: 'Liberia' },
-        { value: 'puntarenas', label: 'Puntarenas' },
-        { value: 'limon', label: 'Limón' },
-        { value: 'heredia', label: 'Heredia' },
-        { value: 'cartago', label: 'Cartago' },
-        { value: 'alajuela', label: 'Alajuela' },
-        { value: 'tamarindo', label: 'Tamarindo' },
-        { value: 'monteverde', label: 'Monteverde' },
-        { value: 'manuel_antonio', label: 'Manuel Antonio' }
-    ]
+
 
     return (
         <div className='w-full h-screen' style={{
@@ -45,42 +33,6 @@ const Banner = () => {
                     <div className='flex lg:flex-row flex-col items-center gap-4 w-full   '>
                         <ConfigProvider
                             theme={{
-                                components: {
-                                    // Select: {
-                                    //     clearBg: "#53645f",
-                                    //     borderRadiusLG: 5,
-                                    // },
-                                },
-                                token: {
-                                    colorPrimary: '#53645f',
-                                    colorTextBase: '#ffffff',
-                                    colorTextPlaceholder: '#a8b2af',
-                                    colorBgContainer: '#666d66',
-                                    colorBgElevated: '#666d66',
-                                    colorIcon: '#ffffff',
-                                },
-
-                            }}
-                        > 
-
-                        <Input  placeholder="Enter pickup location"   style={{ width: "100%", height: "48px" }}  prefix={<SiRelay size={20} color='#ffffff' className='mx-2' />}  />
-                            {/* <Select
-                                placeholder="Enter pickup location"
-                                style={{ width: "100%", height: "48px" }}
-                                options={locations}
-                                prefix={<SiRelay size={20} color='#ffffff' className='mx-2' />}
-                                suffixIcon={<IoChevronDownSharp size={16} color='#ffffff' />}
-                            /> */}
-                        </ConfigProvider>
-
-
-                        <ConfigProvider
-                            theme={{
-                                components: {
-                                    Select: {
-                                        clearBg: "#53645f",
-                                    },
-                                },
                                 token: {
                                     colorPrimary: '#53645f',
                                     colorTextBase: '#ffffff',
@@ -92,13 +44,28 @@ const Banner = () => {
 
                             }}
                         >
-                            <Select
-                                placeholder="Enter destination address"
-                                style={{ width: "100%", height: "48px" }}
-                                options={locations}
-                                prefix={<GrLocationPin size={20} color='#ffffff' className='mx-2' />}
-                                suffixIcon={<IoChevronDownSharp size={16} color='#ffffff' />}
-                            />
+
+                            <Input placeholder="Enter pickup location" style={{ width: "100%", height: "48px" }} prefix={<SiRelay size={20} color='#ffffff' className='mx-2' />} />
+
+                        </ConfigProvider>
+
+
+                        <ConfigProvider
+                            theme={{
+                                token: {
+                                    colorPrimary: '#53645f',
+                                    colorTextBase: '#ffffff',
+                                    colorTextPlaceholder: '#a8b2af',
+                                    colorBgContainer: '#666d66',
+                                    colorBgElevated: '#666d66',
+                                    colorIcon: '#ffffff',
+                                },
+
+                            }}
+                        >
+
+                            <Input placeholder="Enter destination address" style={{ width: "100%", height: "48px" }} prefix={<GrLocationPin size={20} color='#ffffff' className='mx-2' />} />
+
                         </ConfigProvider>
 
 
@@ -106,7 +73,7 @@ const Banner = () => {
                             theme={{
                                 components: {
                                     Select: {
-                                        clearBg: "#53645f", 
+                                        clearBg: "#53645f",
 
                                     },
                                 },
@@ -123,9 +90,9 @@ const Banner = () => {
                         >
 
                             <DatePicker placeholder="Select date & time"
-                                style={{width: "100%", height: "48px" }}
+                                style={{ width: "100%", height: "48px" }}
                                 prefix={<BsCalendar4 size={18} color='#ffffff' className='mx-2' />}
-                                suffixIcon={""} 
+                                suffixIcon={""}
                                 showToday={false}
                             />
                         </ConfigProvider>

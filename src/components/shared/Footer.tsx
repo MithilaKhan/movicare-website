@@ -171,7 +171,7 @@ const Footer = () => {
 
           <div className="lg:flex hidden  justify-between lg:ms-24  gap-[96px]">
             <p className=" text-sm text-[#a0a2a1]"> © 2025 — Movicare </p>
-            <p className=" flex items-center gap-3  text-sm text-[#a0a2a1] ">  <span className={`${language === "en" ? "font-bold text-white" : " text-[#FFFFFF]/60 font-normal"}`} onClick={() => switchLanguage("en")}>En </span> <span  className={`text-[#FFFFFF]/60 cursor-pointer ${language === "es" ? "font-bold text-white" : " text-[#FFFFFF]/60 font-normal"}`} onClick={() => switchLanguage("es")}>Es </span></p>
+            <p className=" flex items-center gap-3  text-sm text-[#a0a2a1] ">  <span className={`${language === "en" ? "font-bold text-white" : " text-[#FFFFFF]/60 font-normal"} cursor-pointer`} onClick={() => switchLanguage("en")}>En </span> <span  className={`text-[#FFFFFF]/60 cursor-pointer ${language === "es" ? "font-bold text-white" : " text-[#FFFFFF]/60 font-normal"}`} onClick={() => switchLanguage("es")}>Es </span></p>
           </div>
         </div>
       </div> 
@@ -179,7 +179,7 @@ const Footer = () => {
 <div className="block lg:hidden"> 
       <div className=" flex   justify-between lg:ms-24  gap-[96px] px-2 mt-5 py-3">
         <p className=" text-sm text-[#a0a2a1]"> © 2025 — Movicare </p>
-         <p className=" flex items-center gap-3  text-sm text-[#a0a2a1] ">  <span className={`${language === "en" ? "font-bold text-white" : " text-[#FFFFFF]/60 font-normal"}`} onClick={() => switchLanguage("en")}>En </span>  <span  className={`text-[#FFFFFF]/60 cursor-pointer ${language === "es" ? "font-bold text-white" : " text-[#FFFFFF]/60 font-normal"}`} onClick={() => switchLanguage("es")}>Es </span></p>
+         <p className=" flex items-center gap-3  text-sm text-[#a0a2a1] ">  <span className={`${language === "en" ? "font-bold text-white" : " text-[#FFFFFF]/60 font-normal"} cursor-pointer`} onClick={() => switchLanguage("en")}>En </span>  <span  className={`text-[#FFFFFF]/60 cursor-pointer ${language === "es" ? "font-bold text-white" : " text-[#FFFFFF]/60 font-normal"}`} onClick={() => switchLanguage("es")}>Es </span></p>
       </div>
 
 </div>
