@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 import React from 'react';
 import { PiArrowBendUpRightBold } from 'react-icons/pi';
@@ -6,46 +7,31 @@ import type { CSSProperties } from 'react'
 import type { CollapseProps } from 'antd';
 import { Collapse, theme } from 'antd';
 import { Plus } from 'lucide-react';
+import { useGetFaqsQuery } from '@/redux/features/others/faq/faqSlice';
 
-const text = `
-To place an order, download our app or visit our website, enter your location, and browse local restaurants. Add items to your cart, proceed to checkout, and confirm your order. We’ll take care of the rest! You’ll receive updates on your order status and can track your delivery in real-time. Enjoy fresh, delicious food delivered right to your door!
-`;
 
-const getItems: (panelStyle: CSSProperties) => CollapseProps['items'] = (panelStyle) => [
-  {
-    key: '1',
-    label: <p className='font-medium  lg:text-[19px] text-[16px]' style={{ color: '#4E4E4E' }}> How do I place an order?</p>,
-    children: <p className=' lg:text-[16px] text-sm  ' style={{ color: '#4E4E4E'}}>{text}</p>,
-    style: panelStyle,
-  },
-  {
-    key: '2',
-    label: <p className='font-medium  lg:text-[19px] text-[16px]' style={{ color: '#4E4E4E' }}> How long will my order take to arrive? </p>,
-    children: <p className=' lg:text-[16px] text-sm  ' style={{ color: '#4E4E4E'}}>{text}</p>,
-    style: panelStyle,
-  },
-  {
-    key: '3',
-    label: <p className='font-medium  lg:text-[19px] text-[16px]' style={{ color: '#4E4E4E' }}> How will I know if order is placed successfully ? </p>,
-    children: <p className=' lg:text-[16px] text-sm  ' style={{ color: '#4E4E4E'}}>{text}</p>,
-    style: panelStyle,
-  },
-  {
-    key: '4',
-    label: <p className='font-medium  lg:text-[19px] text-[16px]' style={{ color: '#4E4E4E' }}> How do I track my order?</p>,
-    children: <p className=' lg:text-[16px] text-sm  ' style={{ color: '#4E4E4E'}}>{text}</p>,
-    style: panelStyle,
-  },
-  {
-    key: '5',
-    label: <p className='font-medium  lg:text-[19px] text-[16px]' style={{ color: '#4E4E4E' }}> Can I cancel my order ?</p>,
-    children: <p className=' lg:text-[16px] text-sm  ' style={{ color: '#4E4E4E'}}>{text}</p>,
-    style: panelStyle,
-  },
-];
 const GotQuestions = () => {
 
   const { token } = theme.useToken();
+  const { data } = useGetFaqsQuery(undefined);
+  console.log(data, "faq data");
+
+  const getItems = (panelStyle: CSSProperties, data: any[]): CollapseProps['items'] => {
+    return data?.slice(0, 5)?.map((faq, index) => ({
+      key: String(index + 1),
+      label: (
+        <p className='font-medium lg:text-[19px] text-[16px]' style={{ color: '#4E4E4E' }}>
+          {faq.title}
+        </p>
+      ),
+      children: (
+        <p className='lg:text-[16px] text-sm' style={{ color: '#4E4E4E' }}>
+          {faq.description}
+        </p>
+      ),
+      style: panelStyle,
+    })) || [];
+  };
 
   const panelStyle: React.CSSProperties = {
     marginBottom: 24,
@@ -66,13 +52,13 @@ const GotQuestions = () => {
             We’ve Got Answers!</h1>
           <p className=' text-content2 lg:text-lg text-[16px] lg:pb-10 pb-5  text-center lg:text-start'>Everything You Need to Know About Booking, Accessibility & More!</p>
 
-<div className=' flex items-center lg:justify-start justify-center lg:pb-0 pb-8'> 
-          <button className=' flex items-center text-sm justify-center gap-2 text-primary border border-primary rounded-full py-3 px-6'> <span> Contact Us</span>
-            <span> <PiArrowBendUpRightBold size={14} /> </span>
-          </button>
-        </div>
+          <div className=' flex items-center lg:justify-start justify-center lg:pb-0 pb-8'>
+            <button className=' flex items-center text-sm justify-center gap-2 text-primary border border-primary rounded-full py-3 px-6'> <span> Contact Us</span>
+              <span> <PiArrowBendUpRightBold size={14} /> </span>
+            </button>
+          </div>
 
-</div>
+        </div>
 
         {/* 2nd section  */}
 
@@ -86,7 +72,7 @@ const GotQuestions = () => {
             }} />}
             expandIconPosition="end"
             style={{ background: "#ffffff", color: '#222222' }}
-            items={getItems(panelStyle)} 
+            items={getItems(panelStyle, data || [])}
             defaultActiveKey={['3']}
           />
         </div>
