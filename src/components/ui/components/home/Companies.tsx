@@ -1,4 +1,6 @@
 "use client";
+import { imageUrl } from "@/redux/base/baseApi";
+import { useGetCompaniesQuery } from "@/redux/features/others/home/companiesSlice";
 import useEmblaCarousel from "embla-carousel-react";
 import React, { useEffect } from "react";
 
@@ -6,7 +8,11 @@ const Companies = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
     align: "start",
-  });
+  }); 
+  const {data} = useGetCompaniesQuery(undefined);   
+  const images = data?.map((company) => company.image?.startsWith("http") ? company.image : `${imageUrl}${company.image}`) || []; 
+
+  console.log(data, "companies data");
 
   useEffect(() => {
     if (emblaApi) {
@@ -17,14 +23,7 @@ const Companies = () => {
     }
   }, [emblaApi]);
 
-  const images = [
-    "/company1.png",  
-    "/company3.png",
-    "/company4.png", 
-    "/company2.png",
-    "/company1.png", 
-    "/company5.png",  
-  ];
+
 
   return (
     <div className="my-16  container mx-auto">
@@ -47,7 +46,7 @@ const Companies = () => {
                   <img
                     src={image}
                     alt={`Company ${index + 1}`}
-                    className="h-[54px] w-[120px] object-contain mx-auto"
+                    className="h-[64px] w-[120px] object-contain mx-auto"
                   />
                 </div>
               ))}

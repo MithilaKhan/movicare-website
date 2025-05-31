@@ -3,6 +3,7 @@ import { AntdRegistry } from "@ant-design/nextjs-registry";
 import "./globals.css";
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import Script from "next/script";
+import ReduxProvider from "@/redux/lib/ReduxProvider";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -56,11 +57,13 @@ export default function RootLayout({
 
       <body
         className={`antialiased`}
-      >
+      > 
+       <ReduxProvider> 
         <AntdRegistry>
           <div id="google_translate_element" />
           {children}
-        </AntdRegistry>
+        </AntdRegistry> 
+        </ReduxProvider>
       </body>
     </html>
   );
