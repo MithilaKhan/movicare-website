@@ -62,7 +62,7 @@ export default function RootLayout({
        <ReduxProvider> 
         <AntdRegistry>
           <div id="google_translate_element" /> 
-           <ToastContainer position="top-right" autoClose={3000} />
+           <ToastContainer position="top-center" autoClose={3000} />
           {children}
         </AntdRegistry> 
         </ReduxProvider>

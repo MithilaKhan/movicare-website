@@ -1,6 +1,6 @@
 
-import { GetLocalStorage } from "@/util/LocalStroage";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import Cookies from 'js-cookie'; 
 
 export const baseApi = createApi({
   reducerPath: "api",
@@ -8,7 +8,7 @@ export const baseApi = createApi({
     baseUrl: "http://10.0.70.146:5001/api/v1", 
       // baseUrl: "http://10.0.70.208:5002/api/v1" ,
     prepareHeaders: (headers) => {
-      const token = GetLocalStorage("AccessToken");
+      const token = Cookies.get("accessToken");
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }

@@ -1,20 +1,33 @@
 "use client"
-import { useVerifyEmailMutation } from "@/redux/features/auth/authApi";
-import { Form, Typography } from "antd";
+import { useForgetPasswordMutation, useVerifyEmailMutation } from "@/redux/features/auth/authApi";
+import { ConfigProvider, Form, Input, Typography } from "antd";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react"
-import OTPInput from "react-otp-input";
+// import OTPInput from "react-otp-input"; 
 import { toast } from "react-toastify";
 import { errorType } from "../../components/contact/SendMessage";
-import { GetLocalStorage } from "@/util/LocalStroage";
+import { GetLocalStorage, SetLocalStorage } from "@/util/LocalStroage";
 
 const { Text } = Typography;
 
 const VerifyOtp = () => {
   const router = useRouter()
-  const [otp, setOtp] = useState<string>("");
-  const [email, setEmail] = useState<string | null>(null);
-  const [verifyEmail, { isLoading, isSuccess, isError, error, data }] = useVerifyEmailMutation();
+  const [email, setEmail] = useState<string | null>(null); 
+  const [form] = Form.useForm(); 
+  const [verifyEmail, {
+    isLoading,
+    isSuccess: isVerifySuccess,
+    isError: isVerifyError,
+    error: verifyError,
+    data: verifyData
+  }] = useVerifyEmailMutation();
+
+  const [forgetPassword, {
+    isSuccess: isForgetSuccess,
+    isError: isForgetError,
+    error: forgetError,
+    data: forgetData
+  }] = useForgetPasswordMutation();
   const userType = GetLocalStorage("userType")
 
   useEffect(() => {
@@ -22,40 +35,55 @@ const VerifyOtp = () => {
     setEmail(emailFromQuery);
   }, []);
 
-  useEffect(() => {
-    if (isSuccess) {
-      toast.success(data?.message);
-      if (userType === "forget") {
-        router.push(`/reset-password`);
-      } else {
-        router.push(`/login`);
-      }
-    }
-    if (isError) {
-      const errorMessage =
-        (error as errorType)?.data?.errorMessages
-          ? (error as errorType)?.data?.errorMessages.map((msg: { message: string }) => msg?.message).join("\n")
-          : (error as errorType)?.data?.message || "Something went wrong. Please try again.";
-      toast.error(errorMessage);
-    }
-  }, [isSuccess, isError, error, data , userType, router]); 
+useEffect(() => {
+  if (isVerifySuccess) {
+    toast.success(verifyData?.message);
+    SetLocalStorage("resetToken", verifyData?.data || "");
+    router.push(userType === "register" ? "/login" : userType === "forget" ? "/reset-password" : "" );  
+  }
+  if (isVerifyError) {
+    const errorMessage =
+      (verifyError as errorType)?.data?.errorMessages?.map((msg: { message: string }) => msg.message).join("\n") ||
+      (verifyError as errorType)?.data?.message ||
+      "Something went wrong. Please try again.";
+    toast.error(errorMessage);
+  }
+}, [isVerifySuccess, isVerifyError, verifyError, verifyData, router, userType]);
+
+useEffect(() => {
+  if (isForgetSuccess) {
+    toast.success(forgetData?.message);
+  }
+  if (isForgetError) {
+    const errorMessage =
+      (forgetError as errorType)?.data?.errorMessages?.map((msg: { message: string }) => msg.message).join("\n") ||
+      (forgetError as errorType)?.data?.message ||
+      "Something went wrong. Please try again.";
+    toast.error(errorMessage);
+  }
+}, [isForgetSuccess, isForgetError, forgetError, forgetData]);
 
 
   const onFinish = async (values: { otp: string }) => {
 
     const data = {
-      oneTimeCode: Number(values.otp),
+      oneTimeCode: parseInt(values.otp),
       email: email
-    } 
+    }
+
     await verifyEmail(data).then((res) => {
       console.log(res);
-    });
+    }); 
+
+    // form.resetFields(); 
 
   };
 
 
   const handleResendEmail = async () => {
-
+    await forgetPassword({ email: email }).then((res) => {
+      console.log(res);
+    });
 
   };
 
@@ -69,28 +97,42 @@ const VerifyOtp = () => {
       </div>
 
 
-      <Form layout="vertical" onFinish={onFinish}>
+      <Form onFinish={onFinish} layout="vertical" className=' w-full mx-auto' form={form}>
 
-        <div className="flex items-center justify-center mb-6">
-          <OTPInput
-            value={otp}
-            onChange={setOtp}
-            numInputs={4}
-            inputStyle={{
-              height: 50,
-              width: 50,
-              borderRadius: "8px",
-              margin: "10px",
-              fontSize: "20px",
-              border: "1px solid #818181",
-              color: "#2B2A2A",
-              outline: "none",
-              marginBottom: 10
-            }}
-            renderInput={(props) => <input {...props} />}
-          />
+        <ConfigProvider
+          theme={{
+            components: {
+              Input: {
+                // lineHeight: 3,
+                controlHeight: 65,
+                hoverBorderColor: "#286a25",
+                activeBorderColor: "#286a25",
+                borderRadius: 10,
+              },
+            },
+            token: {
+              colorPrimary: '#286a25',
+              colorBorder: "#286a25",
+            },
+          }}
+        >
+          <Form.Item
+            className="flex items-center justify-center mx-auto "
+            name="otp"
+            rules={[{ required: true, message: 'Please input otp code here!' }]}
+          >
+            <Input.OTP
+              style={{
+                width: 300,
+                height: 50,
 
-        </div>
+              }}
+              className=""
+              variant="filled"
+              length={4}
+            />
+          </Form.Item>
+        </ConfigProvider>
 
         <div className="flex items-center justify-between mb-6 ">
           <Text>Don&apos;t received code?</Text>
@@ -119,7 +161,7 @@ const VerifyOtp = () => {
             }}
             className="flex items-center justify-center bg-primary rounded-full"
           >
-        {isLoading ? "verifying..." : "Verify"}
+            {isLoading ? "verifying..." : "Verify"}
           </button>
         </Form.Item>
       </Form>

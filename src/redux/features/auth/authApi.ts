@@ -1,4 +1,5 @@
 
+import { GetLocalStorage } from "@/util/LocalStroage";
 import { baseApi } from "../../base/baseApi";
 
 const authApi = baseApi.injectEndpoints({
@@ -50,8 +51,7 @@ const authApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("oneTimeToken")}`,
+          Authorization: `${GetLocalStorage("ResetToken")}`,
         },
       }),
     }),
@@ -62,7 +62,14 @@ const authApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
-    }),
+    }), 
+
+    getProfile: build.query({
+      query: () => ({
+        url: "/user/profile",
+      }), 
+      
+    }), 
 
   }),
 });
@@ -74,5 +81,6 @@ export const {
   useForgetPasswordMutation,
   useResetPasswordMutation,
   useVerifyEmailMutation, 
-  useGoogleLoginMutation
+  useGoogleLoginMutation , 
+  useGetProfileQuery
 } = authApi;
