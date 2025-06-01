@@ -1,10 +1,14 @@
 "use client";
 
+import LoginWithGoogle from "@/components/shared/LoginWithGoogle";
 import TextInput from "@/components/shared/TextInput";
-import { Checkbox, ConfigProvider, Form, Input } from "antd";
+import { useRegisterUserMutation } from "@/redux/features/auth/authApi";
+import { Checkbox, ConfigProvider, Divider, Form, Input } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
+import { toast } from "react-toastify";
+import { errorType } from "../../components/contact/SendMessage";
 
 interface ValuesType {
   name: string;
@@ -16,18 +20,40 @@ interface ValuesType {
 
 const Register: React.FC = () => {
   const router = useRouter();
+  const [registerUser, { isLoading, isSuccess, isError, error, data }] = useRegisterUserMutation(); 
+  const [email , setEmail] = React.useState<string>("");
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(data?.message);
+      localStorage.setItem("userType", "register");
+      router.push(`/verify-otp?email=${email}`);
+    }
+
+    if (isError) {
+      const errorMessage =
+        (error as errorType)?.data?.errorMessages
+          ? (error as errorType)?.data?.errorMessages.map((msg: { message: string }) => msg?.message).join("\n")
+          : (error as errorType)?.data?.message || "Something went wrong. Please try again.";
+      toast.error(errorMessage);
+    }
+  }, [isSuccess, isError, error, data , email, router]);
 
   const onFinish = async (values: ValuesType) => {
-    console.log(values);
-    localStorage.setItem("userType", "register");
-    router.push(`/verify-otp?email=${values.email}`);
+    await registerUser(values)
+    setEmail(values.email);
   };
 
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-[25px] font-semibold mb-2">Register Now</h1>
+        <h1 className="text-[23px] font-medium mb-2">Register Now</h1>
       </div>
+
+      <LoginWithGoogle />
+
+      <Divider style={{ borderColor: '#e6e6e6' }}> <span className="text-sm font-medium text-[#636363]"> Or </span></Divider>
+
       <ConfigProvider
         theme={{
           token: {
@@ -35,7 +61,7 @@ const Register: React.FC = () => {
           },
           components: {
             Input: {
-            //   borderColor: "#d9d9d9",  
+              //   borderColor: "#d9d9d9",  
               hoverBorderColor: "#d9d9d9",
             },
           },
@@ -56,7 +82,13 @@ const Register: React.FC = () => {
           >
             <Input.Password
               placeholder="Enter password"
-              className="border border-gray-300 h-[50px] bg-white rounded-lg"
+              style={{
+            height: 48,
+            border: "1px solid #d9d9d9",
+            outline: "none",
+            boxShadow: "none",
+            backgroundColor: "white",
+          }}
             />
           </Form.Item>
 
@@ -84,7 +116,13 @@ const Register: React.FC = () => {
           >
             <Input.Password
               placeholder="Confirm password"
-              className="border border-gray-300 h-[50px] bg-white rounded-lg"
+              style={{
+            height: 48,
+            border: "1px solid #d9d9d9",
+            outline: "none",
+            boxShadow: "none",
+            backgroundColor: "white",
+          }}
             />
           </Form.Item>
 
@@ -101,7 +139,7 @@ const Register: React.FC = () => {
               },
             ]}
           >
-            <Checkbox>
+            <Checkbox >
               I agree with terms of service and privacy policy
             </Checkbox>
           </Form.Item>
@@ -111,7 +149,7 @@ const Register: React.FC = () => {
               type="submit"
               className="w-full h-[45px] text-white font-medium text-lg bg-primary rounded-full flex items-center justify-center mt-4"
             >
-              Sign up
+              {isLoading ? "Loading..." : "Sign up"}
             </button>
           </Form.Item>
         </Form>

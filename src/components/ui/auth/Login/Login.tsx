@@ -1,7 +1,8 @@
 "use client"
 
+import LoginWithGoogle from "@/components/shared/LoginWithGoogle";
 import TextInput from "@/components/shared/TextInput";
-import { Checkbox, Form, Input } from "antd";
+import { Checkbox, Divider, Form, Input } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -12,7 +13,7 @@ const Login = () => {
 
   const onFinish = async (values: { email: string, password: string }) => {
 
-    localStorage.setItem( "userEmail" , values?.email)
+    localStorage.setItem("userEmail", values?.email)
     router.push("/")
 
   };
@@ -21,8 +22,13 @@ const Login = () => {
     <div
     >
       <div className=" mb-6">
-        <h1 className="text-[25px] font-semibold mb-2">Log in to your account </h1>
+        <h1 className="text-[23px] font-medium mb-2">Log in to your account </h1>
       </div>
+
+      <LoginWithGoogle />
+
+      <Divider style={{ borderColor: '#e6e6e6' }}> <span className="text-sm font-medium text-[#636363]"> Or </span></Divider>
+
       <Form
         onFinish={onFinish}
         layout="vertical"

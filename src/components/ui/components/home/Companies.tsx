@@ -28,7 +28,7 @@ const Companies = () => {
   return (
     <div className="my-16  container mx-auto">
       <p className="text-[16px] text-content2 text-center">
-        Trusted by 54+ companies
+        Trusted by {data?.length} companies
       </p>
 
       <div className="">

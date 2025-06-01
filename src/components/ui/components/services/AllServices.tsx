@@ -1,57 +1,23 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-//@ts-nocheck
+
 "use client"
+import { imageUrl } from "@/redux/base/baseApi";
+import { useGetServicesQuery } from "@/redux/features/others/services/servicesSlice";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 
-interface ServiceType {
-  id: string;
-  title: string;
-  description: string;
-  imageUrl: string;
-  buttonText: string;
-}
-const services: ServiceType[] = [
-  {
-    id: "1",
-    title: "Accessible Van Rentals",
-    description: "Rent our fully equipped wheelchair-accessible vans for a safe and comfortable ride. Each vehicle features ramps, grab bars, and first-aid kits for added security.",
-    imageUrl: "/service1.png",
-    buttonText: "Rent a Van"
-  },
-  {
-    id: "2",
-    title: "Custom Route Planning",
-    description: "Plan your trip with multiple stops tailored to your schedule. Whether for errands, medical visits, or sightseeing, we ensure a smooth ride to all your destinations.",
-    imageUrl: "/service2.png",
-    buttonText: "Plan Your Route"
-  },
-  {
-    id: "3",
-    title: "Medical & Daily Transport",
-    description: "Reliable and stress-free transportation for medical appointments, therapy sessions, and daily activities. Our trained drivers ensure comfort and care throughout your ride.",
-    imageUrl: "/service3.png",
-    buttonText: "Book a Ride"
-  },
-  {
-    id: "4",
-    title: "Tour & Travel Assistance",
-    description: "MoviCare was founded with a simple yet powerful vision—ensuring that everyone, regardless of mobility challenges, has access to reliable and dignified transportation. Recognizing the lack of accessible transport options in Costa Rica, we set out to change the landscape by providing a seamless and inclusive mobility experience.",
-    imageUrl: "/service2.png",
-    buttonText: "Learn More"
-  },
-  {
-    id: "5",
-    title: "Corporate & Event Transport",
-    description: "Need accessible transport for business events, conferences, or group outings? We provide tailored transport solutions for corporate and special events.",
-    imageUrl: "/service4.png",
-    buttonText: "Get a Quote"
-  }
-];
-
 const AllServices = () => {
   const searchParams = useSearchParams();
-  const router = useRouter()
+  const router = useRouter() 
+   const {data:allServices} = useGetServicesQuery(undefined);  
+   console.log("allServices", allServices); 
+
+   const services = allServices?.map((service) => ({
+    id: service._id,
+    title: service.name,
+    description: service.description,
+    imageUrl: service.image?.startsWith("http") ? service?.image : `${imageUrl}${service.image}`,
+    buttonText: "Learn More" 
+  })) || [];
 
   // Create refs array for each service, only once
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
@@ -88,7 +54,7 @@ const AllServices = () => {
         services.map((service, index) => (
           <div
             key={service.id}
-           ref={(el) => (sectionRefs.current[service.id] = el)}
+           ref={(el) =>{sectionRefs.current[service.id] = el}}
             id={`service-${service.id}`}
             className={`flex flex-col md:flex-row items-center justify-between lg:mt-[120px] mt-10   transition-all duration-700 ease-out ${index % 2 !== 0 ? "md:flex-row-reverse" : ""}`}
 

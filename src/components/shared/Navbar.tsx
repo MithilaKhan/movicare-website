@@ -4,10 +4,10 @@ import { useState, useRef, useEffect } from "react";
 import { HiChevronDown, HiOutlineMenuAlt3 } from "react-icons/hi";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-
 import Cookies from "js-cookie";
 import NavbarMobile from "./NavbarMobile";
 import Image from "next/image";
+import { useGetServicesQuery } from "@/redux/features/others/services/servicesSlice";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -16,8 +16,8 @@ const Navbar = () => {
   const [openDropdowns, setOpenDropdowns] = useState<{ [key: number]: boolean }>({});
   const [language, setLanguage] = useState<string | null>("en")
   const router = useRouter()
-  const [userEmail, setUserEmail] = useState<string | null>(null);
-
+  const [userEmail, setUserEmail] = useState<string | null>(null); 
+  const {data:services} = useGetServicesQuery(undefined); 
 
   useEffect(() => {
     const storedEmail = localStorage.getItem("userEmail");
@@ -78,15 +78,13 @@ const Navbar = () => {
   const menuRef = useRef(null);
   const pathname = usePathname();
 
-  const category = {
-    data: [
-      { name: "Accessible Van Rentals", _id: "1" },
-      { name: "Custom Route Planning", _id: "2" },
-      { name: "Medical & Daily Transport", _id: "3" },
-      { name: "Tour & Travel Assistance", _id: "4" },
-      { name: "Corporate & Event Transport", _id: "5" },
-    ],
-  }
+
+const category = {
+  data: (services ?? []).map((item: { name: string; _id: string }) => ({
+    name: item.name,
+    _id: item._id,
+  })),
+};
 
   const navOptions = [
     { label: "Home", path: "/" },

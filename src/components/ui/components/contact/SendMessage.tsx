@@ -5,7 +5,7 @@ import { Form, Input } from "antd";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
   
-type errorType = {
+ export type errorType = {
     data: {
         errorMessages: { message: string }[];
         message: string;
@@ -51,7 +51,7 @@ const SendMessage = () => {
                     <TextInput name="email" label="Email" />
                     <TextInput name="phone" label="Phone Number" />
 
-                    <Form.Item label={<p className="text-[#4E4E4E] text-[16px]">Message</p>} rules={[
+                    <Form.Item name={"message"} label={<p className="text-[#4E4E4E] text-[16px]">Message</p>} rules={[
                         {
                             required: true,
                             message: `Please enter your ${"Message".toLowerCase()}`,

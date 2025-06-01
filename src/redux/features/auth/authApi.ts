@@ -1,14 +1,33 @@
+
 import { baseApi } from "../../base/baseApi";
 
 const authApi = baseApi.injectEndpoints({
-  endpoints: (build) => ({
+  endpoints: (build) => ({ 
+ 
+    registerUser: build.mutation({
+      query: (data) => ({
+        url: "/auth/signup",
+        method: "POST",
+        body: data,
+      }),
+    }),
+
     loginUser: build.mutation({
       query: (data) => ({
         url: "/auth/login",
         method: "POST",
         body: data,
       }),
+    }), 
+
+    // google Login  
+    googleLogin: build.mutation({  
+      query: () => ({ 
+        url: "/auth/google",
+        method: "GET",
+      }), 
     }),
+
     verifyEmail: build.mutation({
       query: (data) => ({
         url: "/auth/verify-email",
@@ -16,6 +35,7 @@ const authApi = baseApi.injectEndpoints({
         body: data,
       }),
     }),
+
     forgetPassword: build.mutation({
       query: (data) => ({
         url: "/auth/forget-password",
@@ -23,6 +43,7 @@ const authApi = baseApi.injectEndpoints({
         body: data,
       }),
     }),
+
     resetPassword: build.mutation({
       query: (data) => ({
         url: "/auth/reset-password",
@@ -34,6 +55,7 @@ const authApi = baseApi.injectEndpoints({
         },
       }),
     }),
+
     changePassword: build.mutation({
       query: (data) => ({
         url: "/auth/change-password",
@@ -41,13 +63,16 @@ const authApi = baseApi.injectEndpoints({
         body: data,
       }),
     }),
+
   }),
 });
 
-export const {
+export const { 
+  useRegisterUserMutation,
   useLoginUserMutation,
   useChangePasswordMutation,
   useForgetPasswordMutation,
   useResetPasswordMutation,
-  useVerifyEmailMutation,
+  useVerifyEmailMutation, 
+  useGoogleLoginMutation
 } = authApi;
