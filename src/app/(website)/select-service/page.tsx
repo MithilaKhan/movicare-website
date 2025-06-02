@@ -1,4 +1,4 @@
-import SelectServiceMainPage from '@/components/ui/components/select-service/SelectServiceMainPage';
+import SelectServiceMainPage from '@/components/ui/websitePages/select-service/SelectServiceMainPage';
 import React from 'react';
 
 const SelectServicePage = () => {

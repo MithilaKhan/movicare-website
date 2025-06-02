@@ -1,6 +1,6 @@
 import {  Form, Input, Modal } from 'antd';
 import React from 'react';
-import Calender from '../../components/select-service/SelectDate/Calender';
+import Calender from '../../websitePages/select-service/SelectDate/Calender';
 
 const RebookModal = ({open , setOpen}:{open:boolean, setOpen:(open:boolean)=>void}) => {
     return (

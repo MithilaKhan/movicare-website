@@ -22,7 +22,7 @@ const Navbar = () => {
   const {data:services} = useGetServicesQuery(undefined);  
  const userContextValue = useContext(userContext);
  const user = userContextValue?.user; 
- console.log("user in navbar", user);
+
 
   // for translate  
 

@@ -1,4 +1,4 @@
-import ServicesMainPage from '@/components/ui/components/services/ServicesMainPage';
+import ServicesMainPage from '@/components/ui/websitePages/services/ServicesMainPage';
 import React, { Suspense } from 'react';
 
 const ServicesPage = () => {

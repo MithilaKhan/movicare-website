@@ -1,4 +1,4 @@
-import HomeMain from '@/components/ui/components/home/HomeMain';
+import HomeMain from '@/components/ui/websitePages/home/HomeMain';
 import React from 'react';
 
 const HomePage = () => {

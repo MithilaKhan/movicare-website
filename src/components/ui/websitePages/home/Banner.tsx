@@ -1,12 +1,14 @@
+"use client";
 import { ConfigProvider, DatePicker, Input } from 'antd';
+import { useRouter } from 'next/navigation';
 import { BsCalendar4 } from 'react-icons/bs';
 import { GrLocationPin } from 'react-icons/gr';
 import { PiArrowBendUpRightBold } from 'react-icons/pi';
 import { SiRelay } from 'react-icons/si';
 
-const Banner = () => {
+const Banner = () => { 
 
-
+    const router = useRouter();
 
     return (
         <div className='w-full h-screen' style={{
@@ -97,7 +99,7 @@ const Banner = () => {
                             />
                         </ConfigProvider>
 
-                        <button className="text-[16px] lg:w-2/3 w-full  text-[#286A25] bg-white h-[48px] px-6 rounded-full font-medium flex items-center justify-center gap-2"> <span> Check Availability </span> <span> <PiArrowBendUpRightBold size={16} color='#286A25' />
+                        <button className="text-[16px] lg:w-2/3 w-full  text-[#286A25] bg-white h-[48px] px-6 rounded-full font-medium flex items-center justify-center gap-2" onClick={() => router.push('/select-service?step=1')}> <span> Check Availability </span> <span> <PiArrowBendUpRightBold size={16} color='#286A25' />
                         </span> </button>
 
                     </div>

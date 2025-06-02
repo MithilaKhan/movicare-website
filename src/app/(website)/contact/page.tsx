@@ -1,4 +1,4 @@
-import ContactMainPage from '@/components/ui/components/contact/ContactMainPage';
+import ContactMainPage from '@/components/ui/websitePages/contact/ContactMainPage';
 import React from 'react';
 
 const ContactPage = () => {

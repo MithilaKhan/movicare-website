@@ -2,18 +2,18 @@
 import { Form, Select } from "antd";
 import { useState } from "react";
 import PriceDetails from "../PriceDetails";
+import { useGetServicesQuery } from "@/redux/features/others/services/servicesSlice";
 
 const SelectServiceStep = ({ next }: { next: () => void }) => {
     const [form] = Form.useForm();
-    const [isServiceSelected, setIsServiceSelected] = useState(false);
+    const [isServiceSelected, setIsServiceSelected] = useState(false);  
+    const {data:allServices} = useGetServicesQuery(undefined);   
+    console.log("allServices", allServices); 
 
-    const servicesOption = [
-        { value: "Accessible Van Rentals", label: "Accessible Van Rentals" },
-        { value: "Custom Route Planning", label: "Custom Route Planning" },
-        { value: "Medical & Daily Transport", label: "Medical & Daily Transport" },
-        { value: "Tour & Travel Assistance", label: "Tour & Travel Assistance" },
-        { value: "Corporate & Event Transport", label: "Corporate & Event Transport" },
-    ];
+    const servicesOption = allServices?.map((service) => ({
+        value: service.name,
+        label: service.name,
+    })) || [];
 
     const onValuesChange = (allValues: { service: string }) => {
         setIsServiceSelected(!!allValues.service);

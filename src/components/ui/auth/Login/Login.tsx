@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { toast } from "react-toastify";
-import { errorType } from "../../components/contact/SendMessage";
+import { errorType } from "../../websitePages/contact/SendMessage";
 import Cookies from 'js-cookie';
 
 const Login = () => {

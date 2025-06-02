@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react"
 // import OTPInput from "react-otp-input"; 
 import { toast } from "react-toastify";
-import { errorType } from "../../components/contact/SendMessage";
+import { errorType } from "../../websitePages/contact/SendMessage";
 import {  SetLocalStorage } from "@/util/LocalStroage";
 
 const { Text } = Typography;

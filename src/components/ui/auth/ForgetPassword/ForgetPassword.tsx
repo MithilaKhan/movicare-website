@@ -4,7 +4,7 @@ import { Form, Input } from "antd";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { errorType } from "../../components/contact/SendMessage";
+import { errorType } from "../../websitePages/contact/SendMessage";
 
 const ForgetPassword = () => {
   const router = useRouter()

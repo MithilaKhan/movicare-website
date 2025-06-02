@@ -3,7 +3,7 @@ import { useResetPasswordMutation } from "@/redux/features/auth/authApi";
 import { Form, Input } from "antd";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
-import { errorType } from "../../components/contact/SendMessage";
+import { errorType } from "../../websitePages/contact/SendMessage";
 import { toast } from "react-toastify";
 
 const ResetPassword = () => {

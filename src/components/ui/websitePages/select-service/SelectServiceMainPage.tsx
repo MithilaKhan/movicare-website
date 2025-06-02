@@ -1,24 +1,27 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Steps } from 'antd';
 import SelectServiceStep from './SelectServiceStep/SelectServiceStep';
 import SelectLocation from './SelectLocationStep/SelectLocation';
 import SelectDate from './SelectDate/SelectDate';
 import RideOption from './RideOption/RideOption';
 import ReviewCheckOut from './ReviewCheckOut/ReviewCheckOut';
+import { useRouter } from 'next/navigation';
 
 const SelectServiceMainPage = () => {
+    const router = useRouter();
+    const searchParams = new URLSearchParams();
 
-    const [current, setCurrent] = useState(0);
+    const stepFromUrl = Number(searchParams.get('step')) || 0;
+    const [current, setCurrent] = useState(stepFromUrl);
 
-    const next = () => {
-        setCurrent(current + 1);
-    };
+    useEffect(() => {
+        router.replace(`?step=${current}`);
+    }, [current, router]);
 
-    const prev = () => {
-        setCurrent(current - 1);
-    };
+    const next = () => setCurrent((prev) => Math.min(prev + 1, steps.length - 1));
+    const prev = () => setCurrent((prev) => Math.max(prev - 1, 0));
 
 
     const steps = [
@@ -44,13 +47,18 @@ const SelectServiceMainPage = () => {
         },
     ];
 
-    const items = steps.map((item) => ({ key: item.title, title: item.title }));
+    const items = steps.map((item, index: number) => ({
+        key: index,
+        title: item.title
+    }));
 
     return (
         <div className='w-full lg:pt-[180px] pt-32 bg-[#f7f8f7] min-h-screen'>
             <div className='container'>
 
-                <Steps current={current} items={items} labelPlacement="vertical" style={{ width: '100%' }} size="small" className='steps' />
+                <Steps
+                    current={current}
+                    items={items} labelPlacement="vertical" style={{ width: '100%' }} size="small" className='steps' />
                 <div  >{steps[current].content}</div>
 
 
