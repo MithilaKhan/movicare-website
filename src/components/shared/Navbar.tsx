@@ -1,6 +1,6 @@
 "use client"
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import { HiChevronDown, HiOutlineMenuAlt3 } from "react-icons/hi";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -8,6 +8,9 @@ import Cookies from "js-cookie";
 import NavbarMobile from "./NavbarMobile";
 import Image from "next/image";
 import { useGetServicesQuery } from "@/redux/features/others/services/servicesSlice";
+import { userContext } from "@/helpers/UserProvider";
+import { imageUrl } from "@/redux/base/baseApi";
+
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -16,14 +19,10 @@ const Navbar = () => {
   const [openDropdowns, setOpenDropdowns] = useState<{ [key: number]: boolean }>({});
   const [language, setLanguage] = useState<string | null>("en")
   const router = useRouter()
-  const [userEmail, setUserEmail] = useState<string | null>(null); 
-  const {data:services} = useGetServicesQuery(undefined); 
-
-  useEffect(() => {
-    const storedEmail = localStorage.getItem("userEmail");
-    setUserEmail(storedEmail);
-
-  }, []);
+  const {data:services} = useGetServicesQuery(undefined);  
+ const userContextValue = useContext(userContext);
+ const user = userContextValue?.user; 
+ console.log("user in navbar", user);
 
   // for translate  
 
@@ -215,19 +214,19 @@ const category = {
           {/* Right Icons */}
           <div className="nav-icons lg:flex items-center gap-x-4  hidden ">
             {
-              userEmail ? <Link
+              user ? <Link
                 href="/account-information"
                 className="flex items-center gap-2 h-[55px] px-2 rounded-md cursor-pointer  transition"
               >
                 <Image
-                  src="/user1.jpg"
+                  src={user?.image?.startsWith("http") ? user?.image : `${imageUrl}${user?.image}`}
                   alt={'User Profile'}
                   width={44}
                   height={44}
                   className="rounded-full"
                 />
                 <h2 className={` text-[16px] font-medium ${ pathname === "/services" ? "text-white": "text-content1"}`}>
-                  mithila
+                  {user?.name}
                 </h2>
               </Link> :
                 <Link href="/login">

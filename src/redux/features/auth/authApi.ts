@@ -1,10 +1,21 @@
-
 import { GetLocalStorage } from "@/util/LocalStroage";
 import { baseApi } from "../../base/baseApi";
 
+export type UserType = {
+  _id: string;
+  name: string;
+  role: string;
+  email: string;
+  password: string;
+  image: string;
+  status: string;
+  verified: boolean;
+};
+const resetToken = GetLocalStorage("resetToken")
+
 const authApi = baseApi.injectEndpoints({
-  endpoints: (build) => ({ 
- 
+  endpoints: (build) => ({
+
     registerUser: build.mutation({
       query: (data) => ({
         url: "/auth/signup",
@@ -19,14 +30,14 @@ const authApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
-    }), 
+    }),
 
     // google Login  
-    googleLogin: build.mutation({  
-      query: () => ({ 
+    googleLogin: build.mutation({
+      query: () => ({
         url: "/auth/google",
         method: "GET",
-      }), 
+      }),
     }),
 
     verifyEmail: build.mutation({
@@ -51,7 +62,7 @@ const authApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
         headers: {
-          Authorization: `${GetLocalStorage("ResetToken")}`,
+          authorization: `${resetToken}`,
         },
       }),
     }),
@@ -62,25 +73,25 @@ const authApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
-    }), 
+    }),
 
     getProfile: build.query({
       query: () => ({
         url: "/user/profile",
-      }), 
-      
-    }), 
+      }),
+      transformResponse: (res: { data: UserType }) => res.data,
+    }),
 
   }),
 });
 
-export const { 
+export const {
   useRegisterUserMutation,
   useLoginUserMutation,
   useChangePasswordMutation,
   useForgetPasswordMutation,
   useResetPasswordMutation,
-  useVerifyEmailMutation, 
-  useGoogleLoginMutation , 
+  useVerifyEmailMutation,
+  useGoogleLoginMutation,
   useGetProfileQuery
 } = authApi;

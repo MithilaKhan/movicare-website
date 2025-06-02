@@ -8,7 +8,8 @@ export const baseApi = createApi({
     baseUrl: "http://10.0.70.146:5001/api/v1", 
       // baseUrl: "http://10.0.70.208:5002/api/v1" ,
     prepareHeaders: (headers) => {
-      const token = Cookies.get("accessToken");
+      const token = Cookies.get("accessToken"); 
+      console.log("Token from cookies:", token);
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }

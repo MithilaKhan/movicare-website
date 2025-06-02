@@ -5,6 +5,7 @@ import { Plus_Jakarta_Sans } from 'next/font/google';
 import Script from "next/script";
 import ReduxProvider from "@/redux/lib/ReduxProvider";
 import { ToastContainer } from "react-toastify";
+import { UserProvider } from "@/helpers/UserProvider";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -60,10 +61,12 @@ export default function RootLayout({
         className={`antialiased`}
       > 
        <ReduxProvider> 
-        <AntdRegistry>
+        <AntdRegistry> 
+          <UserProvider> 
           <div id="google_translate_element" /> 
            <ToastContainer position="top-center" autoClose={3000} />
           {children}
+          </UserProvider>
         </AntdRegistry> 
         </ReduxProvider>
       </body>

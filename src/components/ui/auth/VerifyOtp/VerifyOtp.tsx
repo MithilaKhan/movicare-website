@@ -6,14 +6,14 @@ import React, { useEffect, useState } from "react"
 // import OTPInput from "react-otp-input"; 
 import { toast } from "react-toastify";
 import { errorType } from "../../components/contact/SendMessage";
-import { GetLocalStorage, SetLocalStorage } from "@/util/LocalStroage";
+import {  SetLocalStorage } from "@/util/LocalStroage";
 
 const { Text } = Typography;
 
 const VerifyOtp = () => {
   const router = useRouter()
-  const [email, setEmail] = useState<string | null>(null); 
-  const [form] = Form.useForm(); 
+  const [email, setEmail] = useState<string | null>(null);
+  const [form] = Form.useForm();
   const [verifyEmail, {
     isLoading,
     isSuccess: isVerifySuccess,
@@ -27,41 +27,48 @@ const VerifyOtp = () => {
     isError: isForgetError,
     error: forgetError,
     data: forgetData
-  }] = useForgetPasswordMutation();
-  const userType = GetLocalStorage("userType")
+  }] = useForgetPasswordMutation(); 
+
+  const userType = localStorage.getItem("userType") 
+
 
   useEffect(() => {
     const emailFromQuery = new URLSearchParams(window.location.search).get('email');
     setEmail(emailFromQuery);
   }, []);
 
-useEffect(() => {
-  if (isVerifySuccess) {
-    toast.success(verifyData?.message);
-    SetLocalStorage("resetToken", verifyData?.data || "");
-    router.push(userType === "register" ? "/login" : userType === "forget" ? "/reset-password" : "" );  
-  }
-  if (isVerifyError) {
-    const errorMessage =
-      (verifyError as errorType)?.data?.errorMessages?.map((msg: { message: string }) => msg.message).join("\n") ||
-      (verifyError as errorType)?.data?.message ||
-      "Something went wrong. Please try again.";
-    toast.error(errorMessage);
-  }
-}, [isVerifySuccess, isVerifyError, verifyError, verifyData, router, userType]);
+  useEffect(() => {
+    if (isVerifySuccess) {
+      toast.success(verifyData?.message);
+      if (userType === "register") {
+        router.push("/login")
+      } else {
+        SetLocalStorage("resetToken", verifyData?.data || "");
+        router.push("/reset-password")
+      }
+      form.resetFields();
+    }
+    if (isVerifyError) {
+      const errorMessage =
+        (verifyError as errorType)?.data?.errorMessages?.map((msg: { message: string }) => msg.message).join("\n") ||
+        (verifyError as errorType)?.data?.message ||
+        "Something went wrong. Please try again.";
+      toast.error(errorMessage);
+    }
+  }, [isVerifySuccess, isVerifyError, verifyError, verifyData, router, userType , form]);
 
-useEffect(() => {
-  if (isForgetSuccess) {
-    toast.success(forgetData?.message);
-  }
-  if (isForgetError) {
-    const errorMessage =
-      (forgetError as errorType)?.data?.errorMessages?.map((msg: { message: string }) => msg.message).join("\n") ||
-      (forgetError as errorType)?.data?.message ||
-      "Something went wrong. Please try again.";
-    toast.error(errorMessage);
-  }
-}, [isForgetSuccess, isForgetError, forgetError, forgetData]);
+  useEffect(() => {
+    if (isForgetSuccess) {
+      toast.success(forgetData?.message);
+    }
+    if (isForgetError) {
+      const errorMessage =
+        (forgetError as errorType)?.data?.errorMessages?.map((msg: { message: string }) => msg.message).join("\n") ||
+        (forgetError as errorType)?.data?.message ||
+        "Something went wrong. Please try again.";
+      toast.error(errorMessage);
+    }
+  }, [isForgetSuccess, isForgetError, forgetError, forgetData]);
 
 
   const onFinish = async (values: { otp: string }) => {
@@ -73,7 +80,7 @@ useEffect(() => {
 
     await verifyEmail(data).then((res) => {
       console.log(res);
-    }); 
+    });
 
     // form.resetFields(); 
 

@@ -14,9 +14,8 @@ const ResetPassword = () => {
   useEffect(() => {
     if (isSuccess) {
       toast.success(data?.message);
-      localStorage.removeItem("resetToken");
-      form.resetFields();
       router.push(`/login`);
+      localStorage.removeItem("resetToken");
     }
 
     if (isError) {
@@ -109,7 +108,6 @@ const ResetPassword = () => {
 
         <Form.Item>
           <button
-
             type="submit"
             style={{
               width: '100%',
@@ -117,7 +115,6 @@ const ResetPassword = () => {
               color: "white",
               fontWeight: "400px",
               fontSize: "18px",
-
               marginTop: 10
             }}
             className="flex items-center justify-center bg-primary rounded-full"
@@ -125,9 +122,6 @@ const ResetPassword = () => {
             {isLoading ? "Updating..." : "Update Password"}
           </button>
         </Form.Item>
-
-
-
       </Form>
 
 

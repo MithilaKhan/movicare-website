@@ -3,6 +3,10 @@ import { IoCloseSharp } from "react-icons/io5";
 import { Drawer } from 'antd';
 import { HiChevronDown } from "react-icons/hi";
 import Link from "next/link";
+import { useContext } from "react";
+import { userContext } from "@/helpers/UserProvider";
+import Image from "next/image";
+import { imageUrl } from "@/redux/base/baseApi";
 
 const NavbarMobile = ({ toggleDropdown, drawerVisible, openDropdowns, navOptions, setDrawerVisible, pathname, handleServiceClick }: {
     toggleDropdown: (index: number) => void,
@@ -16,7 +20,8 @@ const NavbarMobile = ({ toggleDropdown, drawerVisible, openDropdowns, navOptions
     handleServiceClick: (id: string) => void
 }) => {
 
-
+    const userContextValue = useContext(userContext);
+    const user = userContextValue?.user;
     return (
         <Drawer
             title={
@@ -35,7 +40,7 @@ const NavbarMobile = ({ toggleDropdown, drawerVisible, openDropdowns, navOptions
         >
             <div className="flex flex-col ">
                 <div className=" flex flex-col ">
-                    {navOptions.map((option:{ label: string, path?: string, subOptions?: { label: string, value: string }[] | undefined}, index:number) => {
+                    {navOptions.map((option: { label: string, path?: string, subOptions?: { label: string, value: string }[] | undefined }, index: number) => {
                         const isActive = pathname === option.path;
                         const isDropdown = !!option.subOptions;
                         const isOpen = openDropdowns[index]; // Check if this dropdown is open
@@ -68,7 +73,7 @@ const NavbarMobile = ({ toggleDropdown, drawerVisible, openDropdowns, navOptions
                         }
 
                         return (
-                            <Link key={index}  href={option.path ?? "/"} onClick={() => setDrawerVisible(false)}>
+                            <Link key={index} href={option.path ?? "/"} onClick={() => setDrawerVisible(false)}>
                                 <div className={`py-3 px-4 text-2xl font-light cursor-pointer border-b border-[#4E4E4E] pb-6 ${isActive ? "text-[#FFFFFF]" : "text-[#FFFFFF]/60"}`}>
                                     {option.label}
                                 </div>
@@ -77,14 +82,34 @@ const NavbarMobile = ({ toggleDropdown, drawerVisible, openDropdowns, navOptions
                     })}
                 </div>
 
-                <div className=" absolute bottom-4  ">
-                    <div className="w-[300px]">
+                <div className=" absolute bottom-6  w-[90%]">
+                    <div className="w-full">
 
-                        <button className={`text-[14px] py-3 w-full   rounded-full  font-medium text-[#070707] bg-white `}>Reserve Your Ride</button>
+                        <button className={`text-[14px] py-3 w-full mb-4   rounded-full  font-medium text-[#070707] bg-white `}>Reserve Your Ride</button>
+                        {
+                            user ? (
+                                <Link
+                                    href="/account-information"
+                                    className="flex items-center justify-center gap-2 h-[48px] px-2  cursor-pointer  transition border border-white rounded-full"
+                                >
+                                    <Image
+                                        src={user?.image?.startsWith("http") ? user?.image : `${imageUrl}${user?.image}`}
+                                        alt={'User Profile'}
+                                        width={40}
+                                        height={40}
+                                        className="rounded-full"
+                                    />
+                                    <h2 className={` text-[16px] font-medium text-white text-center  `}>
+                                        {user?.name}
+                                    </h2>
+                                </Link>
+                            ) : (
+                                <Link href="/login">
+                                    <p className=" text-[16px] font-normal text-white text-center mt-3">Login</p>
+                                </Link>
+                            )
+                        }
 
-                        <Link href="/login">
-                            <p className=" text-[16px] font-normal text-white text-center mt-5">Login</p>
-                        </Link>
 
                     </div>
                 </div>
