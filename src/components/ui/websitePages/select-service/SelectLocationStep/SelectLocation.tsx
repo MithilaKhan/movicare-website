@@ -4,11 +4,30 @@ import PriceDetails from "../PriceDetails";
 import { Form, Input } from "antd";
 import { IoIosArrowBack } from "react-icons/io";
 import { MdOutlineMyLocation } from "react-icons/md";
-import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  Marker,
+  useJsApiLoader,
+} from "@react-google-maps/api";
 
 const SelectLocation = ({ next, prev }: { next: () => void; prev: () => void }) => {
   const [form] = Form.useForm();
   const [isSelected, setIsSelected] = useState(false);
+
+  const [map, setMap] = useState<google.maps.Map | null>(null);
+  const [viewport, setViewport] = useState({
+    latitude: 37.7749,
+    longitude: -122.4194,
+    zoom: 10,
+  });
+
+  const [pickUpMarker, setPickUpMarker] = useState<google.maps.LatLngLiteral | null>(null);
+  const [dropOffMarker, setDropOffMarker] = useState<google.maps.LatLngLiteral | null>(null);
+
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
+    libraries: ["places"],
+  });
 
   const onValuesChange = () => {
     const values = form.getFieldsValue();
@@ -19,19 +38,6 @@ const SelectLocation = ({ next, prev }: { next: () => void; prev: () => void }) 
     next();
   };
 
-  const [viewport, setViewport] = useState({
-    latitude: 37.7749, // Default to San Francisco
-    longitude: -122.4194,
-    zoom: 10,
-  });
-
-  const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY || "" , 
-  });
-
-  const [map, setMap] = useState<google.maps.Map | null>(null); 
-  console.log(map);
-
   const onLoad = (mapInstance: google.maps.Map) => {
     setMap(mapInstance);
   };
@@ -40,13 +46,28 @@ const SelectLocation = ({ next, prev }: { next: () => void; prev: () => void }) 
     setMap(null);
   };
 
-  const handleGetLocation = () => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      setViewport({
-        ...viewport,
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-      });
+  const geocodeCity = (city: string, type: "pickup" | "dropoff") => {
+    if (!window.google) return;
+    const geocoder = new window.google.maps.Geocoder();
+    geocoder.geocode({ address: city }, (results, status) => {
+      if (status === "OK" && results && results[0]) {
+        const location = results[0].geometry.location;
+        const latLng = {
+          lat: location.lat(),
+          lng: location.lng(),
+        };
+        setViewport({ ...viewport, latitude: latLng.lat, longitude: latLng.lng });
+
+        if (type === "pickup") {
+          setPickUpMarker(latLng);
+        } else {
+          setDropOffMarker(latLng);
+        }
+
+        map?.panTo(latLng);
+      } else {
+        console.error("Geocoding failed:", status);
+      }
     });
   };
 
@@ -58,7 +79,6 @@ const SelectLocation = ({ next, prev }: { next: () => void; prev: () => void }) 
           form={form}
           onFinish={onFinish}
           onValuesChange={onValuesChange}
-          className="w-full h-auto"
         >
           <div className="flex items-center gap-1 pb-6">
             <span onClick={() => prev()}>
@@ -78,7 +98,14 @@ const SelectLocation = ({ next, prev }: { next: () => void; prev: () => void }) 
             <Input
               placeholder="Pick Up City"
               style={{ height: 48 }}
-              suffix={<MdOutlineMyLocation size={20} color="#286a25" onClick={handleGetLocation} className="cursor-pointer" />}
+              suffix={
+                <MdOutlineMyLocation
+                  size={20}
+                  color="#286a25"
+                  onClick={() => geocodeCity(form.getFieldValue("pickUpCity"), "pickup")}
+                  className="cursor-pointer"
+                />
+              }
             />
           </Form.Item>
 
@@ -91,7 +118,14 @@ const SelectLocation = ({ next, prev }: { next: () => void; prev: () => void }) 
             <Input
               placeholder="Drop-off city"
               style={{ height: 48 }}
-              suffix={<MdOutlineMyLocation size={20} color="#286a25" />}
+              suffix={
+                <MdOutlineMyLocation
+                  size={20}
+                  color="#286a25"
+                  onClick={() => geocodeCity(form.getFieldValue("dropOffCity"), "dropoff")}
+                  className="cursor-pointer"
+                />
+              }
             />
           </Form.Item>
 
@@ -108,7 +142,6 @@ const SelectLocation = ({ next, prev }: { next: () => void; prev: () => void }) 
           </Form.Item>
         </Form>
 
-        {/* Map Display */}
         {isLoaded && (
           <div className="mt-6" style={{ height: "350px", borderRadius: "10px", overflow: "hidden" }}>
             <GoogleMap
@@ -118,19 +151,29 @@ const SelectLocation = ({ next, prev }: { next: () => void; prev: () => void }) 
               onUnmount={onUnmount}
               mapContainerStyle={{ width: "100%", height: "100%" }}
             >
-              <Marker
-                position={{ lat: viewport.latitude, lng: viewport.longitude }}
-                icon={{
-                  url: "/marker.png", // make sure this exists in your public folder
-                  scaledSize: new google.maps.Size(25, 30),
-                }}
-              />
+              {pickUpMarker && (
+                <Marker
+                  position={pickUpMarker}
+                  icon={{
+                    url: "/img1.png",
+                    scaledSize: new google.maps.Size(25, 20),
+                  }}
+                />
+              )}
+              {dropOffMarker && (
+                <Marker
+                  position={dropOffMarker}
+                  icon={{
+                    url: "/img2.png",
+                    scaledSize: new google.maps.Size(25, 20),
+                  }}
+                />
+              )}
             </GoogleMap>
           </div>
         )}
       </div>
 
-      {/* Price Details Panel */}
       <div className="lg:w-1/4 w-full">
         <PriceDetails />
       </div>

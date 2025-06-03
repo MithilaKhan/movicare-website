@@ -3,23 +3,26 @@ import { Form, Select } from "antd";
 import { useState } from "react";
 import PriceDetails from "../PriceDetails";
 import { useGetServicesQuery } from "@/redux/features/others/services/servicesSlice";
+import { BookingDetails } from "../SelectServiceMainPage";
 
-const SelectServiceStep = ({ next }: { next: () => void }) => {
+const SelectServiceStep = ({ next , updateFormData }: { next: () => void  , updateFormData: (newData: Partial<BookingDetails>) => void}) => {
     const [form] = Form.useForm();
     const [isServiceSelected, setIsServiceSelected] = useState(false);  
     const {data:allServices} = useGetServicesQuery(undefined);   
     console.log("allServices", allServices); 
 
     const servicesOption = allServices?.map((service) => ({
-        value: service.name,
+        value: service._id,
         label: service.name,
     })) || [];
 
     const onValuesChange = (allValues: { service: string }) => {
-        setIsServiceSelected(!!allValues.service);
+        setIsServiceSelected(!!allValues.service); 
+      
     };
 
-    const onFinish = () => {
+    const onFinish = (values:{service:string}) => { 
+           updateFormData({ service: values.service });
         next();
     };
 

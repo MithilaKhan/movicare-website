@@ -7,7 +7,28 @@ import SelectLocation from './SelectLocationStep/SelectLocation';
 import SelectDate from './SelectDate/SelectDate';
 import RideOption from './RideOption/RideOption';
 import ReviewCheckOut from './ReviewCheckOut/ReviewCheckOut';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation'; 
+
+export type BookingDetails = {
+  service: string | null; 
+  provider: string | null;
+  date: string | null;
+  pickup_location: string;
+  dropoff_location: string;
+  total_amount: number;
+  base_fare: number;
+  service_charge: number;
+  additional_travelerse_fee: number;
+  kids: number;
+  adults: number;
+  tax: number;
+  additional_info: string;
+  total_price: number;
+  distance: number;
+  duration: number;
+  time: string;
+}; 
+
 
 const SelectServiceMainPage = () => {
     const router = useRouter();
@@ -15,10 +36,35 @@ const SelectServiceMainPage = () => {
 
     const stepFromUrl = Number(searchParams.get('step')) || 0;
     const [current, setCurrent] = useState(stepFromUrl);
+    const [formData, setFormData] = useState<BookingDetails>({
+        service: null,
+        provider: null,
+        date: null,
+        pickup_location: '',
+        dropoff_location: '',
+        total_amount: 0,
+        base_fare: 0,
+        service_charge: 0,
+        additional_travelerse_fee: 0,
+        kids: 0,
+        adults: 0,
+        tax: 0,
+        additional_info: '',
+        total_price: 0,
+        distance: 0,
+        duration: 0,
+        time: '',
+    });
+
+    const updateFormData = (newData: Partial<typeof formData>) => {
+        setFormData((prev) => ({ ...prev, ...newData }));
+    }; 
+
+    console.log("formData", formData);
 
     useEffect(() => {
         router.replace(`?step=${current}`);
-    }, [current, router]);
+    }, [current, router]);  
 
     const next = () => setCurrent((prev) => Math.min(prev + 1, steps.length - 1));
     const prev = () => setCurrent((prev) => Math.max(prev - 1, 0));
@@ -27,11 +73,11 @@ const SelectServiceMainPage = () => {
     const steps = [
         {
             title: <p className='text-[14px]'>Select Service</p>,
-            content: <SelectServiceStep next={next} />,
+            content: <SelectServiceStep next={next} updateFormData={updateFormData} />,
         },
         {
             title: <p className='text-[14px]'>Select Locations</p>,
-            content: <SelectLocation next={next} prev={prev} />,
+            content: <SelectLocation next={next} prev={prev} updateFormData={updateFormData} />,
         },
         {
             title: <p className='text-[14px] w-full'>Select Date & Travelers</p>,

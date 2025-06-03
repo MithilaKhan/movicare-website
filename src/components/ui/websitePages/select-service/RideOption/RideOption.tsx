@@ -8,61 +8,36 @@ import { FiEdit3 } from "react-icons/fi";
 import { MdOutlineMyLocation } from "react-icons/md";
 import Image from "next/image";
 import { BsPatchCheckFill } from "react-icons/bs";
-
-interface CarService {
-    id: string;
-    title: string;
-    description: string;
-    price: number;
-    features: string[];
-    image: string;
-}
-
-const carServices: CarService[] = [
-    {
-        id: "economy",
-        title: "Economy Class",
-        description: "Affordable comfort for budget-conscious travelers",
-        price: 120,
-        features: [
-            "A/C and bottled water included",
-            "Comfortable seating for a smooth ride",
-            "Experienced and friendly driver",
-        ],
-        image: "/class.svg",
-    },
-    {
-        id: "vip",
-        title: "Vip Class",
-        description: "Luxury and extra comfort for premium travelers",
-        price: 180,
-        features: [
-            "Personalized assistance from trained staff",
-            "Complimentary Wi-Fi and refreshments",
-            "Experienced and friendly driver",
-        ],
-        image: "/class.svg",
-    },
-];
+import { useGetProviderByIdQuery, useGetServicesQuery } from "@/redux/features/others/services/servicesSlice";
 
 const RideOption = ({ next, prev }: { next: () => void; prev: () => void }) => {
     const [form] = Form.useForm();
     const [selectedService, setSelectedService] = useState<string | null>(null);
+    const [serviceId, setServiceId] = useState<string | null>(null);
     const [formValid, setFormValid] = useState(false);
+    const { data: allServices } = useGetServicesQuery(undefined);
+    const { data: allProviderServices } = useGetProviderByIdQuery(serviceId || ""); 
+    console.log("allProviderServices", allProviderServices);
 
-    const servicesOption = [
-        { value: "Accessible Van Rentals", label: "Accessible Van Rentals" },
-        { value: "Custom Route Planning", label: "Custom Route Planning" },
-        { value: "Medical & Daily Transport", label: "Medical & Daily Transport" },
-        { value: "Tour & Travel Assistance", label: "Tour & Travel Assistance" },
-        { value: "Corporate & Event Transport", label: "Corporate & Event Transport" },
-    ];
+    const servicesOption = allServices?.map((service) => ({
+        value: service._id,
+        label: service.name,
+    })) || [];
+
+    const carServices = allProviderServices?.map((service) => ({
+        id: service._id,
+        title: service.name,
+        description: service.description,
+        price: service.price,
+        features: service.facilities,
+        image:"/class.svg",
+    })) || [];
 
     const handleSelect = async (id: string) => {
         const values = await form.validateFields().catch(() => null);
         if (values) {
             setSelectedService(id);
-            next(); // proceed only when form is valid and a service is selected
+            next();
         }
     };
 
@@ -105,6 +80,7 @@ const RideOption = ({ next, prev }: { next: () => void; prev: () => void }) => {
                                 className="w-full rounded-lg p-2"
                                 style={{ height: 45 }}
                                 options={servicesOption}
+                                onChange={(value) => setServiceId(value)}
                                 suffixIcon={<FiEdit3 size={20} color="#286a25" />}
                             />
                         </Form.Item>

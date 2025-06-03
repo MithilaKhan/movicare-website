@@ -11,7 +11,35 @@ export interface Service {
   price_per_km: number;
   price_per_hour: number;
   taxs: number;
-} 
+}  
+
+type ProviderService = {
+  _id: string;
+  name: string;
+  description: string;
+  image: string;
+  adults_price: number;
+  kids_price: number;
+  service_price: number;
+  price_per_km: number;
+  price_per_hour: number;
+  taxs: number;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+};
+
+type ProviderData = {
+  _id: string;
+  name: string;
+  description: string;
+  image: string;
+  facilities: string[];
+  price: number;
+  service: ProviderService;
+  status: string;
+  __v: number;
+}; 
 
 
 const servicesSlice = baseApi.injectEndpoints({
@@ -31,10 +59,17 @@ const servicesSlice = baseApi.injectEndpoints({
         url: `/service/${id}`,
       }),
       transformResponse: (response: { data: Service }) => response.data,
+    }),  
+
+    getProviderById: build.query({
+      query: (id) => ({
+        url: `/provider/${id}`,
+      }),
+      transformResponse: (response: { data: ProviderData[] }) => response.data,
     }), 
 
 
   }),
 }); 
 
-export const {useGetServicesQuery , useGetServiceByIdQuery} = servicesSlice;
+export const {useGetServicesQuery , useGetServiceByIdQuery , useGetProviderByIdQuery} = servicesSlice;
