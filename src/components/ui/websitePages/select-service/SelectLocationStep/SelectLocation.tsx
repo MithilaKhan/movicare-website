@@ -9,8 +9,9 @@ import {
   Marker,
   useJsApiLoader,
 } from "@react-google-maps/api";
+import { BookingDetails } from "../SelectServiceMainPage";
 
-const SelectLocation = ({ next, prev }: { next: () => void; prev: () => void }) => {
+const SelectLocation = ({ next,prev,updateFormData }: { next: () => void; prev: () => void ; updateFormData: (newData: Partial<BookingDetails>) => void}) => {
   const [form] = Form.useForm();
   const [isSelected, setIsSelected] = useState(false);
 
@@ -34,7 +35,11 @@ const SelectLocation = ({ next, prev }: { next: () => void; prev: () => void }) 
     setIsSelected(!!values.pickUpCity && !!values.dropOffCity);
   };
 
-  const onFinish = () => {
+  const onFinish = (values: { pickUpCity: string; dropOffCity: string }) => { 
+    updateFormData({
+      pickup_location: values.pickUpCity,
+      dropoff_location: values.dropOffCity,
+    });
     next();
   };
 
