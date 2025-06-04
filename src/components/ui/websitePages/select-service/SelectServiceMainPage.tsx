@@ -15,7 +15,6 @@ export type BookingDetails = {
   date: string | null;
   pickup_location: string;
   dropoff_location: string;
-  total_amount: number;
   base_fare: number;
   service_charge: number;
   additional_travelerse_fee: number;
@@ -26,7 +25,6 @@ export type BookingDetails = {
   total_price: number;
   distance: number;
   duration: number;
-  time: string;
 }; 
 
 
@@ -42,7 +40,6 @@ const SelectServiceMainPage = () => {
         date: null,
         pickup_location: '',
         dropoff_location: '',
-        total_amount: 0,
         base_fare: 0,
         service_charge: 0,
         additional_travelerse_fee: 0,
@@ -53,7 +50,6 @@ const SelectServiceMainPage = () => {
         total_price: 0,
         distance: 0,
         duration: 0,
-        time: '',
     });
 
     const updateFormData = (newData: Partial<typeof formData>) => {
@@ -73,23 +69,23 @@ const SelectServiceMainPage = () => {
     const steps = [
         {
             title: <p className='text-[14px]'>Select Service</p>,
-            content: <SelectServiceStep next={next} updateFormData={updateFormData} />,
+            content: <SelectServiceStep next={next} updateFormData={updateFormData} formData={formData} />,
         },
         {
             title: <p className='text-[14px]'>Select Locations</p>,
-            content: <SelectLocation next={next} prev={prev} updateFormData={updateFormData} />,
+            content: <SelectLocation next={next} prev={prev} updateFormData={updateFormData} formData={formData} />,
         },
         {
             title: <p className='text-[14px] w-full'>Select Date & Travelers</p>,
-            content: <SelectDate next={next} prev={prev} />,
+            content: <SelectDate next={next} prev={prev}  updateFormData={updateFormData} formData={formData} />,
         },
         {
             title: <p className='text-[14px] w-full'>Select Ride Option </p>,
-            content: <RideOption next={next} prev={prev} />,
+            content: <RideOption next={next} prev={prev} formData={formData} updateFormData={updateFormData} />,
         },
         {
             title: <p className='text-[14px] w-full'>Review & Checkout</p>,
-            content: <ReviewCheckOut prev={prev} />,
+            content: <ReviewCheckOut prev={prev} formData={formData}  />,
         },
     ];
 

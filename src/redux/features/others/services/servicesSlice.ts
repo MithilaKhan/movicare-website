@@ -10,7 +10,8 @@ export interface Service {
   service_price: number;
   price_per_km: number;
   price_per_hour: number;
-  taxs: number;
+  taxs: number; 
+  fixed_price : number;
 }  
 
 type ProviderService = {

@@ -3,21 +3,24 @@ import { DatePicker, Form, Input, Select } from "antd";
 import PriceDetails from "../PriceDetails";
 import 'react-calendar/dist/Calendar.css';
 import { IoIosArrowBack } from "react-icons/io";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiEdit3 } from "react-icons/fi";
 import { MdOutlineMyLocation } from "react-icons/md";
 import Image from "next/image";
 import { BsPatchCheckFill } from "react-icons/bs";
-import { useGetProviderByIdQuery, useGetServicesQuery } from "@/redux/features/others/services/servicesSlice";
+import { useGetProviderByIdQuery, useGetServiceByIdQuery, useGetServicesQuery } from "@/redux/features/others/services/servicesSlice";
+import { BookingDetails } from "../SelectServiceMainPage";
+import moment from "moment";
 
-const RideOption = ({ next, prev }: { next: () => void; prev: () => void }) => {
+const RideOption = ({ next, prev, updateFormData, formData }: { next: () => void; prev: () => void; updateFormData: (newData: Partial<BookingDetails>) => void, formData: BookingDetails }) => {
     const [form] = Form.useForm();
     const [selectedService, setSelectedService] = useState<string | null>(null);
     const [serviceId, setServiceId] = useState<string | null>(null);
     const [formValid, setFormValid] = useState(false);
     const { data: allServices } = useGetServicesQuery(undefined);
-    const { data: allProviderServices } = useGetProviderByIdQuery(serviceId || ""); 
-    console.log("allProviderServices", allProviderServices);
+    const { data: allProviderServices } = useGetProviderByIdQuery(serviceId || "");
+    const { data: serviceDetails } = useGetServiceByIdQuery(serviceId || formData?.service || "");
+
 
     const servicesOption = allServices?.map((service) => ({
         value: service._id,
@@ -30,15 +33,37 @@ const RideOption = ({ next, prev }: { next: () => void; prev: () => void }) => {
         description: service.description,
         price: service.price,
         features: service.facilities,
-        image:"/class.svg",
+        image: "/class.svg",
+        tax: service.service.taxs,
+        adultPrice: service.service.adults_price,
+        kidsPrice: service.service.kids_price,
+        pricePerhour: service.service.price_per_hour,
+        pricePerKm: service.service.price_per_km,
+        servicePrice: service.service.service_price
     })) || [];
 
-    const handleSelect = async (id: string) => {
+    const handleSelect = async (value: { id: string, tax: number, price: number, pricePerhour: number, pricePerKm: number, servicePrice: number }) => {
         const values = await form.validateFields().catch(() => null);
+        const service_charge = value?.servicePrice || 0;
+        const base_fare = (formData?.distance * value?.pricePerKm) + (formData?.duration * value?.pricePerhour)
+        const additional_travelerse_fee = ((formData?.adults + formData?.kids) - 1) * value?.price;
+        const subTotal = service_charge + base_fare + additional_travelerse_fee;
+        const tax = (subTotal * value?.tax) / 100 + (serviceDetails?.fixed_price ?? 0);
+        const total_price = subTotal + tax;
+        updateFormData({
+            provider: value?.id,
+            service_charge,
+            base_fare,
+            additional_travelerse_fee,
+            tax,
+            total_price
+        });
+
         if (values) {
-            setSelectedService(id);
-            next();
+            setSelectedService(value?.id);
+            // next(); 
         }
+
     };
 
     const onValuesChange = () => {
@@ -50,6 +75,50 @@ const RideOption = ({ next, prev }: { next: () => void; prev: () => void }) => {
         setFormValid(allFilled);
     };
 
+    const onFinish = (values: { service: string, pickUpCity: string, dropOffCity: string, date: string, adults: number, kids: number , additionalInfo: string}) => {
+        const updatedData: BookingDetails = {
+            ...formData,
+            service: values.service,
+            pickup_location: values.pickUpCity,
+            dropoff_location: values.dropOffCity,
+            date: values?.date,
+            adults: values.adults,
+            kids: values.kids,
+            additional_info: values.additionalInfo,
+        };
+
+        updateFormData(updatedData);
+        setSelectedService(values.service);
+        next();
+    };
+
+    useEffect(() => {
+        if (formData && Object.keys(formData).length > 0) {
+            form.setFieldsValue({
+                service: formData.service,
+                pickUpCity: formData.pickup_location,
+                dropOffCity: formData.dropoff_location,
+                date: formData.date ? moment(formData.date) : null,
+                adults: formData.adults,
+                kids: formData.kids,
+                additionalInfo: formData.additional_info || "",
+            });
+
+            setSelectedService(formData.service);
+            setServiceId(formData.service);
+
+            const values = form.getFieldsValue();
+            const requiredFields = ["service", "pickUpCity", "dropOffCity", "date", "adults", "kids"];
+            const allFilled = requiredFields.every(
+                (field) => values[field] !== undefined && values[field] !== ""
+            );
+            setFormValid(allFilled);
+        } else {
+            form.resetFields();
+            setFormValid(false);
+        }
+    }, [formData, form]);
+
     return (
         <div className="flex lg:flex-row flex-col-reverse w-full gap-4 mt-[56px]">
             <div className="bg-white border border-[#e0dfdf] lg:p-8 p-3 pb-4 rounded-lg lg:w-3/4 w-full">
@@ -58,6 +127,7 @@ const RideOption = ({ next, prev }: { next: () => void; prev: () => void }) => {
                     form={form}
                     onValuesChange={onValuesChange}
                     className="w-full h-auto"
+                    onFinish={onFinish}
                 >
                     <div className="flex items-center gap-1 pb-6">
                         <span onClick={() => prev()}>
@@ -204,7 +274,7 @@ const RideOption = ({ next, prev }: { next: () => void; prev: () => void }) => {
                                                 type="button"
                                                 className={`rounded-full h-12 px-12 text-white text-[16px] transition-colors duration-300 ${formValid ? "bg-primary" : "bg-[#b5b5b5] cursor-not-allowed"
                                                     }`}
-                                                onClick={() => formValid && handleSelect(service.id)}
+                                                onClick={() => formValid && handleSelect(service)}
                                                 disabled={!formValid}
                                             >
                                                 {isSelected ? "✓ Selected" : "Choose"}
@@ -215,6 +285,18 @@ const RideOption = ({ next, prev }: { next: () => void; prev: () => void }) => {
                             );
                         })}
                     </div>
+
+                    <Form.Item> 
+                        <div className="flex justify-end"> 
+
+                        <button
+                            type="submit"
+                            className={`rounded-full h-12 px-12 text-white text-[16px] transition-colors duration-300  bg-primary `}
+                        >
+                            Continue
+                        </button>
+                        </div>
+                    </Form.Item>
                 </Form>
             </div>
 

@@ -4,20 +4,41 @@ import PriceDetails from "../PriceDetails";
 import 'react-calendar/dist/Calendar.css';
 import Calender from "./Calender";
 import { IoIosArrowBack } from "react-icons/io";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { BookingDetails } from "../SelectServiceMainPage";
 
-const SelectDate = ({ next, prev }: { next: () => void; prev: () => void }) => {
+const SelectDate = ({ next, prev, updateFormData , formData}: { next: () => void; prev: () => void, updateFormData: (newData: Partial<BookingDetails>) => void , formData: BookingDetails }) => {
   const [form] = Form.useForm();
   const [isServiceSelected, setIsServiceSelected] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
   const onValuesChange = () => {
     const values = form.getFieldsValue();
     const requiredFields = ["checkoutDate", "hour", "minute", "adults", "kids"];
     const allFilled = requiredFields.every((field) => values[field] !== undefined && values[field] !== "");
     setIsServiceSelected(allFilled);
-  };
+  }; 
 
-  const onFinish = () => {
+    useEffect(() => {
+
+    if (formData?.date || formData?.adults || formData?.kids) {
+
+      form.setFieldsValue({ adults: formData.adults, kids: formData.kids}); 
+      setSelectedDate(formData.date);
+
+      const values = form.getFieldsValue();
+      setIsServiceSelected(!!values.adults && !!values.kids);
+
+    }
+  }, [form, formData]);
+
+  const onFinish = (values: { checkoutDate: string, hour: string, minute: string, adults: string, kids: string }) => {
+
+    updateFormData({
+      date: selectedDate,
+      adults: Number(values.adults),
+      kids: Number(values.kids)
+    });
     next();
   };
 
@@ -42,10 +63,10 @@ const SelectDate = ({ next, prev }: { next: () => void; prev: () => void }) => {
 
           <Form.Item
             name="checkoutDate"
-            // rules={[{ required: true, message: "Please select a date" }]}
+          // rules={[{ required: true, message: "Please select a date" }]}
           >
             <div className="border border-[#ebe9e9] rounded-lg lg:p-8 p-2">
-              <Calender unavailableDay={["2025-05-04", "2025-05-02"]} />
+              <Calender unavailableDay={["2025-05-04", "2025-05-02"]} selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
 
               <div>
                 <p className="text-sm text-[#525252] font-medium pt-4">Travel’s Time</p>
@@ -90,9 +111,9 @@ const SelectDate = ({ next, prev }: { next: () => void; prev: () => void }) => {
             <Input type="number" placeholder="Write kids number" style={{ height: "48px" }} />
           </Form.Item>
 
-          <p className="lg:text-[17px] text-sm text-[#000000] mb-8">
+          {/* <p className="lg:text-[17px] text-sm text-[#000000] mb-8">
             Each <span className="font-medium"> adult costs $300 </span>, and each <span className="font-medium"> child (under 12) costs $150 </span>. Wheelchair users are accommodated with no additional charge.
-          </p>
+          </p> */}
 
           <Form.Item className=" w-full">
             <button

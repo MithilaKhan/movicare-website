@@ -1,30 +1,35 @@
 "use client"
 import { Form, Select } from "antd";
-import { useState } from "react";
+import { useEffect } from "react";
 import PriceDetails from "../PriceDetails";
 import { useGetServicesQuery } from "@/redux/features/others/services/servicesSlice";
 import { BookingDetails } from "../SelectServiceMainPage";
 
-const SelectServiceStep = ({ next , updateFormData }: { next: () => void  , updateFormData: (newData: Partial<BookingDetails>) => void}) => {
+const SelectServiceStep = ({ next , updateFormData , formData }: { next: () => void  , updateFormData: (newData: Partial<BookingDetails>) => void , formData: BookingDetails}) => {
     const [form] = Form.useForm();
-    const [isServiceSelected, setIsServiceSelected] = useState(false);  
+    // const [isServiceSelected, setIsServiceSelected] = useState(false);  
     const {data:allServices} = useGetServicesQuery(undefined);   
-    console.log("allServices", allServices); 
 
     const servicesOption = allServices?.map((service) => ({
         value: service._id,
         label: service.name,
     })) || [];
 
-    const onValuesChange = (allValues: { service: string }) => {
-        setIsServiceSelected(!!allValues.service); 
-      
-    };
+  const selectedService = Form.useWatch("service", form);
+  const isServiceSelected = !!selectedService;
 
     const onFinish = (values:{service:string}) => { 
            updateFormData({ service: values.service });
         next();
-    };
+    }; 
+
+    useEffect(() => { 
+
+        if(formData?.service){
+
+            form.setFieldsValue({ service: formData.service });
+        }
+    }, [form , formData?.service]);
 
     return (
         <div className="flex lg:flex-row flex-col-reverse w-full gap-4 mt-[56px] lg:mb-0 mb-5">
@@ -33,7 +38,6 @@ const SelectServiceStep = ({ next , updateFormData }: { next: () => void  , upda
                     layout="vertical"
                     form={form}
                     onFinish={onFinish}
-                    onValuesChange={onValuesChange}
                     className="w-full h-auto"
                 >
                     <p className="text-xl text-[#070707] font-medium pb-6">Select Your Service</p>

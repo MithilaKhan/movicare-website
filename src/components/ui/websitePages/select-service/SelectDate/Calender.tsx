@@ -5,9 +5,9 @@ import "dayjs/locale/zh-cn";
 import { Calendar } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 
-const Calender = ({ unavailableDay }: { unavailableDay: string[] }) => {
+const Calender = ({ unavailableDay, selectedDate, setSelectedDate }: { unavailableDay: string[], selectedDate: string | null, setSelectedDate: React.Dispatch<React.SetStateAction<string | null>> }) => {
+
   const [value, setValue] = useState<Dayjs>(dayjs());
-  const [selectedDates, setSelectedDates] = useState<string[]>([]); // store selected dates
 
   const disabledDate = (date: Dayjs): boolean => {
     return unavailableDay?.some((d: string) => dayjs(date).isSame(dayjs(d), "day"));
@@ -16,12 +16,7 @@ const Calender = ({ unavailableDay }: { unavailableDay: string[] }) => {
   const toggleDate = (date: Dayjs) => {
     const formatted = date.format("YYYY-MM-DD");
     if (disabledDate(date)) return; // skip if date is disabled
-
-    setSelectedDates((prev) =>
-      prev.includes(formatted)
-        ? prev.filter((d) => d !== formatted)
-        : [...prev, formatted]
-    );
+    setSelectedDate((prev) => (prev === formatted ? null : formatted));
   };
 
   const changeMonth = (direction: "prev" | "next") => {
@@ -32,12 +27,12 @@ const Calender = ({ unavailableDay }: { unavailableDay: string[] }) => {
   const changeYear = (direction: "prev" | "next") => {
     const newValue = direction === "prev" ? value.subtract(1, "year") : value.add(1, "year");
     setValue(newValue);
-  }; 
+  };
 
   const baseStyle =
-  "w-full h-full flex items-center justify-center transition-all";
-const innerStyle =
-  "w-10 h-10 flex items-center justify-center rounded-full"; 
+    "w-full h-full flex items-center justify-center transition-all";
+  const innerStyle =
+    "w-10 h-10 flex items-center justify-center rounded-full";
 
   return (
     <div>
@@ -66,32 +61,32 @@ const innerStyle =
             </div>
           );
         }}
- fullCellRender={(date) => {
-    const formatted = date.format("YYYY-MM-DD");
-    const isSelected = selectedDates.includes(formatted);
-    const isDisabled = disabledDate(date);
-    const selectedStyle = isSelected ? "bg-primary text-white rounded-full " : "";
-    const disabledStyle = isDisabled
-      ? "cursor-not-allowed text-gray-400"
-      : "cursor-pointer";
+        fullCellRender={(date) => {
+          const formatted = date.format("YYYY-MM-DD");
+          const isSelected = selectedDate === formatted;
+          const isDisabled = disabledDate(date);
+          const selectedStyle = isSelected ? "bg-primary text-white rounded-full " : "";
+          const disabledStyle = isDisabled
+            ? "cursor-not-allowed text-gray-400  rounded-full "
+            : "cursor-pointer";
 
-    const handleClick = () => {
-      if (!isDisabled) {
-        toggleDate(date);
-      }
-    };
+          const handleClick = () => {
+            if (!isDisabled) {
+              toggleDate(date);
+            }
+          };
 
-    return (
-      <div
-         className={`${baseStyle} ${disabledStyle}`} 
-        onClick={handleClick}
-      > 
-      <div className={`${innerStyle} ${selectedStyle}`}> 
-        <span className="text-sm font-medium">{date.date()}</span>
-      </div>
-      </div>
-    );
-  }}
+          return (
+            <div
+              className={`${baseStyle} ${disabledStyle}`}
+              onClick={handleClick}
+            >
+              <div className={`${innerStyle} ${selectedStyle}`}>
+                <span className="text-sm font-medium">{date.date()}</span>
+              </div>
+            </div>
+          );
+        }}
       />
     </div>
   );

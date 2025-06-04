@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PriceDetails from "../PriceDetails";
 import { Form, Input } from "antd";
 import { IoIosArrowBack } from "react-icons/io";
@@ -11,7 +11,17 @@ import {
 } from "@react-google-maps/api";
 import { BookingDetails } from "../SelectServiceMainPage";
 
-const SelectLocation = ({ next,prev,updateFormData }: { next: () => void; prev: () => void ; updateFormData: (newData: Partial<BookingDetails>) => void}) => {
+const SelectLocation = ({
+  next,
+  prev,
+  updateFormData,
+  formData
+}: {
+  next: () => void;
+  prev: () => void;
+  updateFormData: (newData: Partial<BookingDetails>) => void;
+  formData: BookingDetails
+}) => {
   const [form] = Form.useForm();
   const [isSelected, setIsSelected] = useState(false);
 
@@ -35,12 +45,89 @@ const SelectLocation = ({ next,prev,updateFormData }: { next: () => void; prev: 
     setIsSelected(!!values.pickUpCity && !!values.dropOffCity);
   };
 
-  const onFinish = (values: { pickUpCity: string; dropOffCity: string }) => { 
-    updateFormData({
-      pickup_location: values.pickUpCity,
-      dropoff_location: values.dropOffCity,
-    });
-    next();
+  useEffect(() => {
+
+    if (formData?.pickup_location || formData?.dropoff_location) {
+
+      form.setFieldsValue({ pickUpCity: formData.pickup_location, dropOffCity: formData.dropoff_location });
+
+      const values = form.getFieldsValue();
+      setIsSelected(!!values.pickUpCity && !!values.dropOffCity);
+
+    }
+  }, [form, formData]);
+
+  const onFinish = async (values: { pickUpCity: string; dropOffCity: string }) => {
+    const geocodeAddress = (address: string): Promise<google.maps.LatLngLiteral> => {
+      return new Promise((resolve, reject) => {
+        const geocoder = new window.google.maps.Geocoder();
+        geocoder.geocode({ address }, (results, status) => {
+          if (status === "OK" && results && results[0]) {
+            const location = results[0].geometry.location;
+            resolve({ lat: location.lat(), lng: location.lng() });
+          } else {
+            reject(`Geocode failed for ${address}: ${status}`);
+          }
+        });
+      });
+    };
+
+    const getDistanceDuration = (
+      origin: google.maps.LatLngLiteral,
+      destination: google.maps.LatLngLiteral
+    ): Promise<{ distance: number; duration: number }> => {
+      return new Promise((resolve, reject) => {
+        const service = new window.google.maps.DistanceMatrixService();
+        service.getDistanceMatrix(
+          {
+            origins: [origin],
+            destinations: [destination],
+            travelMode: google.maps.TravelMode.DRIVING,
+          },
+          (response, status) => {
+            if (
+              status === "OK" &&
+              response?.rows[0].elements[0].status === "OK"
+            ) {
+              const element = response?.rows[0].elements[0];
+              const distanceInKm = element.distance.value / 1000;
+              const durationInHours = element.duration.value / 3600
+              resolve({
+                distance: parseFloat(distanceInKm.toFixed(2)),
+                duration: parseFloat(durationInHours.toFixed(2)),
+              });
+            } else {
+              reject("Distance Matrix failed: " + status);
+            }
+          }
+        );
+      });
+    };
+
+    try {
+      const [pickupCoords, dropoffCoords] = await Promise.all([
+        geocodeAddress(values.pickUpCity),
+        geocodeAddress(values.dropOffCity),
+      ]);
+
+      setPickUpMarker(pickupCoords);
+      setDropOffMarker(dropoffCoords);
+      map?.panTo(pickupCoords);
+
+      const { distance, duration } = await getDistanceDuration(pickupCoords, dropoffCoords);
+
+      updateFormData({
+        pickup_location: values.pickUpCity,
+        dropoff_location: values.dropOffCity,
+        distance,
+        duration,
+      });
+
+      next();
+    } catch (error) {
+      console.error("Error calculating distance:", error);
+      alert("Failed to process locations. Please try again.");
+    }
   };
 
   const onLoad = (mapInstance: google.maps.Map) => {
@@ -137,9 +224,8 @@ const SelectLocation = ({ next,prev,updateFormData }: { next: () => void; prev: 
           <Form.Item className="mt-8 w-full">
             <button
               type="submit"
-              className={`${
-                isSelected ? "bg-primary" : "bg-[#b5b5b5] cursor-not-allowed"
-              } text-white py-3 px-6 rounded-full text-[16px] transition-colors duration-300 w-full`}
+              className={`${isSelected ? "bg-primary" : "bg-[#b5b5b5] cursor-not-allowed"
+                } text-white py-3 px-6 rounded-full text-[16px] transition-colors duration-300 w-full`}
               disabled={!isSelected}
             >
               Choose Date & Service
