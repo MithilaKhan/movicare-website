@@ -15,31 +15,31 @@ import { useCreateBookingMutation } from "@/redux/features/others/booking/bookin
 const ReviewCheckOut = ({ prev, formData }: { prev: () => void, formData: BookingDetails }) => {
   const [form] = Form.useForm();
   const [formValid, setFormValid] = useState(false);
-  const { data: allServices } = useGetServicesQuery(undefined); 
+  const { data: allServices } = useGetServicesQuery(undefined);
   const [createBooking] = useCreateBookingMutation();
   const servicesOption = allServices?.map((service) => ({
     value: service._id,
     label: service.name,
   })) || [];
 
-const priceData = [
-  {
-    label: "Service",
-    value: (formData?.service_charge).toFixed(2)
-  },
-  {
-    label: "Base Fare",
-    value: (formData?.base_fare).toFixed(2)
-  },
-  {
-    label: "Additional Travelers",
-    value: (formData?.additional_travelerse_fee).toFixed(2)
-  },
-  {
-    label: "Taxes & Fees",
-    value: (formData?.tax).toFixed(2)
-  },
-]
+  const priceData = [
+    {
+      label: "Service",
+      value: (formData?.service_charge).toFixed(2)
+    },
+    {
+      label: "Base Fare",
+      value: (formData?.base_fare).toFixed(2)
+    },
+    {
+      label: "Additional Travelers",
+      value: (formData?.additional_travelerse_fee).toFixed(2)
+    },
+    {
+      label: "Taxes & Fees",
+      value: (formData?.tax).toFixed(2)
+    },
+  ]
 
 
   // const additionalServicesOption = [
@@ -86,22 +86,30 @@ const priceData = [
     setFormValid(allFilled);
   };
 
-const onFinish = async() => {
-  const values = form.getFieldsValue();
+  const onFinish = async () => {
+    const values = form.getFieldsValue();
 
-  const updatedData: BookingDetails = {
-    ...formData,
-    service: values.service,
-    pickup_location: values.pickUpCity,
-    dropoff_location: values.dropOffCity,
-    date: values.date ? moment(values.date).format("YYYY-MM-DD") : "",
-    adults: Number(values.adults),
-    kids: Number(values.kids),
-    additional_info: values.additionalInfo || "",
+    const updatedData: BookingDetails = {
+      ...formData,
+      service: values.service,
+      pickup_location: values.pickUpCity,
+      dropoff_location: values.dropOffCity,
+      date: values.date
+        ? moment.isMoment(values.date)
+          ? values.date.format("YYYY-MM-DD")
+          : moment(values.date, "YYYY-MM-DD").format("YYYY-MM-DD")
+        : "",
+      adults: Number(values.adults),
+      kids: Number(values.kids),
+      additional_info: values.additionalInfo || "",
+    };
+
+    console.log(updatedData, "updatedData");
+
+    await createBooking(updatedData).then((res) =>
+      console.log(res, "fdgfd")
+    )
   };
-
- await createBooking(updatedData).then((res)=>console.log(res))
-};
 
   return (
     <div className="flex lg:flex-row flex-col-reverse w-full gap-4 mt-[56px]">
@@ -110,7 +118,7 @@ const onFinish = async() => {
           layout="vertical"
           form={form}
           onValuesChange={onValuesChange}
-          className="w-full h-auto" 
+          className="w-full h-auto"
           onFinish={onFinish}
         >
           <div className="flex items-center gap-1 pb-6">

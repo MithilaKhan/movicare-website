@@ -4,98 +4,32 @@ import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import BookingDetailsCard from '@/components/shared/BookingDetailsCard';
 import { LiaSortSolid } from 'react-icons/lia';
- 
-export interface BookingCardProps {
-  id: string;
-  date: string;
-  status: 'Confirmed' | 'Pending' | 'Canceled';
-  time: string;
-  origin: string;
-  destination: string;
-  distance: string;
-  vehicleType: string;
-  vehicleClass: string;
-  price: number;
-  passengers: {
-    adults: number;
-    kids: number;
-  };
-}  
+import { useGetAllBookingsHistoryQuery } from '@/redux/features/others/booking/bookingSlice';
 
-
-const bookings : BookingCardProps[] = [
-  {
-    id: '1',
-    date: 'Monday, May 12, 2025',
-    status: 'Confirmed',
-    time: '11:30 AM',
-    origin: 'San José',
-    destination: 'Heredia',
-    distance: '48KM Far from Pickup Location',
-    vehicleType: 'shuttle',
-    vehicleClass: 'Economy Class',
-    price: 900.00,
-    passengers: {
-      adults: 2,
-      kids: 1
-    }
-  },
-  {
-    id: '2',
-    date: 'Tuesday, June 28th, 2025',
-    status: 'Pending',
-    time: '11:30 AM',
-    origin: 'San José',
-    destination: 'Heredia',
-    distance: '48KM Far from Pickup Location',
-    vehicleType: 'shuttle',
-    vehicleClass: 'Economy Class',
-    price: 1700.00,
-    passengers: {
-      adults: 4,
-      kids: 2
-    }
-  },
-  {
-    id: '3',
-    date: 'Saturday, June 30th, 2025',
-    status: 'Canceled',
-    time: '11:30 AM',
-    origin: 'San José',
-    destination: 'Heredia',
-    distance: '48KM Far from Pickup Location',
-    vehicleType: 'shuttle',
-    vehicleClass: 'VIP Class',
-    price: 1400.00,
-    passengers: {
-      adults: 4,
-      kids: 0
-    }
-  } ,
-   {
-    id: '4',
-    date: 'Monday, May 12, 2025',
-    status: 'Confirmed',
-    time: '11:30 AM',
-    origin: 'San José',
-    destination: 'Heredia',
-    distance: '48KM Far from Pickup Location',
-    vehicleType: 'shuttle',
-    vehicleClass: 'Economy Class',
-    price: 900.00,
-    passengers: {
-      adults: 2,
-      kids: 1
-    }
-  },
-]; 
 
 const BookingHistory = () => {
   const [sortBy, setSortBy] = useState('Date');
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); 
+  const {data} = useGetAllBookingsHistoryQuery(undefined) 
+
+  const bookings = data?.map((booking) => ({
+    id: booking._id,
+    date:  booking.date,
+    status: booking.status,
+    time: "11:30 AM",
+    origin: booking.pickup_location,
+    destination: booking.dropoff_location,
+    distance: booking.distance,
+    vehicleClass: booking.provider.name,
+    price: booking.service.service_price,
+    passengers: {
+      adults: booking.adults,
+      kids: booking.kids
+    }
+  }))
   
   // Sort options would be implemented here
-  const sortedBookings = [...bookings];
+  const sortedBookings = [...(bookings ?? [])];
   
   return (
     <div>

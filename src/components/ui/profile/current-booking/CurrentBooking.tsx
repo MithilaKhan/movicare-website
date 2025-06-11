@@ -4,16 +4,82 @@ import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import BookingDetailsCard from '@/components/shared/BookingDetailsCard';
 import { LiaSortSolid } from 'react-icons/lia';
+import { useGetAllBookingsHistoryQuery } from '@/redux/features/others/booking/bookingSlice';
+
+export interface BookingData {
+  data: Booking[];
+}
+
+export interface Booking {
+  _id: string;
+  service: Service;
+  user: User;
+  provider: Provider;
+  date: string; // ISO string
+  pickup_location: string;
+  dropoff_location: string;
+  status: "confirmed" | "pending" | "canceled"; // Adjust based on all possible values
+  payment_status: 'paid' | 'unpaid' | 'refunded'; // Adjust based on all possible values
+  base_fare: number;
+  service_charge: number;
+  additional_travelerse_fee: number;
+  kids: number;
+  adults: number;
+  tax: number;
+  formatted_date: string; // ISO string
+  additional_info: string;
+  total_price: number;
+  order_id: string;
+  distance: number; // in km
+  duration: number; // in hours
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface Service {
+  _id: string;
+  name: string;
+  description: string;
+  image: string;
+  adults_price: number;
+  kids_price: number;
+  service_price: number;
+  price_per_km: number;
+  price_per_hour: number;
+  taxs: number;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface User {
+  _id: string;
+  name: string;
+  email: string;
+}
+
+export interface Provider {
+  _id: string;
+  name: string;
+  description: string;
+  image: string;
+  facilities: string[];
+  price: number;
+  service: string;
+  status: 'active' | 'inactive'; 
+  __v: number;
+}
+
  
 export interface BookingCardProps {
   id: string;
   date: string;
-  status: 'Confirmed' | 'Pending' | 'Canceled';
+  status: 'confirmed' | 'pending' | 'canceled';
   time: string;
   origin: string;
   destination: string;
-  distance: string;
-  vehicleType: string;
+  distance: number;
   vehicleClass: string;
   price: number;
   passengers: {
@@ -23,79 +89,29 @@ export interface BookingCardProps {
 }  
 
 
-const bookings : BookingCardProps[] = [
-  {
-    id: '1',
-    date: 'Monday, May 12, 2025',
-    status: 'Confirmed',
-    time: '11:30 AM',
-    origin: 'San José',
-    destination: 'Heredia',
-    distance: '48KM Far from Pickup Location',
-    vehicleType: 'shuttle',
-    vehicleClass: 'Economy Class',
-    price: 900.00,
-    passengers: {
-      adults: 2,
-      kids: 1
-    }
-  },
-  {
-    id: '2',
-    date: 'Tuesday, June 28th, 2025',
-    status: 'Pending',
-    time: '11:30 AM',
-    origin: 'San José',
-    destination: 'Heredia',
-    distance: '48KM Far from Pickup Location',
-    vehicleType: 'shuttle',
-    vehicleClass: 'Economy Class',
-    price: 1700.00,
-    passengers: {
-      adults: 4,
-      kids: 2
-    }
-  },
-  {
-    id: '3',
-    date: 'Saturday, June 30th, 2025',
-    status: 'Canceled',
-    time: '11:30 AM',
-    origin: 'San José',
-    destination: 'Heredia',
-    distance: '48KM Far from Pickup Location',
-    vehicleType: 'shuttle',
-    vehicleClass: 'VIP Class',
-    price: 1400.00,
-    passengers: {
-      adults: 4,
-      kids: 0
-    }
-  } ,
-   {
-    id: '4',
-    date: 'Monday, May 12, 2025',
-    status: 'Confirmed',
-    time: '11:30 AM',
-    origin: 'San José',
-    destination: 'Heredia',
-    distance: '48KM Far from Pickup Location',
-    vehicleType: 'shuttle',
-    vehicleClass: 'Economy Class',
-    price: 900.00,
-    passengers: {
-      adults: 2,
-      kids: 1
-    }
-  },
-]; 
-
 const CurrentBooking = () => {
   const [sortBy, setSortBy] = useState('Date');
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); 
+    const {data} = useGetAllBookingsHistoryQuery(undefined) 
+
+  const bookings = data?.map((booking) => ({
+    id: booking._id,
+    date:  booking.date,
+    status: booking.status,
+    time: "11:30 AM",
+    origin: booking.pickup_location,
+    destination: booking.dropoff_location,
+    distance: booking.distance,
+    vehicleClass: booking.provider.name,
+    price: booking.service.service_price,
+    passengers: {
+      adults: booking.adults,
+      kids: booking.kids
+    }
+  }))
   
   // Sort options would be implemented here
-  const sortedBookings = [...bookings];
+  const sortedBookings = [...bookings ?? []];
   
   return (
     <div>

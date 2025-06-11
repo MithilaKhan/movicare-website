@@ -9,7 +9,8 @@ export type UserType = {
   password: string;
   image: string;
   status: string;
-  verified: boolean;
+  verified: boolean; 
+  contact ?: string
 };
 const resetToken = GetLocalStorage("resetToken")
 
@@ -80,6 +81,14 @@ const authApi = baseApi.injectEndpoints({
         url: "/user/profile",
       }),
       transformResponse: (res: { data: UserType }) => res.data,
+    }), 
+
+    updateProfile: build.mutation({
+      query: (data) => ({
+        url: "/user/profile",
+        method: "PATCH",
+        body: data,
+      }),
     }),
 
   }),
@@ -93,5 +102,6 @@ export const {
   useResetPasswordMutation,
   useVerifyEmailMutation,
   useGoogleLoginMutation,
-  useGetProfileQuery
+  useGetProfileQuery ,
+  useUpdateProfileMutation
 } = authApi;

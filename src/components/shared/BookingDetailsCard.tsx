@@ -5,19 +5,18 @@ import StatusBadge from '../ui/profile/current-booking/StatusBadge';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import RebookModal from '../ui/profile/booking-history/RebookModal';
-
-
+import moment from 'moment';
 
 const BookingDetailsCard = ({ booking, type }: { booking: BookingCardProps, type: string }) => {
   const [isRebookOpen, setIsRebookOpen] = useState(false);
-  const router = useRouter()
+  const router = useRouter() 
 
   return (
     <div className="mb-6 rounded-lg border p-4 border-gray-200 bg-white overflow-hidden shadow-sm ">
       {/* Header */}
       <div className="bg-[#f4f7f4] border border-[#d6e2d6] px-4 py-3 flex justify-between items-center rounded-xl">
         <div className="flex items-center space-x-3">
-          <span className="lg:text-sm text-xs font-medium text-[#000000]">{booking.date}</span>
+          <span className="lg:text-sm text-xs font-medium text-[#000000]">{moment(booking.date).format("DD/MM/YYYY")}</span>
           <StatusBadge status={booking.status} />
         </div>
         <div className="flex items-center text-gray-700">
@@ -34,7 +33,7 @@ const BookingDetailsCard = ({ booking, type }: { booking: BookingCardProps, type
             <span className="mx-2 text-content1/50 text-sm">To</span>
             <h3 className="lg:text-2xl text-xl font-semibold">{booking.destination}</h3>
           </div>
-          <p className="lg:text-sm text-xs text-content1/50 lg:mt-4 mt-2">{booking.distance}</p>
+          <p className="lg:text-sm text-xs text-content1/50 lg:mt-4 mt-2">{booking.distance}KM Far from Pickup Location</p>
         </div>
 
         <div className=" flex flex-col justify-center lg:items-center items-start">
@@ -72,12 +71,12 @@ const BookingDetailsCard = ({ booking, type }: { booking: BookingCardProps, type
             <button className=' h-11 flex items-center justify-center text-sm font-medium bg-primary gap-2 text-white   rounded-full w-full hover:bg-white hover:text-primary hover:border hover:border-primary ' onClick={() => setIsRebookOpen(true)}> Rebook </button> 
 
             <button className=' h-11 flex items-center justify-center text-sm font-medium bg-white gap-2 text-[#000000] border border-primary   rounded-full w-full hover:bg-primary hover:text-white '
-              onClick={() => router.push("/reviews-feedback")}>  Leave a Review </button> 
+              onClick={() => router.push(`/reviews-feedback?id=${booking.id}`)}>  Leave a Review </button> 
 
           </div>
         )
       } 
-      <RebookModal open={isRebookOpen} setOpen={setIsRebookOpen} />
+      <RebookModal open={isRebookOpen} setOpen={setIsRebookOpen} date={booking.date} id={booking.id} />
     </div>
   );
 };
