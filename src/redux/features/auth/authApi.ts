@@ -12,7 +12,8 @@ export type UserType = {
   verified: boolean; 
   contact ?: string
 };
-const resetToken = GetLocalStorage("resetToken")
+const resetToken = GetLocalStorage("resetToken") 
+
 
 const authApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -58,14 +59,17 @@ const authApi = baseApi.injectEndpoints({
     }),
 
     resetPassword: build.mutation({
-      query: (data) => ({
-        url: "/auth/reset-password",
-        method: "POST",
-        body: data,
-        headers: {
-          authorization: `${resetToken}`,
-        },
-      }),
+      query: (data) => {  
+        console.log(resetToken , "resetToken" , data , "data");
+        return{
+          url: "/auth/reset-password",
+          method: "POST",
+          body: data,
+          headers: {
+            Authorization: `${resetToken}`,
+          },
+        }
+      },
     }),
 
     changePassword: build.mutation({

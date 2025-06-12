@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { errorType } from "../../websitePages/contact/SendMessage";
+import Cookies from 'js-cookie';
 
 const ForgetPassword = () => {
   const router = useRouter()
@@ -18,10 +19,17 @@ const ForgetPassword = () => {
     data
   }] = useForgetPasswordMutation();
 
+  const token = Cookies.get("accessToken");
+
+
   useEffect(() => {
     if (isSuccess) {
       toast.success(data?.message);
       form.resetFields();
+      if (token) {
+        Cookies.remove("accessToken")
+      }
+      localStorage.removeItem("resetToken");
       localStorage.setItem("userType", "forget")
       router.push(`/verify-otp?email=${email}`);
     }

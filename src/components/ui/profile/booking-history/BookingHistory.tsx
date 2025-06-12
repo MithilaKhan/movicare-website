@@ -9,8 +9,9 @@ import { useGetAllBookingsHistoryQuery } from '@/redux/features/others/booking/b
 
 const BookingHistory = () => {
   const [sortBy, setSortBy] = useState('Date');
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); 
-  const {data} = useGetAllBookingsHistoryQuery(undefined) 
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);  
+  const durationType = "history"
+  const {data} = useGetAllBookingsHistoryQuery(durationType) 
 
   const bookings = data?.map((booking) => ({
     id: booking._id,

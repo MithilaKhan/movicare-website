@@ -15,7 +15,7 @@ const ResetPassword = () => {
     if (isSuccess) {
       toast.success(data?.message);
       router.push(`/login`);
-      localStorage.removeItem("resetToken");
+     
     }
 
     if (isError) {

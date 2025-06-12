@@ -91,8 +91,9 @@ export interface BookingCardProps {
 
 const CurrentBooking = () => {
   const [sortBy, setSortBy] = useState('Date');
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); 
-    const {data} = useGetAllBookingsHistoryQuery(undefined) 
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);  
+  const durationType = "current"
+    const {data} = useGetAllBookingsHistoryQuery(durationType) 
 
   const bookings = data?.map((booking) => ({
     id: booking._id,

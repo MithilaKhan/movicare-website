@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react"
 // import OTPInput from "react-otp-input"; 
 import { toast } from "react-toastify";
 import { errorType } from "../../websitePages/contact/SendMessage";
-import {  SetLocalStorage } from "@/util/LocalStroage";
+import { SetLocalStorage } from "@/util/LocalStroage";
 
 const { Text } = Typography;
 
@@ -27,10 +27,10 @@ const VerifyOtp = () => {
     isError: isForgetError,
     error: forgetError,
     data: forgetData
-  }] = useForgetPasswordMutation(); 
+  }] = useForgetPasswordMutation();
 
-  const userType = localStorage.getItem("userType") 
-
+  const userType = localStorage.getItem("userType")
+  console.log(userType, "sfdsfSDF");
 
   useEffect(() => {
     const emailFromQuery = new URLSearchParams(window.location.search).get('email');
@@ -42,10 +42,13 @@ const VerifyOtp = () => {
       toast.success(verifyData?.message);
       if (userType === "register") {
         router.push("/login")
-      } else {
+      }
+      if (userType === "forget") {
         SetLocalStorage("resetToken", verifyData?.data || "");
         router.push("/reset-password")
+        
       }
+    
       form.resetFields();
     }
     if (isVerifyError) {
@@ -55,7 +58,7 @@ const VerifyOtp = () => {
         "Something went wrong. Please try again.";
       toast.error(errorMessage);
     }
-  }, [isVerifySuccess, isVerifyError, verifyError, verifyData, router, userType , form]);
+  }, [isVerifySuccess, isVerifyError, verifyError, verifyData, router, userType, form]);
 
   useEffect(() => {
     if (isForgetSuccess) {

@@ -165,7 +165,7 @@ const category = {
                       className="flex items-center cursor-pointer px-3 py-[14px] rounded-lg"
                       onClick={() => setIsDropdownOpen(prev => !prev)}
                     >
-                      <span className={`nav-link ${["/", "/home", "/services"].includes(pathname) ? "text-[#FFFFFF]" : "text-content2"}`}>
+                      <span className={`nav-link ${[ "/services" ].includes(pathname) ? "text-[#FFFFFF]" : "text-content2"}`}>
                         {option.label}
                       </span>
                       <HiChevronDown
@@ -193,7 +193,7 @@ const category = {
                 <Link
                   key={index}
                   href={option.path}
-                  className={`nav-link flex flex-col items-center justify-center px-3 py-[14px] rounded-lg cursor-pointer ${isActive ? ["/", "/home", "/services"].includes(option.path) ? "text-[#FFFFFF]" : "text-content2" : "hover:text-content2"}`}
+                  className={`nav-link flex flex-col items-center justify-center px-3 py-[14px] rounded-lg cursor-pointer ${isActive ? ["/", "/home", "/services"].includes(option.path) ? "text-[#FFFFFF]" : "text-content1" : "text-content2"}`}
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {option.label}

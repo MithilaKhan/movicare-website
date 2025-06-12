@@ -20,7 +20,8 @@ const Login = () => {
     if (isSuccess) {
       toast.success(data?.message);
       Cookies.set("accessToken", data?.data?.createToken || "");
-      Cookies.set("refreshToken", data?.data?.refreshToken || "");
+      Cookies.set("refreshToken", data?.data?.refreshToken || ""); 
+       localStorage.removeItem("resetToken"); 
       form.resetFields();
       router.push("/");
     }

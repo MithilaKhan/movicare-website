@@ -44,7 +44,7 @@ const CreateReview = ({ bookingDetails, id }: { bookingDetails: Booking | undefi
     } 
 
     return (
-        <div>
+        <div className=" mb-4">
             <div className=" bg-white p-4 rounded-xl border border-gray-200">
 
                 <div className=" border border-gray-200 rounded-xl p-4 flex lg:flex-row gap-2 flex-col justify-between items-center">

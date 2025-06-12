@@ -16,7 +16,8 @@ export async function middleware(Request: NextRequest) {
                 const response = NextResponse.redirect(new URL("/", Request.url));
 
                 response.cookies.set("accessToken", accessToken, {
-                    // httpOnly: true, 
+                    // httpOnly: true,  
+                    maxAge: 60 * 60 * 24 * 365,
                     path: "/",
                     secure: false,
                     sameSite: "lax",

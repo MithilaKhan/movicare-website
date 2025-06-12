@@ -36,12 +36,15 @@ const ReviewsFeedback = () => {
         <div>
             <h1 className="text-xl font-medium text-content1 pb-6">Reviews & Feedback</h1>
 
-            {/* create review  */}
-            <CreateReview bookingDetails={bookingDetails} id={id} />
+            {/* create review  */} 
+            {
+                id && <CreateReview bookingDetails={bookingDetails} id={id} />
+            }
+
 
             {/* all reviews  */}
 
-            <p className=' text-content1/50 text-sm  mt-4 py-6 font-semibold'> All reviews </p>
+            <p className=' text-content1/50 text-sm  py-6 font-semibold'> All reviews </p>
 
             <div className='flex flex-col gap-4 pb-5'>
 
