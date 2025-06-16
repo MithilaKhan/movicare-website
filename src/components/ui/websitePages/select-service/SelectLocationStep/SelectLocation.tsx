@@ -29,7 +29,7 @@ const SelectLocation = ({
   const [viewport, setViewport] = useState({
     latitude: 37.7749,
     longitude: -122.4194,
-    zoom: 10,
+    zoom: 8,
   });
 
   const [pickUpMarker, setPickUpMarker] = useState<google.maps.LatLngLiteral | null>(null);

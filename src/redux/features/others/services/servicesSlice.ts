@@ -11,7 +11,8 @@ export interface Service {
   price_per_km: number;
   price_per_hour: number;
   taxs: number; 
-  fixed_price : number;
+  fixed_price : number; 
+  
 }  
 
 type ProviderService = {
@@ -27,7 +28,6 @@ type ProviderService = {
   taxs: number;
   createdAt: string;
   updatedAt: string;
-  __v: number;
 };
 
 type ProviderData = {
@@ -38,8 +38,13 @@ type ProviderData = {
   facilities: string[];
   price: number;
   service: ProviderService;
-  status: string;
-  __v: number;
+  status: string; 
+    adults_price: number;
+  kids_price: number;
+  service_price: number;
+  price_per_km: number;
+  price_per_hour: number;
+  taxs: number;
 }; 
 
 
@@ -63,10 +68,10 @@ const servicesSlice = baseApi.injectEndpoints({
     }),  
 
     getProviderById: build.query({
-      query: (id) => ({
-        url: `/provider/${id}`,
+      query: () => ({
+        url: `/provider`,
       }),
-      transformResponse: (response: { data: ProviderData[] }) => response.data,
+      transformResponse: (response: { data:{ data: ProviderData[]} }) => response.data,
     }), 
 
 

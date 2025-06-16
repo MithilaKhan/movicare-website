@@ -13,7 +13,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
     const [user, setUser] = useState<UserType | null>(null);
     const { data: userData, isSuccess } = useGetProfileQuery(null);  
-    console.log("userData", userData);
 
     useEffect(() => {
         if (isSuccess && userData) {

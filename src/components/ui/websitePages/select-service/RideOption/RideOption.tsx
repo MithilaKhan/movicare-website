@@ -1,5 +1,5 @@
 "use client";
-import { DatePicker, Form, Input, Select } from "antd";
+import { Form, Input, Select } from "antd";
 import PriceDetails from "../PriceDetails";
 import 'react-calendar/dist/Calendar.css';
 import { IoIosArrowBack } from "react-icons/io";
@@ -10,7 +10,7 @@ import Image from "next/image";
 import { BsPatchCheckFill } from "react-icons/bs";
 import { useGetProviderByIdQuery, useGetServiceByIdQuery, useGetServicesQuery } from "@/redux/features/others/services/servicesSlice";
 import { BookingDetails } from "../SelectServiceMainPage";
-import moment from "moment";
+import { CiStopwatch } from "react-icons/ci";
 
 const RideOption = ({ next, prev, updateFormData, formData }: { next: () => void; prev: () => void; updateFormData: (newData: Partial<BookingDetails>) => void, formData: BookingDetails }) => {
     const [form] = Form.useForm();
@@ -18,8 +18,10 @@ const RideOption = ({ next, prev, updateFormData, formData }: { next: () => void
     const [serviceId, setServiceId] = useState<string | null>(null);
     const [formValid, setFormValid] = useState(false);
     const { data: allServices } = useGetServicesQuery(undefined);
-    const { data: allProviderServices } = useGetProviderByIdQuery(serviceId || "");
+    const { data: allProviderServices } = useGetProviderByIdQuery(undefined);
     const { data: serviceDetails } = useGetServiceByIdQuery(serviceId || formData?.service || "");
+    const [selectedRidePricing, setSelectedRidePricing] = useState<Partial<BookingDetails>>({});
+
 
 
     const servicesOption = allServices?.map((service) => ({
@@ -27,7 +29,7 @@ const RideOption = ({ next, prev, updateFormData, formData }: { next: () => void
         label: service.name,
     })) || [];
 
-    const carServices = allProviderServices?.map((service) => ({
+    const carServices = allProviderServices?.data?.map((service) => ({
         id: service._id,
         title: service.name,
         description: service.description,
@@ -43,27 +45,37 @@ const RideOption = ({ next, prev, updateFormData, formData }: { next: () => void
     })) || [];
 
     const handleSelect = async (value: { id: string, tax: number, price: number, pricePerhour: number, pricePerKm: number, servicePrice: number }) => {
-        const values = await form.validateFields().catch(() => null);
-        const service_charge = value?.servicePrice || 0;
-        const base_fare = (formData?.distance * value?.pricePerKm) + (formData?.duration * value?.pricePerhour)
-        const additional_travelerse_fee = ((formData?.adults + formData?.kids) - 1) * value?.price;
-        const subTotal = service_charge + base_fare + additional_travelerse_fee;
-        const tax = (subTotal * value?.tax) / 100 + (serviceDetails?.fixed_price ?? 0);
-        const total_price = subTotal + tax;
-        updateFormData({
-            provider: value?.id,
-            service_charge,
-            base_fare,
-            additional_travelerse_fee,
-            tax,
-            total_price
-        });
+        try {
+            await form.validateFields();
 
-        if (values) {
+            const service_charge = serviceDetails?.service_price || 0;
+            const base_fare =
+                (formData?.distance * (serviceDetails?.price_per_km ?? 0)) +
+                (formData?.duration * (serviceDetails?.price_per_hour ?? 0));
+            const travelerCount = Math.max((formData?.adults + formData?.kids) - 1, 0);
+            const additional_travelerse_fee = travelerCount * (value?.price ?? 0);
+            const subTotal = service_charge + base_fare + additional_travelerse_fee;
+            const tax = (subTotal * (serviceDetails?.taxs ?? 0)) / 100 + (serviceDetails?.fixed_price ?? 0);
+            const total_price = subTotal + tax;
+
+            const calculatedFields: Partial<BookingDetails> = {
+                provider: value?.id,
+                service_charge,
+                base_fare,
+                additional_travelerse_fee,
+                tax,
+                total_price,
+            };
+
             setSelectedService(value?.id);
-            // next(); 
+            setSelectedRidePricing(calculatedFields); 
+            // updateFormData({
+            //     ...formData,
+            //     ...calculatedFields,
+            // });
+        } catch {
+            
         }
-
     };
 
     const onValuesChange = () => {
@@ -75,15 +87,16 @@ const RideOption = ({ next, prev, updateFormData, formData }: { next: () => void
         setFormValid(allFilled);
     };
 
-    const onFinish = (values: { service: string, pickUpCity: string, dropOffCity: string, date: string, adults: number, kids: number , additionalInfo: string}) => {
+    const onFinish = (values: { service: string, pickUpCity: string, dropOffCity: string, date: string, adults: number, kids: number, additionalInfo: string }) => {
         const updatedData: BookingDetails = {
             ...formData,
+            ...selectedRidePricing, 
             service: values.service,
             pickup_location: values.pickUpCity,
             dropoff_location: values.dropOffCity,
-            date: values?.date,
-            adults: values.adults,
-            kids: values.kids,
+            date: values.date,
+            adults: Number(values.adults),
+            kids: Number(values.kids),
             additional_info: values.additionalInfo,
         };
 
@@ -98,7 +111,7 @@ const RideOption = ({ next, prev, updateFormData, formData }: { next: () => void
                 service: formData.service,
                 pickUpCity: formData.pickup_location,
                 dropOffCity: formData.dropoff_location,
-                date: formData.date ? moment(formData.date) : null,
+                date: formData.date ,
                 adults: formData.adults,
                 kids: formData.kids,
                 additionalInfo: formData.additional_info || "",
@@ -167,6 +180,7 @@ const RideOption = ({ next, prev, updateFormData, formData }: { next: () => void
                                     style={{ height: 48 }}
                                     suffix={<MdOutlineMyLocation size={20} color="#286a25" />}
                                     className="w-1/2"
+                                    readOnly
                                 />
                             </Form.Item>
 
@@ -181,6 +195,7 @@ const RideOption = ({ next, prev, updateFormData, formData }: { next: () => void
                                     style={{ height: 48 }}
                                     suffix={<MdOutlineMyLocation size={20} color="#286a25" />}
                                     className="w-1/2"
+                                    readOnly
                                 />
                             </Form.Item>
                         </div>
@@ -190,11 +205,13 @@ const RideOption = ({ next, prev, updateFormData, formData }: { next: () => void
                             label={<p className="text-content2 text-sm">Date & Time</p>}
                             rules={[{ required: true, message: "Please select a date" }]}
                         >
-                            <DatePicker
+
+                            <Input
                                 placeholder="Select date & time"
+                                style={{ height: 48 }}
+                                suffix={<CiStopwatch size={24} color="#286a25" />}
                                 className="w-full"
-                                style={{ height: "48px" }}
-                                suffixIcon={<FiEdit3 size={20} color="#286a25" />}
+                                readOnly
                             />
                         </Form.Item>
 
@@ -210,6 +227,7 @@ const RideOption = ({ next, prev, updateFormData, formData }: { next: () => void
                                     placeholder="Write adult number"
                                     style={{ height: "48px" }}
                                     className="w-1/2"
+                                    
                                 />
                             </Form.Item>
 
@@ -224,6 +242,7 @@ const RideOption = ({ next, prev, updateFormData, formData }: { next: () => void
                                     placeholder="Write kids number"
                                     style={{ height: "48px" }}
                                     className="w-1/2"
+
                                 />
                             </Form.Item>
                         </div>
@@ -286,15 +305,15 @@ const RideOption = ({ next, prev, updateFormData, formData }: { next: () => void
                         })}
                     </div>
 
-                    <Form.Item> 
-                        <div className="flex justify-end"> 
+                    <Form.Item>
+                        <div className="flex justify-end">
 
-                        <button
-                            type="submit"
-                            className={`rounded-full h-12 px-12 text-white text-[16px] transition-colors duration-300  bg-primary `}
-                        >
-                            Continue
-                        </button>
+                            <button
+                                type="submit"
+                                className={`rounded-full h-12 px-12 text-white text-[16px] transition-colors duration-300  bg-primary `}
+                            >
+                                Continue
+                            </button>
                         </div>
                     </Form.Item>
                 </Form>

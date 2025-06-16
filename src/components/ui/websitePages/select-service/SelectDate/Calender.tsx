@@ -5,12 +5,12 @@ import "dayjs/locale/zh-cn";
 import { Calendar } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 
-const Calender = ({ unavailableDay, selectedDate, setSelectedDate }: { unavailableDay: string[], selectedDate: string | null, setSelectedDate: React.Dispatch<React.SetStateAction<string | null>> }) => {
+const Calender = ({ unavailableDay, selectedDate, setSelectedDate }: { unavailableDay: string[] | undefined, selectedDate: string | null, setSelectedDate: React.Dispatch<React.SetStateAction<string | null>> }) => {
 
   const [value, setValue] = useState<Dayjs>(dayjs());
 
   const disabledDate = (date: Dayjs): boolean => {
-    return unavailableDay?.some((d: string) => dayjs(date).isSame(dayjs(d), "day"));
+    return unavailableDay?.some((d: string) => dayjs(date).isSame(dayjs(d), "day")) ?? false;
   };
 
   const toggleDate = (date: Dayjs) => {

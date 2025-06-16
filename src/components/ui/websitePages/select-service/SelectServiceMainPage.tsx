@@ -25,6 +25,8 @@ export type BookingDetails = {
   total_price: number;
   distance: number;
   duration: number;
+  pickup_time: string; 
+  dropOff_time: string
 }; 
 
 
@@ -49,7 +51,9 @@ const SelectServiceMainPage = () => {
         additional_info: '',
         total_price: 0,
         distance: 0,
-        duration: 0,
+        duration: 0, 
+        pickup_time: '', 
+        dropOff_time:""
     });
 
     const updateFormData = (newData: Partial<typeof formData>) => {

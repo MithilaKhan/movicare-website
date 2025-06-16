@@ -1,30 +1,75 @@
 "use client";
-import { Form, Input } from "antd";
+import { Form, Input, Select } from "antd";
 import PriceDetails from "../PriceDetails";
 import 'react-calendar/dist/Calendar.css';
 import Calender from "./Calender";
 import { IoIosArrowBack } from "react-icons/io";
 import { useEffect, useState } from "react";
 import { BookingDetails } from "../SelectServiceMainPage";
+import { useAllTimeSlotsQuery, useCheckSlotsMutation, useUnavailableDateSlotQuery } from "@/redux/features/others/booking/bookingSlice";
+import { toast } from "react-toastify";
+import { errorType } from "../../contact/SendMessage";
+import moment from "moment";
 
-const SelectDate = ({ next, prev, updateFormData , formData}: { next: () => void; prev: () => void, updateFormData: (newData: Partial<BookingDetails>) => void , formData: BookingDetails }) => {
+const SelectDate = ({ next, prev, updateFormData, formData }: { next: () => void; prev: () => void, updateFormData: (newData: Partial<BookingDetails>) => void, formData: BookingDetails }) => {
   const [form] = Form.useForm();
   const [isServiceSelected, setIsServiceSelected] = useState(false);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [endTime, setEndTime] = useState<string | null>(null);
+  const { data: allUnavailableDates } = useUnavailableDateSlotQuery(undefined);
+  const { data: timeSlots } = useAllTimeSlotsQuery(selectedDate || "");
+  const [checkSlots, { isError, isSuccess, error, data }] = useCheckSlotsMutation();
+
+  useEffect(() => {
+    if (isSuccess) {
+      const endTime = moment(data?.data?.end).format('HH:mm A');
+      setEndTime(endTime)
+    }
+
+    if (isError) {
+      const errorMessage =
+        (error as errorType)?.data?.errorMessages
+          ? (error as errorType)?.data?.errorMessages.map((msg: { message: string }) => msg?.message).join("\n")
+          : (error as errorType)?.data?.message || "Something went wrong. Please try again.";
+      toast.error(errorMessage);
+    }
+  }, [isSuccess, isError, error, data, form]);
+
+
+  const handleStartTimeChange = async (value: string) => {
+    const data = {
+      date: selectedDate,
+      time: value,
+      dropoff_location: formData.dropoff_location,
+      pickup_location: formData.pickup_location,
+    }
+
+    await checkSlots(data)
+
+  }
+
+  const StartTimeOption = timeSlots?.data?.map((timeSlot: { time: string; available: boolean }) => {
+    const formattedTime = timeSlot.time.replace(/:\d{2}\s/, ' ');
+    return {
+      label: formattedTime,
+      value: timeSlot.time,
+      disabled: !timeSlot.available,
+    };
+  });
+
 
   const onValuesChange = () => {
     const values = form.getFieldsValue();
-    const requiredFields = ["checkoutDate", "hour", "minute", "adults", "kids"];
+    const requiredFields = [ "pickup_time", "endTime", "adults", "kids"];
     const allFilled = requiredFields.every((field) => values[field] !== undefined && values[field] !== "");
     setIsServiceSelected(allFilled);
-  }; 
+  };
 
-    useEffect(() => {
+  useEffect(() => {
 
-    if (formData?.date || formData?.adults || formData?.kids) {
-
-      form.setFieldsValue({ adults: formData.adults, kids: formData.kids}); 
-      setSelectedDate(formData.date);
+    if (formData?.date || formData?.adults || formData?.kids || formData?.pickup_time) {
+      form.setFieldsValue({ adults: formData.adults, kids: formData.kids , pickup_time: formData.pickup_time , endTime: formData.dropOff_time });
+      setSelectedDate(formData.date ? moment(formData.date).format('YYYY-MM-DD') : null); 
 
       const values = form.getFieldsValue();
       setIsServiceSelected(!!values.adults && !!values.kids);
@@ -32,12 +77,20 @@ const SelectDate = ({ next, prev, updateFormData , formData}: { next: () => void
     }
   }, [form, formData]);
 
-  const onFinish = (values: { checkoutDate: string, hour: string, minute: string, adults: string, kids: string }) => {
+  useEffect(() => {
+    if (endTime) {
+      form.setFieldsValue({ endTime: endTime });
+    }
+  }, [endTime, form]);
+
+  const onFinish = (values: { pickup_time: string, endTime: string, adults: string, kids: string }) => {
 
     updateFormData({
       date: selectedDate,
       adults: Number(values.adults),
-      kids: Number(values.kids)
+      kids: Number(values.kids),
+      pickup_time: values.pickup_time,
+      dropOff_time: values.endTime
     });
     next();
   };
@@ -62,28 +115,38 @@ const SelectDate = ({ next, prev, updateFormData , formData}: { next: () => void
           </div>
 
           <Form.Item
-            name="checkoutDate"
+           
           // rules={[{ required: true, message: "Please select a date" }]}
           >
             <div className="border border-[#ebe9e9] rounded-lg lg:p-8 p-2">
-              <Calender unavailableDay={["2025-05-04", "2025-05-02"]} selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
+              <Calender unavailableDay={allUnavailableDates} selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
 
               <div>
-                <p className="text-sm text-[#525252] font-medium pt-4">Travel’s Time</p>
-                <div className="flex lg:flex-row flex-col items-center gap-2 mt-2">
+                <p className="text-lg text-[#525252] font-medium pt-4 pb-2">Travel’s Time</p>
+                <div className="flex lg:flex-row flex-col items-center gap-2 mt-2 w-full">
                   <Form.Item
-                    name="hour"
-                    noStyle
+                    name="pickup_time"
+                    className="w-full"
                     rules={[{ required: true, message: "Please enter hour" }]}
+                    label={<p className="text-[#525252]  text-sm font-medium">Start Time</p>}
                   >
-                    <Input type="number" placeholder="Hour" className="w-1/2" style={{ height: "48px" }} />
+                    <Select
+                      placeholder="Start Time"
+                      className="w-1/2  rounded-lg p-2"
+                      style={{ height: 48 }}
+                      options={StartTimeOption}
+                      onChange={(value) => {
+                        handleStartTimeChange(value);
+                      }}
+                    />
                   </Form.Item>
                   <Form.Item
-                    name="minute"
-                    noStyle
+                    name="endTime"
+                    className="w-full"
                     rules={[{ required: true, message: "Please enter minute" }]}
+                    label={<p className="text-[#525252]  text-sm font-medium">End Time</p>}
                   >
-                    <Input type="number" placeholder="Minute" className="w-1/2" style={{ height: "48px" }} />
+                    <Input type="text"  placeholder="Minute" className="w-1/2" style={{ height: "48px" }} readOnly />
                   </Form.Item>
                 </div>
                 <p className="text-[#000000] lg:text-[16px] text-sm pt-5 font-medium">

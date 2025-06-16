@@ -41,7 +41,7 @@ const ForgetPassword = () => {
           : (error as errorType)?.data?.message || "Something went wrong. Please try again.";
       toast.error(errorMessage);
     }
-  }, [isSuccess, isError, error, data, router, form, email]);
+  }, [isSuccess, isError, error, data, router, form, email , token]);
 
   const onFinish = async (values: { email: string }) => {
     setEmail(values.email);

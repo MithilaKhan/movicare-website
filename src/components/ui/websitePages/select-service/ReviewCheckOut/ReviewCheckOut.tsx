@@ -1,6 +1,6 @@
 "use client";
 
-import { DatePicker, Form, Input, Select } from "antd";
+import { Form, Input, Select } from "antd";
 import { IoIosArrowBack } from "react-icons/io";
 import { useEffect, useState } from "react";
 import { FiEdit3 } from "react-icons/fi";
@@ -9,18 +9,23 @@ import { BookingDetails } from "../SelectServiceMainPage";
 import moment from "moment";
 import { useGetServicesQuery } from "@/redux/features/others/services/servicesSlice";
 import { useCreateBookingMutation } from "@/redux/features/others/booking/bookingSlice";
-
-
+import { CiStopwatch } from "react-icons/ci";
+import { toast } from "react-toastify";
+import { errorType } from "../../contact/SendMessage";
+import { useRouter } from "next/navigation";
 
 const ReviewCheckOut = ({ prev, formData }: { prev: () => void, formData: BookingDetails }) => {
   const [form] = Form.useForm();
   const [formValid, setFormValid] = useState(false);
   const { data: allServices } = useGetServicesQuery(undefined);
-  const [createBooking] = useCreateBookingMutation();
+  const [createBooking , {error , isError , isSuccess , data}] = useCreateBookingMutation(); 
+  const router = useRouter()
   const servicesOption = allServices?.map((service) => ({
     value: service._id,
     label: service.name,
-  })) || [];
+  })) || []; 
+
+  console.log(formData);
 
   const priceData = [
     {
@@ -39,7 +44,23 @@ const ReviewCheckOut = ({ prev, formData }: { prev: () => void, formData: Bookin
       label: "Taxes & Fees",
       value: (formData?.tax).toFixed(2)
     },
-  ]
+  ] 
+
+ useEffect(() => {
+    if (isSuccess) {
+      toast.success(data?.message); 
+      router.push(data?.data)
+      form.resetFields();
+    }
+
+    if (isError) {
+      const errorMessage =
+        (error as errorType)?.data?.errorMessages
+          ? (error as errorType)?.data?.errorMessages.map((msg: { message: string }) => msg?.message).join("\n")
+          : (error as errorType)?.data?.message || "Something went wrong. Please try again.";
+      toast.error(errorMessage);
+    }
+  }, [isSuccess, isError, error, data, form, router]);
 
 
   // const additionalServicesOption = [
@@ -56,7 +77,7 @@ const ReviewCheckOut = ({ prev, formData }: { prev: () => void, formData: Bookin
         service: formData.service,
         pickUpCity: formData.pickup_location,
         dropOffCity: formData.dropoff_location,
-        date: formData.date ? moment(formData.date) : null,
+        date: formData.date ,
         adults: formData.adults,
         kids: formData.kids,
         additionalInfo: formData.additional_info || "",
@@ -103,12 +124,8 @@ const ReviewCheckOut = ({ prev, formData }: { prev: () => void, formData: Bookin
       kids: Number(values.kids),
       additional_info: values.additionalInfo || "",
     };
-
-    console.log(updatedData, "updatedData");
-
-    await createBooking(updatedData).then((res) =>
-      console.log(res, "fdgfd")
-    )
+ 
+    await createBooking(updatedData)
   };
 
   return (
@@ -141,6 +158,7 @@ const ReviewCheckOut = ({ prev, formData }: { prev: () => void, formData: Bookin
                 style={{ height: 45 }}
                 options={servicesOption}
                 suffixIcon={<FiEdit3 size={20} color="#286a25" />}
+                disabled
               />
             </Form.Item>
 
@@ -156,6 +174,7 @@ const ReviewCheckOut = ({ prev, formData }: { prev: () => void, formData: Bookin
                   style={{ height: 48 }}
                   suffix={<MdOutlineMyLocation size={20} color="#286a25" />}
                   className="w-1/2"
+                  readOnly
                 />
               </Form.Item>
 
@@ -170,6 +189,7 @@ const ReviewCheckOut = ({ prev, formData }: { prev: () => void, formData: Bookin
                   style={{ height: 48 }}
                   suffix={<MdOutlineMyLocation size={20} color="#286a25" />}
                   className="w-1/2"
+                  readOnly
                 />
               </Form.Item>
             </div>
@@ -179,11 +199,12 @@ const ReviewCheckOut = ({ prev, formData }: { prev: () => void, formData: Bookin
               label={<p className="text-content2 text-sm">Date & Time</p>}
               rules={[{ required: true, message: "Please select a date" }]}
             >
-              <DatePicker
+              <Input
                 placeholder="Select date & time"
+                style={{ height: 48 }}
+                suffix={<CiStopwatch size={24} color="#286a25" />}
                 className="w-full"
-                style={{ height: "48px" }}
-                suffixIcon={<FiEdit3 size={20} color="#286a25" />}
+                readOnly
               />
             </Form.Item>
 
@@ -198,7 +219,8 @@ const ReviewCheckOut = ({ prev, formData }: { prev: () => void, formData: Bookin
                   type="number"
                   placeholder="Write adult number"
                   style={{ height: "48px" }}
-                  className="w-1/2"
+                  className="w-1/2" 
+                  readOnly
                 />
               </Form.Item>
 
@@ -212,23 +234,11 @@ const ReviewCheckOut = ({ prev, formData }: { prev: () => void, formData: Bookin
                   type="number"
                   placeholder="Write kids number"
                   style={{ height: "48px" }}
-                  className="w-1/2"
+                  className="w-1/2" 
+                  readOnly
                 />
               </Form.Item>
             </div>
-
-            {/* <Form.Item
-              name="additionalInfo"
-              label={<p className="text-content2 text-sm">Additional info or special needs</p>}
-            >
-               <Select
-                placeholder="Choose the type of transportation"
-                className="w-full rounded-lg p-2"
-                style={{ height: 45 }}
-                options={additionalServicesOption}
-                // suffixIcon={<FiEdit3 size={20} color="#286a25" />} 
-              /> 
-            </Form.Item> */}
 
             <Form.Item
               name="additionalInfo"

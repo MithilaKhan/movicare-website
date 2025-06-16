@@ -46,9 +46,35 @@ const bookingSlice = baseApi.injectEndpoints({
           body: data
         }
       },
-    })
+    }),
+
+    unavailableDateSlot: build.query({
+      query: () => ({
+        url: `/booking/slots`,
+      }),
+      transformResponse: (response: { data: string[] }) => response.data,
+    }),
+
+    allTimeSlots: build.query({
+      query: (date) => {  
+        console.log(date , "selected date");
+        const params = new URLSearchParams()
+        if (date) params.append('date', date)
+        return {
+          url: `/booking/time-slots?${params.toString()}`,
+        }
+      }
+    }) , 
+
+    checkSlots: build.mutation({
+      query: (data) => ({
+        url: `/booking/check`,
+        method: "POST",
+        body: data,
+      }),
+    }),
 
   })
 })
 
-export const { useCreateBookingMutation, useGetAllBookingsHistoryQuery, useRebookBookingMutation, useGetBookingsDetailsQuery, useCancelBookingMutation } = bookingSlice
+export const { useCreateBookingMutation, useGetAllBookingsHistoryQuery, useRebookBookingMutation, useGetBookingsDetailsQuery, useCancelBookingMutation, useUnavailableDateSlotQuery , useAllTimeSlotsQuery , useCheckSlotsMutation } = bookingSlice
