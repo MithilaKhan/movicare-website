@@ -6,6 +6,7 @@ import EasyStress from './EasyStress';
 import ClientReview from './ClientReview';
 import ReadyFor from '@/components/shared/ReadyFor';
 import GotQuestions from '@/components/shared/GotQuestions';
+import Animation from './Animation';
 
 const HomeMain = () => {
     return (
@@ -13,7 +14,8 @@ const HomeMain = () => {
           <Banner /> 
           <Companies/> 
           <WhyChoose /> 
-          <EasyStress/> 
+          <EasyStress/>  
+          <Animation/>
           <ClientReview/> 
           <GotQuestions/> 
           <ReadyFor/>

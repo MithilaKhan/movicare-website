@@ -5,24 +5,25 @@ import { ChevronDown } from 'lucide-react';
 import BookingDetailsCard from '@/components/shared/BookingDetailsCard';
 import { LiaSortSolid } from 'react-icons/lia';
 import { useGetAllBookingsHistoryQuery } from '@/redux/features/others/booking/bookingSlice';
+import moment from 'moment';
 
 
 const BookingHistory = () => {
   const [sortBy, setSortBy] = useState('Date');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);  
   const durationType = "history"
-  const {data} = useGetAllBookingsHistoryQuery(durationType) 
+  const {data} = useGetAllBookingsHistoryQuery(durationType)  
 
   const bookings = data?.map((booking) => ({
     id: booking._id,
     date:  booking.date,
     status: booking.status,
-    time: "11:30 AM",
+    time: moment(booking.pickup_time).format('hh:mm A'),
     origin: booking.pickup_location,
     destination: booking.dropoff_location,
     distance: booking.distance,
     vehicleClass: booking.provider.name,
-    price: booking.service.service_price,
+    price: booking.total_price,
     passengers: {
       adults: booking.adults,
       kids: booking.kids

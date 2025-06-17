@@ -13,7 +13,8 @@ import { errorType } from '../ui/websitePages/contact/SendMessage';
 const BookingDetailsCard = ({ booking, type }: { booking: BookingCardProps, type: string }) => {
   const [isRebookOpen, setIsRebookOpen] = useState(false);
   const router = useRouter()
-  const [cancelBooking, { isError, isLoading, isSuccess, error, data }] = useCancelBookingMutation()
+  const [cancelBooking, { isError, isLoading, isSuccess, error, data }] = useCancelBookingMutation() 
+  console.log(booking, "booking");
 
   useEffect(() => {
     if (isSuccess) {
@@ -59,10 +60,10 @@ const BookingDetailsCard = ({ booking, type }: { booking: BookingCardProps, type
       {/* Content */}
       <div className="p-4 flex lg:flex-row flex-col justify-between lg:items-center items-start lg:gap-0  gap-7 border border-gray-200 rounded-xl mt-5 ">
         <div className="">
-          <div className="flex items-baseline">
-            <h3 className="lg:text-2xl text-xl font-semibold">{booking.origin}</h3>
+          <div className="flex lg:flex-row flex-col items-baseline">
+            <h3 className="lg:text-xl text-lg font-semibold  w-[300px] ">{booking.origin}</h3>
             <span className="mx-2 text-content1/50 text-sm">To</span>
-            <h3 className="lg:text-2xl text-xl font-semibold">{booking.destination}</h3>
+            <h3 className="lg:text-xl text-lg font-semibold  w-[300px] lg:ps-4">{booking.destination}</h3>
           </div>
           <p className="lg:text-sm text-xs text-content1/50 lg:mt-4 mt-2">{booking.distance}KM Far from Pickup Location</p>
         </div>
@@ -113,7 +114,7 @@ const BookingDetailsCard = ({ booking, type }: { booking: BookingCardProps, type
           </div>
         )
       }
-      <RebookModal open={isRebookOpen} setOpen={setIsRebookOpen} date={booking.date} id={booking.id} />
+      <RebookModal open={isRebookOpen} setOpen={setIsRebookOpen} booking={booking} />
     </div>
   );
 };

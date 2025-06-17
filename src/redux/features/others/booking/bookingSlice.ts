@@ -1,4 +1,4 @@
-import { Booking, BookingData } from "@/components/ui/profile/current-booking/CurrentBooking";
+import { Booking } from "@/components/ui/profile/current-booking/CurrentBooking";
 import { baseApi } from "@/redux/base/baseApi";
 
 const bookingSlice = baseApi.injectEndpoints({
@@ -27,7 +27,7 @@ const bookingSlice = baseApi.injectEndpoints({
           url: `/booking?${params.toString()}`,
         }
       },
-      transformResponse: (response: { data: BookingData }) => response.data.data,
+      transformResponse: (response: { data: Booking[] }) => response.data,
     }),
 
     rebookBooking: build.mutation({

@@ -12,14 +12,14 @@ import { errorType } from "../../websitePages/contact/SendMessage";
 
 const CreateReview = ({ bookingDetails, id }: { bookingDetails: Booking | undefined, id: string|null }) => {
     const [form] = Form.useForm();
-    const [rating , setRating] = useState<number>() 
+    const [rating , setRating] = useState<number | null>() 
     const [createReview , {isLoading , isError , isSuccess , error , data}] = useCreateReviewMutation() 
 
       useEffect(() => {
         if (isSuccess) {
           toast.success(data?.message); 
           form.resetFields(); 
-          setRating(0)
+          setRating(null)
         }
     
         if (isError) {
@@ -58,7 +58,7 @@ const CreateReview = ({ bookingDetails, id }: { bookingDetails: Booking | undefi
                                 },
                             }}
                         >
-                            <Rate allowHalf  onChange={(value) => setRating(value)}/>
+                          <Rate allowHalf value={rating ?? 0} onChange={(value) => setRating(value)} />
                         </ConfigProvider>  </div>
 
                     <div className=" flex flex-wrap  items-center ">

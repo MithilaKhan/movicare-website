@@ -27,7 +27,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                         <ConfigProvider
                             theme={{
                                 token: {
-                                    colorPrimary: '#0ea5e9',
+                                    colorPrimary: '#286A25',
                                 },
                             }}
                         >
