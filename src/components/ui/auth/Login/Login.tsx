@@ -6,24 +6,31 @@ import { useLoginUserMutation } from "@/redux/features/auth/authApi";
 import { Checkbox, Divider, Form, Input } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { toast } from "react-toastify";
 import { errorType } from "../../websitePages/contact/SendMessage";
 import Cookies from 'js-cookie';
+import { userContext } from "@/helpers/UserProvider";
 
 const Login = () => {
   const router = useRouter()
   const [loginUser, { isLoading, isSuccess, isError, error, data }] = useLoginUserMutation();
-  const [form] = Form.useForm();
+  const [form] = Form.useForm(); 
+  const userCtx = useContext(userContext);
+  const refetch = userCtx?.refetch;
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success(data?.message);
+      toast.success(data?.message); 
       Cookies.set("accessToken", data?.data?.createToken || "");
-      Cookies.set("refreshToken", data?.data?.refreshToken || ""); 
-       localStorage.removeItem("resetToken"); 
-      form.resetFields();
+      Cookies.set("refreshToken", data?.data?.refreshToken || "");
+      localStorage.removeItem("resetToken");
+      form.resetFields(); 
+        setTimeout(() => {
+      refetch?.();
       router.push("/");
+    }, 200);
+
     }
 
     if (isError) {

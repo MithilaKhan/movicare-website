@@ -6,8 +6,7 @@ import React, { useEffect, useState } from "react"
 // import OTPInput from "react-otp-input"; 
 import { toast } from "react-toastify";
 import { errorType } from "../../websitePages/contact/SendMessage";
-import { SetLocalStorage } from "@/util/LocalStroage";
-
+import Cookies from "js-cookie";
 const { Text } = Typography;
 
 const VerifyOtp = () => {
@@ -30,7 +29,7 @@ const VerifyOtp = () => {
   }] = useForgetPasswordMutation();
 
   const userType = localStorage.getItem("userType")
-  console.log(userType, "sfdsfSDF");
+
 
   useEffect(() => {
     const emailFromQuery = new URLSearchParams(window.location.search).get('email');
@@ -44,11 +43,13 @@ const VerifyOtp = () => {
         router.push("/login")
       }
       if (userType === "forget") {
-        SetLocalStorage("resetToken", verifyData?.data || "");
-        router.push("/reset-password")
-        
+        Cookies.set("resetToken", verifyData?.data || "", {
+          expires: 1, 
+          path: "/",
+        });
+        router.push("/reset-password");
       }
-    
+
       form.resetFields();
     }
     if (isVerifyError) {

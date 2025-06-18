@@ -1,14 +1,21 @@
 
+import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
+const privateRoutes = ['/account-information', "/booking-history", "/current-booking", "/reviews-feedback", "/select-service"]
 
 export async function middleware(Request: NextRequest) {
     try {
         const url = await Request.nextUrl.pathname
         const searchParams = Request.nextUrl.searchParams;
-        const accessToken = searchParams.get('accessToken') || '';
-
+        const accessGoogleToken = searchParams.get('accessToken') || '';
+        const loginToken = cookies().get("accessToken")?.value;
+        const accessToken = accessGoogleToken || loginToken;
         const refreshToken = searchParams.get('refreshToken') || '';
+
+        if (privateRoutes.includes(url) && !accessToken) {
+            return NextResponse.redirect(new URL("/login", Request.url));
+        }
 
         if (url === '/' && accessToken && refreshToken) {
             {
@@ -33,6 +40,7 @@ export async function middleware(Request: NextRequest) {
                 return response;
             }
         }
+        console.log(url)
 
         NextResponse.next();
 
@@ -46,5 +54,5 @@ export async function middleware(Request: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/']
+    matcher: ['/', '/account-information', "/booking-history", "/current-booking", "/reviews-feedback", "/select-service"],
 }

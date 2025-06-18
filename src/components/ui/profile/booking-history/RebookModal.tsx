@@ -76,7 +76,7 @@ const RebookModal = ({ open, setOpen, booking }: { open: boolean, setOpen: (open
           : (error as errorType)?.data?.message || "Something went wrong. Please try again.";
       toast.error(errorMessage);
     }
-  }, [isSuccess, isError, error, data, setOpen]);
+  }, [isSuccess, isError, error, data, setOpen , router]);
 
   const onFinish = async () => {
     const data = {

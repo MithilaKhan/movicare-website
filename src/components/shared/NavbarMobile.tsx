@@ -12,7 +12,7 @@ const NavbarMobile = ({ toggleDropdown, drawerVisible, openDropdowns, navOptions
     toggleDropdown: (index: number) => void,
     drawerVisible: boolean, openDropdowns: { [key: number]: boolean },
     navOptions: {
-        label: string,
+        label: string | JSX.Element | undefined,
         path?: string | undefined,
         subOptions?: { label: string, value: string }[] | undefined
     }[],
@@ -40,7 +40,7 @@ const NavbarMobile = ({ toggleDropdown, drawerVisible, openDropdowns, navOptions
         >
             <div className="flex flex-col ">
                 <div className=" flex flex-col ">
-                    {navOptions.map((option: { label: string, path?: string, subOptions?: { label: string, value: string }[] | undefined }, index: number) => {
+                    {navOptions.map((option: { label: string|JSX.Element|undefined, path?: string, subOptions?: { label: string, value: string }[] | undefined }, index: number) => {
                         const isActive = pathname === option.path;
                         const isDropdown = !!option.subOptions;
                         const isOpen = openDropdowns[index]; // Check if this dropdown is open

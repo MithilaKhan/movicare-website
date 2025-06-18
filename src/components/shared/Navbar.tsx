@@ -10,6 +10,7 @@ import Image from "next/image";
 import { useGetServicesQuery } from "@/redux/features/others/services/servicesSlice";
 import { userContext } from "@/helpers/UserProvider";
 import { imageUrl } from "@/redux/base/baseApi";
+import { FaHome } from "react-icons/fa";
 
 
 const Navbar = () => {
@@ -19,9 +20,9 @@ const Navbar = () => {
   const [openDropdowns, setOpenDropdowns] = useState<{ [key: number]: boolean }>({});
   const [language, setLanguage] = useState<string | null>("en")
   const router = useRouter()
-  const {data:services} = useGetServicesQuery(undefined);  
- const userContextValue = useContext(userContext);
- const user = userContextValue?.user; 
+  const { data: services } = useGetServicesQuery(undefined);
+  const userContextValue = useContext(userContext);
+  const user = userContextValue?.user;
 
 
   // for translate  
@@ -78,15 +79,21 @@ const Navbar = () => {
   const pathname = usePathname();
 
 
-const category = {
-  data: (services ?? []).map((item: { name: string; _id: string }) => ({
-    name: item.name,
-    _id: item._id,
-  })),
-};
+  const category = {
+    data: (services ?? []).map((item: { name: string; _id: string }) => ({
+      name: item.name,
+      _id: item._id,
+    })),
+  };
 
   const navOptions = [
-    { label: "Home", path: "/" },
+    {
+      label: (
+        <span className="flex items-center gap-1">
+          <FaHome className="text-lg" />
+        </span>
+      ), path: "/"
+    },
     {
       label: "Services",
       subOptions: category?.data?.map((item: { name: string; _id: string }) => ({
@@ -165,7 +172,7 @@ const category = {
                       className="flex items-center cursor-pointer px-3 py-[14px] rounded-lg"
                       onClick={() => setIsDropdownOpen(prev => !prev)}
                     >
-                      <span className={`nav-link ${[ "/services" ].includes(pathname) ? "text-[#FFFFFF]" : "text-content2"}`}>
+                      <span className={`nav-link ${["/services"].includes(pathname) ? "text-[#FFFFFF]" : "text-content2"}`}>
                         {option.label}
                       </span>
                       <HiChevronDown
@@ -225,12 +232,12 @@ const category = {
                   height={44}
                   className="rounded-full"
                 />
-                <h2 className={` text-[16px] font-medium ${ pathname === "/services" ? "text-white": "text-content1"}`}>
+                <h2 className={` text-[16px] font-medium ${pathname === "/services" ? "text-white" : "text-content1"}`}>
                   {user?.name}
                 </h2>
               </Link> :
                 <Link href="/login">
-                  <p className={`text-sm font-normal ${ pathname === "/services" ? "text-white": "text-content1"} `}>Login</p>
+                  <p className={`text-sm font-normal ${pathname === "/services" ? "text-white" : "text-content1"} `}>Login</p>
                 </Link>
             }
 

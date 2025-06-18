@@ -7,35 +7,31 @@ import SelectLocation from './SelectLocationStep/SelectLocation';
 import SelectDate from './SelectDate/SelectDate';
 import RideOption from './RideOption/RideOption';
 import ReviewCheckOut from './ReviewCheckOut/ReviewCheckOut';
-import { useRouter } from 'next/navigation'; 
+import { useRouter } from 'next/navigation';
 
 export type BookingDetails = {
-  service: string | null; 
-  provider: string | null;
-  date: string | null;
-  pickup_location: string;
-  dropoff_location: string;
-  base_fare: number;
-  service_charge: number;
-  additional_travelerse_fee: number;
-  kids: number;
-  adults: number;
-  tax: number;
-  additional_info: string;
-  total_price: number;
-  distance: number;
-  duration: number;
-  pickup_time: string; 
-  dropOff_time: string
-}; 
+    service: string | null;
+    provider: string | null;
+    date: string | null;
+    pickup_location: string;
+    dropoff_location: string;
+    base_fare: number;
+    service_charge: number;
+    additional_travelerse_fee: number;
+    kids: number;
+    adults: number;
+    tax: number;
+    additional_info: string;
+    total_price: number;
+    distance: number;
+    duration: number;
+    pickup_time: string;
+    dropOff_time: string
+};
 
 
 const SelectServiceMainPage = () => {
     const router = useRouter();
-    const searchParams = new URLSearchParams();
-
-    const stepFromUrl = Number(searchParams.get('step')) || 0;
-    const [current, setCurrent] = useState(stepFromUrl);
     const [formData, setFormData] = useState<BookingDetails>({
         service: null,
         provider: null,
@@ -51,20 +47,27 @@ const SelectServiceMainPage = () => {
         additional_info: '',
         total_price: 0,
         distance: 0,
-        duration: 0, 
-        pickup_time: '', 
-        dropOff_time:""
+        duration: 0,
+        pickup_time: '',
+        dropOff_time: ""
     });
 
-    const updateFormData = (newData: Partial<typeof formData>) => {
-        setFormData((prev) => ({ ...prev, ...newData }));
-    }; 
+    const [current, setCurrent] = useState(0);
 
-    console.log("formData", formData);
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const urlStep = Number(new URLSearchParams(window.location.search).get("step")) || 0;
+            setCurrent(urlStep);
+        }
+    }, []);
 
     useEffect(() => {
         router.replace(`?step=${current}`);
-    }, [current, router]);  
+    }, [current, router]);
+
+    const updateFormData = (newData: Partial<typeof formData>) => {
+        setFormData((prev) => ({ ...prev, ...newData }));
+    };
 
     const next = () => setCurrent((prev) => Math.min(prev + 1, steps.length - 1));
     const prev = () => setCurrent((prev) => Math.max(prev - 1, 0));
@@ -81,7 +84,7 @@ const SelectServiceMainPage = () => {
         },
         {
             title: <p className='text-[14px] w-full'>Select Date & Travelers</p>,
-            content: <SelectDate next={next} prev={prev}  updateFormData={updateFormData} formData={formData} />,
+            content: <SelectDate next={next} prev={prev} updateFormData={updateFormData} formData={formData} />,
         },
         {
             title: <p className='text-[14px] w-full'>Select Ride Option </p>,
@@ -89,7 +92,7 @@ const SelectServiceMainPage = () => {
         },
         {
             title: <p className='text-[14px] w-full'>Review & Checkout</p>,
-            content: <ReviewCheckOut prev={prev} formData={formData}  />,
+            content: <ReviewCheckOut prev={prev} formData={formData} />,
         },
     ];
 

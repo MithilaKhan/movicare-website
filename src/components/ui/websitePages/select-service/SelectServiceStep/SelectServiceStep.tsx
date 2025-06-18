@@ -15,8 +15,8 @@ const SelectServiceStep = ({ next , updateFormData , formData }: { next: () => v
         label: service.name,
     })) || [];
 
-  const selectedService = Form.useWatch("service", form);
-  const isServiceSelected = !!selectedService;
+//   const selectedService = Form.useWatch("service", form);
+//   const isServiceSelected = !!selectedService;
 
     const onFinish = (values:{service:string}) => { 
            updateFormData({ service: values.service });
@@ -59,9 +59,9 @@ const SelectServiceStep = ({ next , updateFormData , formData }: { next: () => v
                     <Form.Item className=" w-full">
                         <button
                             type="submit"
-                            className={`${isServiceSelected ? "bg-primary" : "bg-[#b5b5b5] cursor-not-allowed"
-                                } text-white py-3 px-6 mt-6 rounded-full text-[16px] transition-colors duration-300 w-full`}
-                            disabled={!isServiceSelected}
+                            className={` bg-primary
+                                 text-white py-3 px-6 mt-6 rounded-full text-[16px] transition-colors duration-300 w-full`}
+                          
                         >
                             Choose Locations
                         </button>

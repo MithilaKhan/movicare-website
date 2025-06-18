@@ -1,47 +1,80 @@
-"use client"; // Only if you're using App Router (Next.js 13+ with app directory)
+"use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
 
 export default function Animation() {
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
+    const textRef = useRef<HTMLSpanElement>(null);
 
-    gsap.to(".car-container", {
-      scrollTrigger: {
-        trigger: ".animation-container",
-        start: "top center",
-        end: "bottom center",
-        scrub: true,
-        onUpdate: (self) => {
-          const progress = self.progress;
-          const textEl = document.getElementById("mission-text");
+    useEffect(() => {
+        const textEl = textRef.current;
 
-          if (progress < 0.3) {
-            textEl!.innerText = "Accessible Mobility For All";
-          } else if (progress >= 0.3 && progress < 0.7) {
-            textEl!.innerText = "Mobility Without Limits";
-          } else {
-            textEl!.innerText = "Future of AI Transport";
-          }
-        },
-      },
-      x: "120%",
-      ease: "none",
-    });
-  }, []);
+        const timeline = gsap.timeline({ repeat: -1, defaults: { ease: "linear" } });
 
-  return (
-    <section className="animation-container" style={{ position: "relative", height: "100vh", background: "#fff", overflow: "hidden" }}>
-      <div className="text-container" style={{ position: "absolute", top: "40%", left: "10%", fontSize: "24px", zIndex: 1 }}>
-        <h2>
-          Our Mission: <span id="mission-text">Accessible Mobility For All</span>
-        </h2>
-      </div>
-      <div className="car-container" style={{ position: "absolute", top: "50%", left: "-50%", transform: "translateY(-50%)", zIndex: 2 }}>
-        <img src="/class.svg" alt="Car" style={{ width: "500px" }} />
-      </div>
-    </section>
-  );
+        timeline
+            .to(".car-container", {
+                x: "120%", 
+                // opacity: 0, 
+                duration: 4,
+                onStart: () => {
+                    if (textEl) textEl.innerText = "Accessible Mobility For All";
+                },
+            })
+            .to(".car-container", {
+                opacity: 2,
+                duration: 0.1,
+                onComplete: () => {
+                    if (textEl) textEl.innerText = "Mobility Without Limits";
+                },
+            })
+            .set(".car-container", { x: "-50%" }) // Reset position
+            .to(".car-container", { 
+                opacity: 0,
+                duration: 0.1,
+            });
+    }, []);
+
+    return (
+        <section
+            className="animation-container "
+            style={{
+                position: "relative",
+                paddingBottom: "100px",
+                background: "#fff",
+                overflow: "hidden",
+                width: "100%",
+            }}
+        >
+            <div
+                className="text-container flex items-center justify-center"
+                style={{
+                    position: "absolute",
+                    top: "40%",
+                    left: "20%",
+                    fontSize: "24px",
+                    zIndex: 0,
+                }}
+            >
+                <div > 
+                    <p className="uppercase text-[16px] text-[#000] font-normal text-center">about us</p> 
+                    <p className="text-[62px] font-normal text-content1">  Our Mission: <span ref={textRef} className="font-bold">Accessible Mobility For All</span> </p>
+                  
+                </div>
+            </div>
+            <div
+                className="car-container"
+                style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "-50%",
+                    transform: "translateY(-50%)",
+                    zIndex: 100,
+                    width: "100%", 
+                  
+                }}
+            >
+                <img src="/class.svg" alt="Car" style={{ width: "2000px" , height: "800px"}} />
+            </div>
+        </section>
+    );
 }

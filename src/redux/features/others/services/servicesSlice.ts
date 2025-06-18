@@ -12,6 +12,7 @@ export interface Service {
   price_per_hour: number;
   taxs: number; 
   fixed_price : number; 
+  button_text : string;
   
 }  
 
@@ -20,14 +21,8 @@ type ProviderService = {
   name: string;
   description: string;
   image: string;
-  adults_price: number;
-  kids_price: number;
-  service_price: number;
-  price_per_km: number;
-  price_per_hour: number;
-  taxs: number;
-  createdAt: string;
-  updatedAt: string;
+  facilities: string[];
+  price: number;
 };
 
 type ProviderData = {
@@ -39,12 +34,6 @@ type ProviderData = {
   price: number;
   service: ProviderService;
   status: string; 
-    adults_price: number;
-  kids_price: number;
-  service_price: number;
-  price_per_km: number;
-  price_per_hour: number;
-  taxs: number;
 }; 
 
 

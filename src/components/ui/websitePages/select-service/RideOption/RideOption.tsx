@@ -22,7 +22,7 @@ const RideOption = ({ next, prev, updateFormData, formData }: { next: () => void
     const { data: serviceDetails } = useGetServiceByIdQuery(serviceId || formData?.service || "");
     const [selectedRidePricing, setSelectedRidePricing] = useState<Partial<BookingDetails>>({});
 
-
+console.log(allProviderServices);
 
     const servicesOption = allServices?.map((service) => ({
         value: service._id,
@@ -36,15 +36,15 @@ const RideOption = ({ next, prev, updateFormData, formData }: { next: () => void
         price: service.price,
         features: service.facilities,
         image: "/class.svg",
-        tax: service.service.taxs,
-        adultPrice: service.service.adults_price,
-        kidsPrice: service.service.kids_price,
-        pricePerhour: service.service.price_per_hour,
-        pricePerKm: service.service.price_per_km,
-        servicePrice: service.service.service_price
+        // tax: service.service.taxs,
+        // adultPrice: service.service.adults_price,
+        // kidsPrice: service.service.kids_price,
+        // pricePerhour: service.service.price_per_hour,
+        // pricePerKm: service.service.price_per_km,
+        // servicePrice: service.service.service_price
     })) || [];
 
-    const handleSelect = async (value: { id: string, tax: number, price: number, pricePerhour: number, pricePerKm: number, servicePrice: number }) => {
+    const handleSelect = async (value: { id: string,  price: number }) => {
         try {
             await form.validateFields();
 

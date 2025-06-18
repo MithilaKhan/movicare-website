@@ -16,7 +16,7 @@ const AllServices = () => {
     title: service.name,
     description: service.description,
     imageUrl: service.image?.startsWith("http") ? service?.image : `${imageUrl}${service.image}`,
-    buttonText: "Learn More" 
+    buttonText: service?.button_text
   })) || [];
 
   // Create refs array for each service, only once

@@ -1,10 +1,13 @@
 import ReviewsFeedback from '@/components/ui/profile/reviews-feedback/ReviewsFeedback';
-import React from 'react';
+import React, { Suspense } from 'react';
 
 const ReviewFeedbackPage = () => {
     return (
         <div>
-            <ReviewsFeedback />
+            <Suspense fallback={<div>Loading...</div>}>
+                <ReviewsFeedback />
+            </Suspense>
+
         </div>
     );
 };

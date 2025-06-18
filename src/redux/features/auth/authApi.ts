@@ -1,6 +1,6 @@
-import { GetLocalStorage } from "@/util/LocalStroage";
-import { baseApi } from "../../base/baseApi";
 
+import { baseApi } from "../../base/baseApi";
+import Cookies from "js-cookie"; 
 export type UserType = {
   _id: string;
   name: string;
@@ -12,8 +12,6 @@ export type UserType = {
   verified: boolean; 
   contact ?: string
 };
-const resetToken = GetLocalStorage("resetToken") 
-
 
 const authApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -60,7 +58,7 @@ const authApi = baseApi.injectEndpoints({
 
     resetPassword: build.mutation({
       query: (data) => {  
-        console.log(resetToken , "resetToken" , data , "data");
+          const resetToken = Cookies.get("resetToken");
         return{
           url: "/auth/reset-password",
           method: "POST",
