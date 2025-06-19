@@ -40,7 +40,6 @@ export async function middleware(Request: NextRequest) {
                 return response;
             }
         }
-        console.log(url)
 
         NextResponse.next();
 

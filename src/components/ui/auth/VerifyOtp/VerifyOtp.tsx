@@ -3,7 +3,6 @@ import { useForgetPasswordMutation, useVerifyEmailMutation } from "@/redux/featu
 import { ConfigProvider, Form, Input, Typography } from "antd";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react"
-// import OTPInput from "react-otp-input"; 
 import { toast } from "react-toastify";
 import { errorType } from "../../websitePages/contact/SendMessage";
 import Cookies from "js-cookie";
@@ -12,6 +11,7 @@ const { Text } = Typography;
 const VerifyOtp = () => {
   const router = useRouter()
   const [email, setEmail] = useState<string | null>(null);
+  const [userType, setUserType] = useState<string | null>(null);
   const [form] = Form.useForm();
   const [verifyEmail, {
     isLoading,
@@ -28,12 +28,13 @@ const VerifyOtp = () => {
     data: forgetData
   }] = useForgetPasswordMutation();
 
-  const userType = localStorage.getItem("userType")
-
 
   useEffect(() => {
     const emailFromQuery = new URLSearchParams(window.location.search).get('email');
     setEmail(emailFromQuery);
+
+    const storedUserType = localStorage.getItem("userType");
+    setUserType(storedUserType);
   }, []);
 
   useEffect(() => {
@@ -44,7 +45,7 @@ const VerifyOtp = () => {
       }
       if (userType === "forget") {
         Cookies.set("resetToken", verifyData?.data || "", {
-          expires: 1, 
+          expires: 1,
           path: "/",
         });
         router.push("/reset-password");
