@@ -40,10 +40,7 @@ export async function middleware(Request: NextRequest) {
                 return response;
             }
         }
-
         NextResponse.next();
-
-
 
     } catch (error) {
         console.error("Error in middleware:", error);

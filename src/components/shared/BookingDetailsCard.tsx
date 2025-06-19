@@ -14,7 +14,6 @@ const BookingDetailsCard = ({ booking, type }: { booking: BookingCardProps, type
   const [isRebookOpen, setIsRebookOpen] = useState(false);
   const router = useRouter()
   const [cancelBooking, { isError, isLoading, isSuccess, error, data }] = useCancelBookingMutation() 
-  console.log(booking, "booking");
 
   useEffect(() => {
     if (isSuccess) {
@@ -36,9 +35,7 @@ const BookingDetailsCard = ({ booking, type }: { booking: BookingCardProps, type
       status: "cancelled"
     } 
 
-   await cancelBooking({id, data}).then((res) => {
-      console.log(res);
-    })  
+   await cancelBooking({id, data})
     
   }
 
@@ -81,7 +78,7 @@ const BookingDetailsCard = ({ booking, type }: { booking: BookingCardProps, type
 
         {
           type !== "Booking History" && (
-            <button className=' h-11 flex items-center justify-center text-sm font-medium bg-red-500 gap-2 text-white px-4   rounded-full ' onClick={() => handleCancel(booking.id)}> {isLoading ? "Canceling..." : "Cancel Booking"}  </button>
+            <button className=' h-11 flex items-center justify-center text-sm font-medium bg-red-500 gap-2 text-white px-4   rounded-full disabled:opacity-50 disabled:cursor-not-allowed ' onClick={() => handleCancel(booking.id)} disabled={ booking.status == "cancelled"}> {isLoading ? "Canceling..." : "Cancel Booking"}  </button>
           )
         }
 

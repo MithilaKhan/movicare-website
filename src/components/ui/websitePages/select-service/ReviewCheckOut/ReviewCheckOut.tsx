@@ -25,7 +25,6 @@ const ReviewCheckOut = ({ prev, formData }: { prev: () => void, formData: Bookin
     label: service.name,
   })) || []; 
 
-  console.log(formData);
 
   const priceData = [
     {

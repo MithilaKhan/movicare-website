@@ -21,7 +21,6 @@ const ReviewsFeedback = () => {
     const id = searchParams.get('id');
     const { data: bookingDetails } = useGetBookingsDetailsQuery(id);
     const { data: AllReviews } = useGetProfileReviewsQuery(undefined);
-    console.log(AllReviews);
 
     const reviews = AllReviews?.map((values) => ({
         id: values._id,

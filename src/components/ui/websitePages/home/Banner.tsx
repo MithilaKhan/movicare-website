@@ -1,14 +1,16 @@
 "use client";
 import { ConfigProvider, DatePicker, Input } from 'antd';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { BsCalendar4 } from 'react-icons/bs';
 import { GrLocationPin } from 'react-icons/gr';
 import { PiArrowBendUpRightBold } from 'react-icons/pi';
 import { SiRelay } from 'react-icons/si';
 
 const Banner = () => { 
-
-    const router = useRouter();
+    const router = useRouter(); 
+    const [pickUp, setPickUp] = useState('');
+    const [dropOff, setDropOff] = useState(''); 
 
     return (
         <div className='w-full h-screen' style={{
@@ -43,12 +45,9 @@ const Banner = () => {
                                     colorBgElevated: '#666d66',
                                     colorIcon: '#ffffff',
                                 },
-
                             }}
                         >
-
-                            <Input placeholder="Enter pickup location" style={{ width: "100%", height: "48px" }} prefix={<SiRelay size={20} color='#ffffff' className='mx-2' />} />
-
+                            <Input placeholder="Enter pickup location" style={{ width: "100%", height: "48px" }} prefix={<SiRelay size={20} color='#ffffff' className='mx-2' />} onChange={(e) => setPickUp(e.target.value)} />
                         </ConfigProvider>
 
 
@@ -66,7 +65,7 @@ const Banner = () => {
                             }}
                         >
 
-                            <Input placeholder="Enter destination address" style={{ width: "100%", height: "48px" }} prefix={<GrLocationPin size={20} color='#ffffff' className='mx-2' />} />
+                            <Input placeholder="Enter destination address" style={{ width: "100%", height: "48px" }} prefix={<GrLocationPin size={20} color='#ffffff' className='mx-2' />} onChange={(e) => setDropOff(e.target.value)} />
 
                         </ConfigProvider>
 
@@ -99,7 +98,7 @@ const Banner = () => {
                             />
                         </ConfigProvider>
 
-                        <button className="text-[16px] lg:w-2/3 w-full  text-[#286A25] bg-white h-[48px] px-6 rounded-full font-medium flex items-center justify-center gap-2" onClick={() => router.push('/select-service?step=1')}> <span> Check Availability </span> <span> <PiArrowBendUpRightBold size={16} color='#286A25' />
+                        <button className="text-[16px] lg:w-2/3 w-full  text-[#286A25] bg-white h-[48px] px-6 rounded-full font-medium flex items-center justify-center gap-2" onClick={() => router.push(`/select-service?step=1&pickup=${pickUp}&dropOff=${dropOff}`)}> <span> Check Availability </span> <span> <PiArrowBendUpRightBold size={16} color='#286A25' />
                         </span> </button>
 
                     </div>

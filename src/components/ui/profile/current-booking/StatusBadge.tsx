@@ -1,11 +1,11 @@
 interface StatusBadgeProps {
-  status: 'confirmed' | 'pending' | 'canceled';
+  status: 'confirmed' | 'pending' | 'cancelled';
 }
 
 const statusStyles: Record<StatusBadgeProps['status'], string> = {
   confirmed: 'text-[#079A00] bg-[#ddeedc]',
   pending: 'text-[#454545] bg-[#e3e6e3]',
-  canceled: 'text-[#FF2F2F] bg-[#f5e4e1]',
+  cancelled: 'text-[#FF2F2F] bg-[#f5e4e1]',
 };
 
 const StatusBadge = ({ status }: StatusBadgeProps) => {

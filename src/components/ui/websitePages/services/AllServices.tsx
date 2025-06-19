@@ -9,7 +9,6 @@ const AllServices = () => {
   const searchParams = useSearchParams();
   const router = useRouter() 
    const {data:allServices} = useGetServicesQuery(undefined);  
-   console.log("allServices", allServices); 
 
    const services = allServices?.map((service) => ({
     id: service._id,

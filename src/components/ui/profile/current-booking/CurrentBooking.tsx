@@ -18,8 +18,8 @@ export interface Booking {
   pickup_location: string;
   dropoff_location: string;
   pickup_time: string;
-  status: "confirmed" | "pending" | "canceled"; // Adjust based on all possible values
-  payment_status: 'paid' | 'unpaid' | 'refunded'; // Adjust based on all possible values
+  status: "confirmed" | "pending" | "cancelled";
+  payment_status: 'paid' | 'unpaid' | 'refunded'; 
   base_fare: number;
   service_charge: number;
   additional_travelerse_fee: number;
@@ -75,7 +75,7 @@ export interface Provider {
 export interface BookingCardProps {
   id: string;
   date: string;
-  status: 'confirmed' | 'pending' | 'canceled';
+  status: 'confirmed' | 'pending' | 'cancelled';
   time: string;
   origin: string;
   destination: string;
@@ -94,7 +94,7 @@ const CurrentBooking = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const durationType = "current"
   const { data } = useGetAllBookingsHistoryQuery(durationType)
-  console.log(data,);
+
 
   const bookings = data?.map((booking) => ({
     id: booking._id,

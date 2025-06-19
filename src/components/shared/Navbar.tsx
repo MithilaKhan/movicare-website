@@ -242,7 +242,8 @@ const Navbar = () => {
             }
 
             <div>
-              <button className={`text-[14px] py-3 px-4 rounded-full font-medium ${pathname === "/" || pathname === "/home" || pathname === "/services" ? "text-[#070707] bg-white" : "bg-primary text-white"}`}>Reserve Your Ride</button>
+              <button className={`text-[14px] py-3 px-4 rounded-full font-medium ${pathname === "/" || pathname === "/home" || pathname === "/services" ? "text-[#070707] bg-white" : "bg-primary text-white"}`} 
+              onClick={() => router.push("/select-service")} >Reserve Your Ride</button>
             </div>
           </div>
         </div>

@@ -22,8 +22,6 @@ const RideOption = ({ next, prev, updateFormData, formData }: { next: () => void
     const { data: serviceDetails } = useGetServiceByIdQuery(serviceId || formData?.service || "");
     const [selectedRidePricing, setSelectedRidePricing] = useState<Partial<BookingDetails>>({});
 
-console.log(allProviderServices);
-
     const servicesOption = allServices?.map((service) => ({
         value: service._id,
         label: service.name,

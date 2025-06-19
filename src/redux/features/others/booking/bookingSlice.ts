@@ -57,7 +57,6 @@ const bookingSlice = baseApi.injectEndpoints({
 
     allTimeSlots: build.query({
       query: (date) => {  
-        console.log(date , "selected date");
         const params = new URLSearchParams()
         if (date) params.append('date', date)
         return {

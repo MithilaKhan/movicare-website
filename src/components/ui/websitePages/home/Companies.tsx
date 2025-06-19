@@ -12,7 +12,6 @@ const Companies = () => {
   const {data} = useGetCompaniesQuery(undefined);   
   const images = data?.map((company) => company.image?.startsWith("http") ? company.image : `${imageUrl}${company.image}`) || []; 
 
-  console.log(data, "companies data");
 
   useEffect(() => {
     if (emblaApi) {

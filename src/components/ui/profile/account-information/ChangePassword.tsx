@@ -34,9 +34,7 @@ const ChangePassword = () => {
       }, [isSuccess, isError, error, data]); 
 
     const onPasswordFinish = async (values: { currentPassword: string, newPassword: string }) => {
-        await changePassword(values).then((res) => {
-            console.log(res);
-        })
+        await changePassword(values)
     }
     return (
         <div>

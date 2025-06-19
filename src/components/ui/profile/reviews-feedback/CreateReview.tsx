@@ -38,9 +38,7 @@ const CreateReview = ({ bookingDetails, id }: { bookingDetails: Booking | undefi
             comment: values.descriptions
         } 
     
-        createReview(data).then((res) => {
-            console.log(res);
-        });
+        createReview(data)
     } 
 
     return (

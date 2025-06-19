@@ -85,10 +85,7 @@ const RebookModal = ({ open, setOpen, booking }: { open: boolean, setOpen: (open
       pickup_time: form.getFieldValue('pickup_time'),
     }
 
-    console.log(data, "data");
-    await rebookBooking(data).then((res) => {
-      console.log(res);
-    });
+    await rebookBooking(data)
   }
 
   useEffect(() => {

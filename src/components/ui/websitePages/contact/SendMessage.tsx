@@ -31,9 +31,7 @@ const SendMessage = () => {
 
 
     const onFinish = async (values: { name: string, email: string, phone: string, message: string }) => {
-        await postContact(values).then((res) => {
-            console.log(res);
-        })
+        await postContact(values)
     };
 
     return (

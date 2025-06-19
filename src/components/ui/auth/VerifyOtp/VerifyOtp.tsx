@@ -83,9 +83,7 @@ const VerifyOtp = () => {
       email: email
     }
 
-    await verifyEmail(data).then((res) => {
-      console.log(res);
-    });
+    await verifyEmail(data)
 
     // form.resetFields(); 
 
@@ -93,9 +91,7 @@ const VerifyOtp = () => {
 
 
   const handleResendEmail = async () => {
-    await forgetPassword({ email: email }).then((res) => {
-      console.log(res);
-    });
+    await forgetPassword({ email: email })
 
   };
 
