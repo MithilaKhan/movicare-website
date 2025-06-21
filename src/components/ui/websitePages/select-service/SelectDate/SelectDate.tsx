@@ -22,7 +22,7 @@ const SelectDate = ({ next, prev, updateFormData, formData }: { next: () => void
 
   useEffect(() => {
     if (isSuccess) {
-      const endTime = moment(data?.data?.end).format('hh:mm a');
+      const endTime = moment.utc(data?.data?.end).format('hh:mm A'); 
       setEndTime(endTime)
     }
 

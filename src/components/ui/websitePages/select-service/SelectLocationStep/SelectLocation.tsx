@@ -24,11 +24,11 @@ const SelectLocation = ({
   formData: BookingDetails
 }) => {
   const [form] = Form.useForm();
-  const [isSelected, setIsSelected] = useState(false); 
-  const [map, setMap] = useState<google.maps.Map | null>(null); 
+  const [isSelected, setIsSelected] = useState(false);
+  const [map, setMap] = useState<google.maps.Map | null>(null);
   const searchParams = useSearchParams();
-const pickup = searchParams.get('pickup');
-const dropOff = searchParams.get('dropOff');
+  const pickup = searchParams.get('pickup');
+  const dropOff = searchParams.get('dropOff');
   const [viewport, setViewport] = useState({
     latitude: 37.7749,
     longitude: -122.4194,
@@ -57,16 +57,16 @@ const dropOff = searchParams.get('dropOff');
       const values = form.getFieldsValue();
       setIsSelected(!!values.pickUpCity && !!values.dropOffCity);
 
-    } 
-    
-  }, [form, formData]); 
+    }
+
+  }, [form, formData]);
 
   useEffect(() => {
     if (pickup || dropOff) {
       form.setFieldsValue({ pickUpCity: pickup, dropOffCity: dropOff });
       const values = form.getFieldsValue();
       setIsSelected(!!values.pickUpCity && !!values.dropOffCity);
-    } 
+    }
   }, [form, pickup, dropOff]);
 
   const onFinish = async (values: { pickUpCity: string; dropOffCity: string }) => {
