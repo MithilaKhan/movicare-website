@@ -4,21 +4,31 @@ import { usePostContactMutation } from "@/redux/features/others/contact/contactS
 import { Form, Input } from "antd";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
-  
- export type errorType = {
+
+export type errorType = {
     data: {
         errorMessages: { message: string }[];
         message: string;
     };
 };
 const SendMessage = () => {
-
+const [form] = Form.useForm();
     const [postContact, { isLoading, isSuccess, isError, error, data }] = usePostContactMutation();
 
 
     useEffect(() => {
         if (isSuccess) {
-            toast.success(data?.message || "Message sent successfully!");
+            toast(
+                <div>
+                    <p className="font-semibold text-base">Message sent successfully!</p>
+                    <p className="text-sm">Thank you for reaching out. We’ll get back to you as soon as possible.</p>
+                </div>,
+                {
+                    type: "success",
+                    style: { minWidth: "450px", maxWidth: "700px" }
+                }
+            ); 
+            form.resetFields();
         }
         if (isError) {
             const errorMessage =
@@ -27,7 +37,7 @@ const SendMessage = () => {
                     : (error as errorType)?.data?.message || "Something went wrong. Please try again.";
             toast.error(errorMessage);
         }
-    }, [isSuccess, isError, error, data]);
+    }, [isSuccess, isError, error, data , form]);
 
 
     const onFinish = async (values: { name: string, email: string, phone: string, message: string }) => {
@@ -44,7 +54,7 @@ const SendMessage = () => {
                 <p className="text-content2 lg:mb-10  mb-5 leading-8 lg:text-[16px] text-sm">
                     We’re here to help! Fill out the form below, and we’ll get back to you as soon as possible.
                 </p>
-                <Form className="space-y-4" layout="vertical" onFinish={onFinish}>
+                <Form className="space-y-4" layout="vertical" onFinish={onFinish} form={form}>
                     <TextInput name="name" label="Full Name" />
                     <TextInput name="email" label="Email" />
                     <TextInput name="phone" label="Phone Number" />

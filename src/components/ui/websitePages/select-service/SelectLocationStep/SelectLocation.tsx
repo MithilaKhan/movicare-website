@@ -11,6 +11,7 @@ import {
 } from "@react-google-maps/api";
 import { BookingDetails } from "../SelectServiceMainPage";
 import { useSearchParams } from "next/navigation";
+import { toast } from "react-toastify";
 
 const SelectLocation = ({
   next,
@@ -37,10 +38,11 @@ const SelectLocation = ({
 
   const [pickUpMarker, setPickUpMarker] = useState<google.maps.LatLngLiteral | null>(null);
   const [dropOffMarker, setDropOffMarker] = useState<google.maps.LatLngLiteral | null>(null);
+  const GOOGLE_MAP_LIBRARIES: ("drawing" | "geometry" | "places" | "visualization")[] = ["places"];
 
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
-    libraries: ["places"],
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
+    libraries: GOOGLE_MAP_LIBRARIES,
   });
 
   const onValuesChange = () => {
@@ -153,7 +155,10 @@ const SelectLocation = ({
   const geocodeCity = (city: string, type: "pickup" | "dropoff") => {
     if (!window.google) return;
     const geocoder = new window.google.maps.Geocoder();
-    geocoder.geocode({ address: city }, (results, status) => {
+    geocoder.geocode({
+      address: city,
+      componentRestrictions: { country: "CR" },
+    }, (results, status) => {
       if (status === "OK" && results && results[0]) {
         const location = results[0].geometry.location;
         const latLng = {
@@ -170,6 +175,7 @@ const SelectLocation = ({
 
         map?.panTo(latLng);
       } else {
+        toast.error("Location not found. Please enter a valid city in Costa Rica.");
         console.error("Geocoding failed:", status);
       }
     });

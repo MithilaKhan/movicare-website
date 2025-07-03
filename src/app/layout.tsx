@@ -64,7 +64,9 @@ export default function RootLayout({
         <AntdRegistry> 
           <UserProvider> 
           <div id="google_translate_element" /> 
-           <ToastContainer position="top-center" autoClose={1500} />
+           <ToastContainer position="top-right" autoClose={2000} 
+             toastClassName={ "bg-white text-black shadow-md rounded-md p-4 text-sm sm:text-base w-[90%] sm:w-[450px] lg:w-[600px] mx-auto" } 
+   />
           {children}
           </UserProvider>
         </AntdRegistry> 

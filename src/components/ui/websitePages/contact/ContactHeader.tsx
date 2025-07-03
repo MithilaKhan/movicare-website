@@ -8,7 +8,7 @@ const features = [
     {
       title: "Address",
       icon: <BsBuildings className="w-10 h-12" />,
-      content: "Avenida Escazú, San José, Costa Rica"
+      content: "San José, Costa Rica"
   },
   {
     title: "Phone",
@@ -18,7 +18,7 @@ const features = [
   {
     title: "Email",
     icon: <PiMailbox className="w-10 h-12" />,
-    content: "support@movicare.com"
+    content: "info@movicare.cr"
   },
   ]; 
 const ContactHeader = () => {

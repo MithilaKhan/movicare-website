@@ -12,14 +12,14 @@ const steps = [
     {
         number: "03",
         title: "Confirm & Ride",
-        description: "Instant confirmation, and reminders"
+        description: "Instant confirmation. Booking saved in your profile."
     }
 ];
 
 const content = {
     heading: "Easy, Stress-Free Booking in 3 Steps",
     subtext: "Simple Font & Accessible Book Your Ride in Just 3 Steps!",
-    paragraph: "Booking your accessible trips with MoviCare's quick and handy interface. Simply select your starting point, your route, and confirm your booking—all in just a few clicks. You'll get real-time updates throughout the journey keeping you informed every step of the way. Our specially designed service ensures a safe, comfortable journey, whether for daily errands, medical appointments, or travel adventures."
+    paragraph: "Booking your trips with MoviCare is simple and convenient. Just select your starting point, choose your route, add any extra details, and confirm your booking — all in a few easy steps. Our tailored service guarantees a safe and comfortable ride, whether you're running daily errands, heading to a medical appointment, or exploring new destinations."
 };
 
 const EasyStress = () => {
@@ -42,8 +42,8 @@ const EasyStress = () => {
 
 
                     {/* Steps Grid */}
-                    <div className="flex lg:flex-row flex-col-reverse w-full lg:gap-[100px] gap-8 lg:mb-16 mb-0 items-center">
-                        <div className=" lg:w-[35%] w-full flex flex-col   gap-10">
+                    <div className="flex lg:flex-row flex-col-reverse w-full lg:gap-[90px] gap-8 lg:mb-16 mb-0 items-center">
+                        <div className=" lg:w-[37%] w-full flex flex-col   gap-10">
                             {steps.map((step, index) => (
                                 <div
                                     key={index}
@@ -60,7 +60,7 @@ const EasyStress = () => {
                             ))}
                         </div>
 
-                        <div className="lg:w-[65%] w-full flex justify-center items-center">
+                        <div className="lg:w-[63%] w-full flex justify-center items-center">
                             <img src="/easyStress.svg" alt="" className="w-full" />
                         </div>
                     </div>
