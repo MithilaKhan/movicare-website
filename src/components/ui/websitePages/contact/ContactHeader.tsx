@@ -13,7 +13,7 @@ const features = [
   {
     title: "Phone",
     icon: <PhoneCall className="w-10 h-12" />,
-    content: "+506 2222-3344"
+    content: "+506 6019-1762"
   },
   {
     title: "Email",

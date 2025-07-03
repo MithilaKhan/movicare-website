@@ -77,15 +77,15 @@ const Footer = () => {
           <div className="">
             <h1 className="lg:text-[14px] text-[12px] font-normal lg:mb-6 mb-2 text-[#a0a2a1]">Contact us</h1>
             <ul className="space-y-4 lg:text-[16px] text-sm text-white font-normal">
-              <p className=" " >+1 (480) 555-0103</p>
-              <p className=" ">Hello@Movicare.com</p>
+              <p className=" " >+506 6019-1762</p>
+              <p className=" "> info@movicare.cr</p>
             </ul>
           </div>
 
           <div className="">
             <h1 className="lg:text-[14px] text-[12px] font-normal lg:mb-6 mb-3 text-[#a0a2a1]">Location</h1>
             <ul className="space-y-4 lg:text-[16px] text-sm text-white font-normal">
-              <p className=" tracking-wide" >2972 Westheimer Rd. Santa Ana, Illinois 85486 </p>
+              <p className=" tracking-wide" >San José, Costa Rica</p>
             </ul>
           </div>
 
@@ -94,11 +94,11 @@ const Footer = () => {
               <h1 className="lg:text-[14px] text-[12px] font-normal lg:mb-6 mb-3 text-[#a0a2a1]">Follow us</h1>
               <div className="flex gap-5">
 
-                <div className="lg:p-2 p-1  rounded-full border border-[#a0a2a1] lg:w-[50px] w-10 h-10 lg:h-[50px] flex items-center justify-center text-white">
+                <div className="lg:p-2 p-1  rounded-full border border-[#a0a2a1] lg:w-[50px] w-10 h-10 lg:h-[50px] flex items-center justify-center text-white cursor-pointer" onClick={() => router.push("https://www.facebook.com/profile.php?id=61577617058298")}>
                   <FaFacebook size={25} />
                 </div>
 
-                <div className="lg:p-2 p-1  rounded-full border border-[#a0a2a1] lg:w-[50px] w-10 h-10 lg:h-[50px] flex items-center justify-center text-white">
+                <div className="lg:p-2 p-1  rounded-full border border-[#a0a2a1] lg:w-[50px] w-10 h-10 lg:h-[50px] flex items-center justify-center text-white" on>
                   <FaInstagram size={25} />
                 </div>
 

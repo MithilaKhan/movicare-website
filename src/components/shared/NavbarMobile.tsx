@@ -26,8 +26,8 @@ const NavbarMobile = ({ toggleDropdown, drawerVisible, openDropdowns, navOptions
         <Drawer
             title={
                 <div className="flex items-center justify-between">
-                    <img src="/logo.png" alt="" className=" w-16 h-16 object-fill" />
-                    <p> <IoCloseSharp onClick={() => setDrawerVisible(false)} size={24} color="#fff" className="cursor-pointer" /> </p>
+                    <img src="/logo.png" alt="" className=" w-12 h-12 object-fill" />
+                    <p> <IoCloseSharp onClick={() => setDrawerVisible(false)} size={20} color="#fff" className="cursor-pointer" /> </p>
                 </div>
             }
             placement="left"

@@ -142,7 +142,7 @@ const Navbar = () => {
         pathname === "/" || pathname === "/home" ? (
           <div className="bg-[#202020] text-white h-[40px] flex items-center justify-center">
             <div className=" flex items-center justify-between lg:text-[16px] text-xs container ">
-              <p className=" flex items-center gap-1 "> <span className="font-thin tracking-wide">Need Support Call Us: </span> <span> +1 (480) 555-0103 </span>  </p>
+              <p className=" flex items-center gap-1 "> <span className="font-thin tracking-wide">Need Support Call Us: </span> <span> +506 6019-1762 </span>  </p>
               <p className="flex items-center gap-3"> <span className={`  lg:text-[16px] text-xs cursor-pointer 
               ${language === "en" ? "font-bold text-white" : " text-[#FFFFFF]/60 font-normal"}`} onClick={() => switchLanguage("en")}>En</span> <span className={`text-[#FFFFFF]/60 cursor-pointer ${language === "es" ? "font-bold text-white" : " text-[#FFFFFF]/60 font-normal"}`} onClick={() => switchLanguage("es")}>Es</span></p>
             </div>
@@ -151,7 +151,7 @@ const Navbar = () => {
       }
 
       <div className={`${pathname === "/" || pathname === "/home" || pathname === "/services" ? "text-[#aababc]" : "text-content2 "}`}>
-        <div className="navbar flex py-6 container justify-between lg:items-center items-center relative">
+        <div className="navbar flex lg:pt-6 lg:pb-6 pt-0 pb-5 lg:px-1  container justify-between lg:items-center items-center relative">
 
 
           {/* Logo */}
