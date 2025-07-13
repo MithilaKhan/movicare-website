@@ -143,14 +143,14 @@ const SelectDate = ({ next, prev, updateFormData, formData }: { next: () => void
                   <Form.Item
                     name="endTime"
                     className="w-full"
-                    rules={[{ required: true, message: "Please enter minute" }]}
-                    label={<p className="text-[#525252]  text-sm font-medium">End Time</p>}
+                    // rules={[{ required: true, message: "Please enter minute" }]}
+                    label={<p className="text-[#525252]  text-sm font-medium"> Estimated Travel Time</p>}
                   >
-                    <Input type="text"  placeholder="Minute" className="w-1/2" style={{ height: "48px" }} readOnly />
+                    <Input type="text"  placeholder="Minute" className="w-1/2" style={{ height: "48px" , backgroundColor:"#00000" }} readOnly />
                   </Form.Item>
                 </div>
                 <p className="text-[#000000] lg:text-[16px] text-sm pt-5 font-medium">
-                  Choose the date and time for your trip, then select the service that best fits your needs
+                 Choose the date and time for your trip.
                 </p>
               </div>
             </div>
@@ -160,18 +160,18 @@ const SelectDate = ({ next, prev, updateFormData, formData }: { next: () => void
             name="adults"
             label={<p className="text-content2 text-sm">Adults</p>}
             className="mt-4"
-            rules={[{ required: true, message: "Please select a Adults number" }]}
+            rules={[{ required: true, message: "Please enter the number of adults" }]}
           >
-            <Input type="number" placeholder="Write adult number" style={{ height: "48px" }} />
+            <Input type="number" placeholder="Enter number of adults" style={{ height: "48px" }} />
           </Form.Item>
 
           <Form.Item
             name="kids"
             label={<p className="text-content2 text-sm">Kids</p>}
             className="mt-4"
-            rules={[{ required: true, message: "Please select a kids number" }]}
+            rules={[{ required: true, message: "Please enter the number of children" }]}
           >
-            <Input type="number" placeholder="Write kids number" style={{ height: "48px" }} />
+            <Input type="number" placeholder="Enter number of children" style={{ height: "48px" }} />
           </Form.Item>
 
           {/* <p className="lg:text-[17px] text-sm text-[#000000] mb-8">

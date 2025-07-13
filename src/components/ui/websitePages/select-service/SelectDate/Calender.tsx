@@ -1,9 +1,11 @@
 "use client";
 import React, { useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
-import "dayjs/locale/zh-cn";
-import { Calendar } from "antd";
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { Calendar, ConfigProvider } from "antd";
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";   
+import "dayjs/locale/es";
+import esES from "antd/locale/es_ES";
+dayjs.locale("es"); 
 
 const Calender = ({ unavailableDay, selectedDate, setSelectedDate }: { unavailableDay: string[] | undefined, selectedDate: string | null, setSelectedDate: React.Dispatch<React.SetStateAction<string | null>> }) => {
 
@@ -15,7 +17,7 @@ const Calender = ({ unavailableDay, selectedDate, setSelectedDate }: { unavailab
 
   const toggleDate = (date: Dayjs) => {
     const formatted = date.format("YYYY-MM-DD");
-    if (disabledDate(date)) return; // skip if date is disabled
+    if (disabledDate(date)) return; 
     setSelectedDate((prev) => (prev === formatted ? null : formatted));
   };
 
@@ -35,7 +37,8 @@ const Calender = ({ unavailableDay, selectedDate, setSelectedDate }: { unavailab
     "w-10 h-10 flex items-center justify-center rounded-full";
 
   return (
-    <div>
+    <div> 
+       <ConfigProvider locale={esES}> 
       <Calendar
         value={value}
         onPanelChange={setValue}
@@ -65,6 +68,8 @@ const Calender = ({ unavailableDay, selectedDate, setSelectedDate }: { unavailab
           const formatted = date.format("YYYY-MM-DD");
           const isSelected = selectedDate === formatted;
           const isDisabled = disabledDate(date);
+          const isToday = dayjs().isSame(date, "day");
+          const todayStyle = isToday ? " text-yellow-600 rounded-full  bg-gray-100" : "";
           const selectedStyle = isSelected ? "bg-primary text-white rounded-full " : "";
           const disabledStyle = isDisabled
             ? "cursor-not-allowed text-gray-400  rounded-full "
@@ -78,16 +83,17 @@ const Calender = ({ unavailableDay, selectedDate, setSelectedDate }: { unavailab
 
           return (
             <div
-              className={`${baseStyle} ${disabledStyle}`}
+              className={`${baseStyle} ${disabledStyle} ${todayStyle}`}
               onClick={handleClick}
             >
-              <div className={`${innerStyle} ${selectedStyle}`}>
+              <div className={`${innerStyle} ${selectedStyle} `}>
                 <span className="text-sm font-medium">{date.date()}</span>
               </div>
             </div>
           );
         }}
       />
+       </ConfigProvider>
     </div>
   );
 };

@@ -31,8 +31,8 @@ const SelectLocation = ({
   const pickup = searchParams.get('pickup');
   const dropOff = searchParams.get('dropOff');
   const [viewport, setViewport] = useState({
-    latitude: 37.7749,
-    longitude: -122.4194,
+    latitude: 9.9281,
+    longitude: -84.0907,
     zoom: 8,
   });
 
@@ -140,7 +140,7 @@ const SelectLocation = ({
       next();
     } catch (error) {
       console.error("Error calculating distance:", error);
-      alert("Failed to process locations. Please try again.");
+      alert("Only locations inside Costa Rica are allowed.");
     }
   };
 
@@ -152,34 +152,48 @@ const SelectLocation = ({
     setMap(null);
   };
 
-  const geocodeCity = (city: string, type: "pickup" | "dropoff") => {
-    if (!window.google) return;
-    const geocoder = new window.google.maps.Geocoder();
-    geocoder.geocode({
-      address: city,
-      componentRestrictions: { country: "CR" },
-    }, (results, status) => {
-      if (status === "OK" && results && results[0]) {
-        const location = results[0].geometry.location;
-        const latLng = {
-          lat: location.lat(),
-          lng: location.lng(),
-        };
-        setViewport({ ...viewport, latitude: latLng.lat, longitude: latLng.lng });
+const geocodeCity = (city: string, type: "pickup" | "dropoff") => {
+  if (!window.google || !city?.trim()) {
+    toast.error("Please enter a city name.");
+    return;
+  }
 
-        if (type === "pickup") {
-          setPickUpMarker(latLng);
-        } else {
-          setDropOffMarker(latLng);
-        }
+  const geocoder = new window.google.maps.Geocoder();
+  geocoder.geocode({ address: city.trim() }, (results, status) => {
+    if (status === "OK" && results && results[0]) {
+      const result = results[0];
 
-        map?.panTo(latLng);
-      } else {
-        toast.error("Location not found. Please enter a valid city in Costa Rica.");
-        console.error("Geocoding failed:", status);
+      const isInCostaRica = result.address_components.some((component) =>
+        component.long_name === "Costa Rica" || component.short_name === "CR"
+      );
+
+      if (!isInCostaRica) {
+        toast.error("Only locations inside Costa Rica are allowed.");
+        return;
       }
-    });
-  };
+
+      const location = result.geometry.location;
+      const latLng = { lat: location.lat(), lng: location.lng() };
+
+      setViewport((prev) => ({
+        ...prev,
+        latitude: latLng.lat,
+        longitude: latLng.lng,
+      }));
+
+      if (type === "pickup") {
+        setPickUpMarker(latLng);
+      } else {
+        setDropOffMarker(latLng);
+      }
+
+      map?.panTo(latLng);
+    } else {
+      toast.error("Location not found. Please enter a valid city in Costa Rica.");
+      console.error("Geocoding failed:", status);
+    }
+  });
+};
 
   return (
     <div className="flex lg:flex-row flex-col-reverse w-full gap-4 mt-[56px]">

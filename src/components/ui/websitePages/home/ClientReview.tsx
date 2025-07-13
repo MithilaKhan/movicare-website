@@ -66,7 +66,7 @@ const ClientReview = () => {
                                             alt="Customer avatar"
                                             width={72}
                                             height={72}
-                                            className="rounded-full"
+                                            className="rounded-full h-[62px] w-[62px] object-cover"
                                         />
                                         <div className="flex flex-col gap-1">
                                             <h3 className="font-semibold text-xl text-white">{review.name}</h3>

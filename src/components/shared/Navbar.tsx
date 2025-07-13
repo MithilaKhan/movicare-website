@@ -22,8 +22,9 @@ const Navbar = () => {
   const router = useRouter()
   const { data: services } = useGetServicesQuery(undefined);
   const userContextValue = useContext(userContext);
-  const user = userContextValue?.user;
-
+  const user = userContextValue?.user; 
+const image = user?.image?.startsWith("https") ? user?.image : `${imageUrl}${user?.image}`
+ console.log("user", image);
 
   // for translate  
 
@@ -226,11 +227,11 @@ const Navbar = () => {
                 className="flex items-center gap-2 h-[55px] px-2 rounded-md cursor-pointer  transition"
               >
                 <Image
-                  src={user?.image?.startsWith("http") ? user?.image : `${imageUrl}${user?.image}`}
+                  src={image}
                   alt={'User Profile'}
                   width={44}
                   height={44}
-                  className="rounded-full"
+                  className="rounded-full h-11 w-11 object-cover cursor-pointer"
                 />
                 <h2 className={` text-[16px] font-medium ${pathname === "/services" ? "text-white" : "text-content1"}`}>
                   {user?.name}

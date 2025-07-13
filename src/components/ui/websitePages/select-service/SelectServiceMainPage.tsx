@@ -52,7 +52,8 @@ const SelectServiceMainPage = () => {
         dropOff_time: ""
     });
 
-    const [current, setCurrent] = useState(0);
+    const [current, setCurrent] = useState(0); 
+    console.log(formData , "formData in SelectServiceMainPage");
 
     useEffect(() => {
         if (typeof window !== "undefined") {

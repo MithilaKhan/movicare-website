@@ -92,17 +92,38 @@ const Footer = () => {
               <h1 className="lg:text-[14px] text-[12px] font-normal lg:mb-6 mb-3 text-[#a0a2a1]">Follow us</h1>
               <div className="flex gap-5">
 
-                <div className="lg:p-2 p-1  rounded-full border border-[#a0a2a1] lg:w-[50px] w-10 h-10 lg:h-[50px] flex items-center justify-center text-white cursor-pointer" onClick={() => router.push("https://www.facebook.com/profile.php?id=61577617058298")}>
-                  <FaFacebook size={25} />
-                </div>
+                <a
+                  href="https://www.facebook.com/profile.php?id=61577617058298"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Chat on WhatsApp"
+                >
+                  <div className="lg:p-2 p-1  rounded-full border border-[#a0a2a1] lg:w-[50px] w-10 h-10 lg:h-[50px] flex items-center justify-center text-white cursor-pointer">
+                    <FaFacebook size={25} />
+                  </div>
+                </a> 
 
-                <div className="lg:p-2 p-1  rounded-full border border-[#a0a2a1] lg:w-[50px] w-10 h-10 lg:h-[50px] flex items-center justify-center text-white cursor-pointer" onClick={() => router.push("https://www.instagram.com/movicare.cr?igsh=MWFxNWQ3bWtya3FhZg%3D%3D&utm_source=qr")}>
-                  <FaInstagram size={25} />
-                </div>
+                <a
+                  href="https://www.instagram.com/movicare.cr?igsh=MWFxNWQ3bWtya3FhZg%3D%3D&utm_source=qr"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Chat on WhatsApp"
+                >
+                  <div className="lg:p-2 p-1  rounded-full border border-[#a0a2a1] lg:w-[50px] w-10 h-10 lg:h-[50px] flex items-center justify-center text-white cursor-pointer">
+                    <FaInstagram size={25} />
+                  </div>
+                </a>
 
-                <div className="lg:p-2 p-1   rounded-full border border-[#a0a2a1] lg:w-[50px] w-10 h-10 lg:h-[50px] flex items-center justify-center text-white" onClick={() => router.push("https://www.linkedin.com/company/movicare-cr/")}>
-                  <FaLinkedin size={25} />
-                </div>
+                <a
+                  href="https://www.linkedin.com/company/movicare-cr/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Chat on WhatsApp"
+                >
+                  <div className="lg:p-2 p-1   rounded-full border border-[#a0a2a1] lg:w-[50px] w-10 h-10 lg:h-[50px] flex items-center justify-center text-white">
+                    <FaLinkedin size={25} />
+                  </div>
+                </a>
 
               </div>
             </div>
