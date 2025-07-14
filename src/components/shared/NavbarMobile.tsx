@@ -49,7 +49,7 @@ const NavbarMobile = ({ toggleDropdown, drawerVisible, openDropdowns, navOptions
                             return (
                                 <div key={index} className="border-b border-[#4E4E4E] pb-4 py-3 px-4">
                                     <div
-                                        className={`cursor-pointer flex items-center justify-between text-2xl font-light ${isActive ? "text-[#FFFFFF]" : "text-[#FFFFFF]/60"}`}
+                                        className={`cursor-pointer flex items-center justify-between text-lg font-normal ${isActive ? "text-[#FFFFFF]" : "text-[#FFFFFF]/60"}`}
                                         onClick={() => toggleDropdown(index)}
                                     >
                                         <span>{option.label}</span>
@@ -74,7 +74,7 @@ const NavbarMobile = ({ toggleDropdown, drawerVisible, openDropdowns, navOptions
 
                         return (
                             <Link key={index} href={option.path ?? "/"} onClick={() => setDrawerVisible(false)}>
-                                <div className={`py-3 px-4 text-2xl font-light cursor-pointer border-b border-[#4E4E4E] pb-6 ${isActive ? "text-[#FFFFFF]" : "text-[#FFFFFF]/60"}`}>
+                                <div className={`py-3 px-4 text-lg font-normal cursor-pointer border-b border-[#4E4E4E] pb-6 ${isActive ? "text-[#FFFFFF]" : "text-[#FFFFFF]/60"}`}>
                                     {option.label}
                                 </div>
                             </Link>
