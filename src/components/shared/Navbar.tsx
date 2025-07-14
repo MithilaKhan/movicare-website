@@ -22,9 +22,9 @@ const Navbar = () => {
   const router = useRouter()
   const { data: services } = useGetServicesQuery(undefined);
   const userContextValue = useContext(userContext);
-  const user = userContextValue?.user; 
-const image = user?.image?.startsWith("https") ? user?.image : `${imageUrl}${user?.image}`
- console.log("user", image);
+  const user = userContextValue?.user;
+  const image = user?.image?.startsWith("https") ? user?.image : `${imageUrl}${user?.image}`
+
 
   // for translate  
 
@@ -243,8 +243,8 @@ const image = user?.image?.startsWith("https") ? user?.image : `${imageUrl}${use
             }
 
             <div>
-              <button className={`text-[14px] py-3 px-4 rounded-full font-medium ${pathname === "/" || pathname === "/home" || pathname === "/services" ? "text-[#070707] bg-white" : "bg-primary text-white"}`} 
-              onClick={() => router.push("/select-service")} >Reserve Your Ride</button>
+              <button className={`text-[14px] py-3 px-4 rounded-full font-medium ${pathname === "/" || pathname === "/home" || pathname === "/services" ? "text-[#070707] bg-white" : "bg-primary text-white"}`}
+                onClick={() => router.push("/select-service")} >Reserve Your Ride</button>
             </div>
           </div>
         </div>
