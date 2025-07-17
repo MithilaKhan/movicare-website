@@ -50,7 +50,7 @@ const SelectServiceMainPage = () => {
         duration: 0,
         pickup_time: '',
         dropOff_time: ""
-    });
+    }); 
 
     const [current, setCurrent] = useState(0); 
 

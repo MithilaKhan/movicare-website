@@ -40,7 +40,7 @@ const Login = () => {
           : (error as errorType)?.data?.message || "Something went wrong. Please try again.";
       toast.error(errorMessage);
     }
-  }, [isSuccess, isError, error, data, router, form]);
+  }, [isSuccess, isError, error, data, router, form, refetch]);
 
   const onFinish = async (values: { email: string, password: string }) => {
     await loginUser(values)

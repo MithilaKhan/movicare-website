@@ -10,6 +10,7 @@ import { useAllTimeSlotsQuery, useCheckSlotsMutation, useUnavailableDateSlotQuer
 import { toast } from "react-toastify";
 import { errorType } from "../../contact/SendMessage";
 import moment from "moment";
+import Cookies from "js-cookie";
 
 const SelectDate = ({ next, prev, updateFormData, formData }: { next: () => void; prev: () => void, updateFormData: (newData: Partial<BookingDetails>) => void, formData: BookingDetails }) => {
   const [form] = Form.useForm();
@@ -19,10 +20,12 @@ const SelectDate = ({ next, prev, updateFormData, formData }: { next: () => void
   const { data: allUnavailableDates } = useUnavailableDateSlotQuery(undefined);
   const { data: timeSlots } = useAllTimeSlotsQuery(selectedDate || "");
   const [checkSlots, { isError, isSuccess, error, data }] = useCheckSlotsMutation();
+  const selectedLanguage = Cookies.get("currentLanguage") 
 
+  
   useEffect(() => {
     if (isSuccess) {
-      const endTime = moment.utc(data?.data?.end).format('hh:mm A'); 
+      const endTime = moment.utc(data?.data?.end).format('hh:mm A');
       setEndTime(endTime)
     }
 
@@ -60,7 +63,7 @@ const SelectDate = ({ next, prev, updateFormData, formData }: { next: () => void
 
   const onValuesChange = () => {
     const values = form.getFieldsValue();
-    const requiredFields = [ "pickup_time", "endTime", "adults", "kids"];
+    const requiredFields = ["pickup_time", "endTime", "adults", "kids"];
     const allFilled = requiredFields.every((field) => values[field] !== undefined && values[field] !== "");
     setIsServiceSelected(allFilled);
   };
@@ -68,8 +71,8 @@ const SelectDate = ({ next, prev, updateFormData, formData }: { next: () => void
   useEffect(() => {
 
     if (formData?.date || formData?.adults || formData?.kids || formData?.pickup_time) {
-      form.setFieldsValue({ adults: formData.adults, kids: formData.kids , pickup_time: formData.pickup_time , endTime: formData.dropOff_time });
-      setSelectedDate(formData.date ? moment(formData.date).format('YYYY-MM-DD') : null); 
+      form.setFieldsValue({ adults: formData.adults, kids: formData.kids, pickup_time: formData.pickup_time, endTime: formData.dropOff_time });
+      setSelectedDate(formData.date ? moment(formData.date).format('YYYY-MM-DD') : null);
 
       const values = form.getFieldsValue();
       setIsServiceSelected(!!values.adults && !!values.kids);
@@ -115,11 +118,11 @@ const SelectDate = ({ next, prev, updateFormData, formData }: { next: () => void
           </div>
 
           <Form.Item
-           
+
           // rules={[{ required: true, message: "Please select a date" }]}
           >
             <div className="border border-[#ebe9e9] rounded-lg lg:p-8 p-2">
-              <Calender unavailableDay={allUnavailableDates} selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
+              <Calender unavailableDay={allUnavailableDates} selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedLanguage={selectedLanguage} />
 
               <div>
                 <p className="text-lg text-[#525252] font-medium pt-4 pb-2">Travel’s Time</p>
@@ -146,11 +149,15 @@ const SelectDate = ({ next, prev, updateFormData, formData }: { next: () => void
                     // rules={[{ required: true, message: "Please enter minute" }]}
                     label={<p className="text-[#525252]  text-sm font-medium"> Estimated Travel Time</p>}
                   >
-                    <Input type="text"  placeholder="Minute" className="w-1/2" style={{ height: "48px" , backgroundColor:"#00000" }} readOnly />
+                    <Input type="text" className="w-1/2" style={{
+                      height: "48px", border: "1px solid #ebe9e9", outline: "none",
+                      boxShadow: "none",
+                      pointerEvents: "none",
+                    }} readOnly />
                   </Form.Item>
                 </div>
                 <p className="text-[#000000] lg:text-[16px] text-sm pt-5 font-medium">
-                 Choose the date and time for your trip.
+                  Choose the date and time for your trip.
                 </p>
               </div>
             </div>

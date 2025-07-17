@@ -8,6 +8,7 @@ import { errorType } from '../../websitePages/contact/SendMessage';
 import moment from 'moment';
 import { BookingCardProps } from '../current-booking/CurrentBooking';
 import { useRouter } from 'next/navigation';
+import Cookies from "js-cookie";
 
 const RebookModal = ({ open, setOpen, booking }: { open: boolean, setOpen: (open: boolean) => void, booking: BookingCardProps }) => {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
@@ -16,7 +17,8 @@ const RebookModal = ({ open, setOpen, booking }: { open: boolean, setOpen: (open
   const { data: allUnavailableDates } = useUnavailableDateSlotQuery(undefined);
   const { data: timeSlots } = useAllTimeSlotsQuery(selectedDate || "");
   const [form] = Form.useForm();
-  const router = useRouter()
+  const router = useRouter() 
+    const selectedLanguage = Cookies.get("currentLanguage") 
 
   const [checkSlots, {
     isError: isCheckSlotsError,
@@ -105,7 +107,7 @@ const RebookModal = ({ open, setOpen, booking }: { open: boolean, setOpen: (open
     >
 
       <div className='border border-gray-300 p-4 rounded-xl'>
-        <Calender unavailableDay={allUnavailableDates} selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
+        <Calender selectedLanguage={selectedLanguage} unavailableDay={allUnavailableDates} selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
         <div>
 
 

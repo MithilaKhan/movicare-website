@@ -1,13 +1,34 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import { Calendar, ConfigProvider } from "antd";
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";   
-import "dayjs/locale/es";
-import esES from "antd/locale/es_ES";
-dayjs.locale("es"); 
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 
-const Calender = ({ unavailableDay, selectedDate, setSelectedDate }: { unavailableDay: string[] | undefined, selectedDate: string | null, setSelectedDate: React.Dispatch<React.SetStateAction<string | null>> }) => {
+// Import locale files for Day.js and Ant Design
+import "dayjs/locale/es";
+import "dayjs/locale/en";
+import esES from "antd/locale/es_ES";
+import enUS from "antd/locale/en_US";
+
+const Calender = ({
+  unavailableDay,
+  selectedDate,
+  setSelectedDate,
+  selectedLanguage,
+}: {
+  unavailableDay: string[] | undefined;
+  selectedDate: string | null;
+  setSelectedDate: React.Dispatch<React.SetStateAction<string | null>>;
+  selectedLanguage: string | undefined;
+}) => {
+  // Set default locale to English if selectedLanguage is not provided
+  const locale = selectedLanguage === "es" ? "es" : "en";
+  const antdLocale = selectedLanguage === "es" ? esES : enUS;
+
+  // Set Day.js locale
+  useEffect(() => {
+    dayjs.locale(locale);
+  }, [locale]); // Re-run when selectedLanguage changes
 
   const [value, setValue] = useState<Dayjs>(dayjs());
 
@@ -17,7 +38,7 @@ const Calender = ({ unavailableDay, selectedDate, setSelectedDate }: { unavailab
 
   const toggleDate = (date: Dayjs) => {
     const formatted = date.format("YYYY-MM-DD");
-    if (disabledDate(date)) return; 
+    if (disabledDate(date)) return;
     setSelectedDate((prev) => (prev === formatted ? null : formatted));
   };
 
@@ -31,69 +52,67 @@ const Calender = ({ unavailableDay, selectedDate, setSelectedDate }: { unavailab
     setValue(newValue);
   };
 
-  const baseStyle =
-    "w-full h-full flex items-center justify-center transition-all";
-  const innerStyle =
-    "w-10 h-10 flex items-center justify-center rounded-full";
+  const baseStyle = "w-full h-full flex items-center justify-center transition-all";
+  const innerStyle = "w-10 h-10 flex items-center justify-center rounded-full";
 
   return (
-    <div> 
-       <ConfigProvider locale={esES}> 
-      <Calendar
-        value={value}
-        onPanelChange={setValue}
-        fullscreen={false}
-        disabledDate={disabledDate}
-        headerRender={() => {
-          return (
-            <div className="flex items-center justify-between py-3 px-4">
-              <div className="flex items-center space-x-4">
-                <LeftOutlined className="cursor-pointer" onClick={() => changeMonth("prev")} />
-                <p className="text-[#333333] text-[16px] leading-6 font-semibold">
-                  {dayjs(value).format("MMMM")}
-                </p>
-                <RightOutlined className="cursor-pointer" onClick={() => changeMonth("next")} />
+    <div>
+      <ConfigProvider locale={antdLocale}>
+        <Calendar
+          value={value}
+          onPanelChange={setValue}
+          fullscreen={false}
+          disabledDate={disabledDate}
+          headerRender={() => {
+            return (
+              <div className="flex items-center justify-between py-3 px-4">
+                <div className="flex items-center space-x-4">
+                  <LeftOutlined className="cursor-pointer" onClick={() => changeMonth("prev")} />
+                  <p className="text-[#333333] text-[16px] leading-6 font-semibold">
+                    {dayjs(value).format("MMMM")}
+                  </p>
+                  <RightOutlined className="cursor-pointer" onClick={() => changeMonth("next")} />
+                </div>
+                <div className="flex items-center space-x-4">
+                  <LeftOutlined className="cursor-pointer" onClick={() => changeYear("prev")} />
+                  <p className="text-[#333333] text-[16px] leading-6 font-semibold">
+                    {dayjs(value).format("YYYY")}
+                  </p>
+                  <RightOutlined className="cursor-pointer" onClick={() => changeYear("next")} />
+                </div>
               </div>
-              <div className="flex items-center space-x-4">
-                <LeftOutlined className="cursor-pointer" onClick={() => changeYear("prev")} />
-                <p className="text-[#333333] text-[16px] leading-6 font-semibold">
-                  {dayjs(value).format("YYYY")}
-                </p>
-                <RightOutlined className="cursor-pointer" onClick={() => changeYear("next")} />
-              </div>
-            </div>
-          );
-        }}
-        fullCellRender={(date) => {
-          const formatted = date.format("YYYY-MM-DD");
-          const isSelected = selectedDate === formatted;
-          const isDisabled = disabledDate(date);
-          const isToday = dayjs().isSame(date, "day");
-          const todayStyle = isToday ? " text-yellow-600 rounded-full  bg-gray-100" : "";
-          const selectedStyle = isSelected ? "bg-primary text-white rounded-full " : "";
-          const disabledStyle = isDisabled
-            ? "cursor-not-allowed text-gray-400  rounded-full "
-            : "cursor-pointer";
+            );
+          }}
+          fullCellRender={(date) => {
+            const formatted = date.format("YYYY-MM-DD");
+            const isSelected = selectedDate === formatted;
+            const isDisabled = disabledDate(date);
+            const isToday = dayjs().isSame(date, "day");
+            const todayStyle = isToday ? " text-yellow-600 rounded-full  bg-gray-100" : "";
+            const selectedStyle = isSelected ? "bg-primary text-white rounded-full " : "";
+            const disabledStyle = isDisabled
+              ? "cursor-not-allowed text-gray-400 rounded-full "
+              : "cursor-pointer";
 
-          const handleClick = () => {
-            if (!isDisabled) {
-              toggleDate(date);
-            }
-          };
+            const handleClick = () => {
+              if (!isDisabled) {
+                toggleDate(date);
+              }
+            };
 
-          return (
-            <div
-              className={`${baseStyle} ${disabledStyle} ${todayStyle}`}
-              onClick={handleClick}
-            >
-              <div className={`${innerStyle} ${selectedStyle} `}>
-                <span className="text-sm font-medium">{date.date()}</span>
+            return (
+              <div
+                className={`${baseStyle} ${disabledStyle} ${todayStyle}`}
+                onClick={handleClick}
+              >
+                <div className={`${innerStyle} ${selectedStyle}`}>
+                  <span className="text-sm font-medium">{date.date()}</span>
+                </div>
               </div>
-            </div>
-          );
-        }}
-      />
-       </ConfigProvider>
+            );
+          }}
+        />
+      </ConfigProvider>
     </div>
   );
 };
