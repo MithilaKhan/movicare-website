@@ -12,15 +12,20 @@ import {
 
 const Footer = () => {
   const router = useRouter();
-  const [language, setLanguage] = useState<string | null>("en")
+  const [language, setLanguage] = useState<string | null>("es")
 
 
   // for translate  
 
-  useEffect(() => {
-    const storedLanguage = Cookies.get("currentLanguage");
-    if (storedLanguage) {
+useEffect(() => {
+    const storedLanguage = Cookies.get("currentLanguage"); 
+    console.log("language", storedLanguage);
+    if (!storedLanguage) {
+      Cookies.set("currentLanguage", "es", { expires: 30 });
+      document.cookie = `googtrans=/en/es; path=/; max-age=${30 * 24 * 60 * 60}`;
+    } else {
       setLanguage(storedLanguage);
+      document.cookie = `googtrans=/en/${storedLanguage}; path=/; max-age=${30 * 24 * 60 * 60}`;
     }
   }, []);
 

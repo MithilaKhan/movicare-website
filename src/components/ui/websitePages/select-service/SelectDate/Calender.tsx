@@ -33,7 +33,10 @@ const Calender = ({
   const [value, setValue] = useState<Dayjs>(dayjs());
 
   const disabledDate = (date: Dayjs): boolean => {
-    return unavailableDay?.some((d: string) => dayjs(date).isSame(dayjs(d), "day")) ?? false;
+    const isPastDate = date.isBefore(dayjs(), 'day');
+    const isUnavailable =
+      unavailableDay?.some((d: string) => dayjs(date).isSame(dayjs(d), 'day')) ?? false;
+    return isPastDate || isUnavailable;
   };
 
   const toggleDate = (date: Dayjs) => {
@@ -88,11 +91,9 @@ const Calender = ({
             const isSelected = selectedDate === formatted;
             const isDisabled = disabledDate(date);
             const isToday = dayjs().isSame(date, "day");
-            const todayStyle = isToday ? " text-yellow-600 rounded-full  bg-gray-100" : "";
-            const selectedStyle = isSelected ? "bg-primary text-white rounded-full " : "";
-            const disabledStyle = isDisabled
-              ? "cursor-not-allowed text-gray-400 rounded-full "
-              : "cursor-pointer";
+
+            const selectedStyle = isSelected ? "bg-primary text-white rounded-full " : isDisabled ? "cursor-not-allowed text-gray-400 bg-gray-100 opacity-50" : isToday? "text-yellow-600 bg-gray-100 rounded-full": "";
+
 
             const handleClick = () => {
               if (!isDisabled) {
@@ -102,7 +103,7 @@ const Calender = ({
 
             return (
               <div
-                className={`${baseStyle} ${disabledStyle} ${todayStyle}`}
+                className={`${baseStyle} `}
                 onClick={handleClick}
               >
                 <div className={`${innerStyle} ${selectedStyle}`}>

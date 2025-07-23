@@ -32,9 +32,11 @@ const SelectLocation: React.FC<SelectLocationProps> = ({
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const searchParams = useSearchParams();
   const pickup = searchParams.get("pickup");
-  const dropOff = searchParams.get("dropOff");
+  const dropOff = searchParams.get("dropOff"); 
+  const date = searchParams.get("date");
   const [pickUpInput, setPickUpInput] = useState("");
-  const [dropOffInput, setDropOffInput] = useState("");
+  const [dropOffInput, setDropOffInput] = useState(""); 
+  const [selectedDate, setSelectedDate]=useState<string|null>(null)
   const pickUpRef = useRef<google.maps.places.Autocomplete | null>(null);
   const dropOffRef = useRef<google.maps.places.Autocomplete | null>(null);
   const [viewport, setViewport] = useState({
@@ -48,7 +50,7 @@ const SelectLocation: React.FC<SelectLocationProps> = ({
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? "",
     libraries: ["places"],
-  });
+  }); 
 
   // Handle place selection for pickup
   const handlePickUpPlaceChanged = () => {
@@ -82,7 +84,7 @@ const SelectLocation: React.FC<SelectLocationProps> = ({
   // Autocomplete options restricted to Costa Rica cities
   const autocompleteOptions: google.maps.places.AutocompleteOptions = {
     componentRestrictions: { country: "cr" },
-    types: ["(cities)"],
+    types: ["geocode"],
     fields: ["formatted_address", "geometry", "name"],
   };
 
@@ -103,13 +105,14 @@ const SelectLocation: React.FC<SelectLocationProps> = ({
   }, [form, formData]);
 
   useEffect(() => {
-    if (pickup || dropOff) {
-      form.setFieldsValue({ pickUpCity: pickup, dropOffCity: dropOff });
+    if (pickup || dropOff||date) {
+      form.setFieldsValue({ pickUpCity: pickup, dropOffCity: dropOff }); 
+      setSelectedDate(date)
       setPickUpInput(pickup || "");
       setDropOffInput(dropOff || "");
       setIsSelected(!!pickup && !!dropOff);
     }
-  }, [form, pickup, dropOff]);
+  }, [form, pickup, dropOff,date]);
 
   const geocodeAddress = (address: string): Promise<google.maps.LatLngLiteral> => {
     return new Promise((resolve, reject) => {
@@ -179,7 +182,8 @@ const SelectLocation: React.FC<SelectLocationProps> = ({
         pickup_location: values.pickUpCity,
         dropoff_location: values.dropOffCity,
         distance,
-        duration,
+        duration, 
+        date:selectedDate
       });
 
       next();

@@ -18,7 +18,7 @@ const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [openDropdowns, setOpenDropdowns] = useState<{ [key: number]: boolean }>({});
-  const [language, setLanguage] = useState<string | null>("en")
+  const [language, setLanguage] = useState<string | null>("es")
   const router = useRouter()
   const { data: services } = useGetServicesQuery(undefined);
   const userContextValue = useContext(userContext);
@@ -28,10 +28,15 @@ const Navbar = () => {
 
   // for translate  
 
-  useEffect(() => {
-    const storedLanguage = Cookies.get("currentLanguage");
-    if (storedLanguage) {
+useEffect(() => {
+    const storedLanguage = Cookies.get("currentLanguage"); 
+    console.log("language", storedLanguage);
+    if (!storedLanguage) {
+      Cookies.set("currentLanguage", "es", { expires: 30 });
+      document.cookie = `googtrans=/en/es; path=/; max-age=${30 * 24 * 60 * 60}`;
+    } else {
       setLanguage(storedLanguage);
+      document.cookie = `googtrans=/en/${storedLanguage}; path=/; max-age=${30 * 24 * 60 * 60}`;
     }
   }, []);
 
@@ -144,6 +149,7 @@ const Navbar = () => {
           <div className="bg-[#202020] text-white h-[40px] flex items-center justify-center">
             <div className=" flex items-center justify-between lg:text-[16px] text-xs container ">
               <p className=" flex items-center gap-1 "> <span className="font-thin tracking-wide">Need Support Call Us: </span> <span> +506 6019-1762 </span>  </p>
+              
               <p className="flex items-center gap-3"> <span className={`  lg:text-[16px] text-xs cursor-pointer 
               ${language === "en" ? "font-bold text-white" : " text-[#FFFFFF]/60 font-normal"}`} onClick={() => switchLanguage("en")}>En</span> <span className={`text-[#FFFFFF]/60 cursor-pointer ${language === "es" ? "font-bold text-white" : " text-[#FFFFFF]/60 font-normal"}`} onClick={() => switchLanguage("es")}>Es</span></p>
             </div>

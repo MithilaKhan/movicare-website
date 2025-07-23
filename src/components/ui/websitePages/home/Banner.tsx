@@ -9,14 +9,26 @@ import { PiArrowBendUpRightBold } from 'react-icons/pi';
 import { SiRelay } from 'react-icons/si';
 import { useJsApiLoader, Autocomplete } from '@react-google-maps/api';
 import { userContext } from '@/helpers/UserProvider';
+import dayjs from 'dayjs'
+import moment from 'moment';
 
 const Banner = () => {
   const router = useRouter();
   const [pickUp, setPickUp] = useState('');
   const [dropOff, setDropOff] = useState('');
+  const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs | undefined>()
   const userContextValue = useContext(userContext);
   const user = userContextValue?.user;
   const GOOGLE_MAP_LIBRARIES: ("drawing" | "geometry" | "places" | "visualization")[] = ["places"];
+
+  console.log(selectedDate);
+
+  const formatDate = (date: unknown) => {
+    if (!date || !dayjs.isDayjs(date)) {
+      return '';
+    }
+    return dayjs(date).format('YYYY-MM-DD');
+  };
 
   // Load Google Maps API
   const { isLoaded, loadError } = useJsApiLoader({
@@ -49,9 +61,9 @@ const Banner = () => {
 
   // Autocomplete options restricted to Costa Rica cities
   const autocompleteOptions = {
-    componentRestrictions: { country: 'cr' }, 
-    types: ['(cities)'],
-    fields: ['formatted_address', 'geometry', 'name'], 
+    componentRestrictions: { country: 'cr' },
+    types: ['geocode'],
+    fields: ['formatted_address', 'geometry', 'name'],
   };
 
   if (loadError) {
@@ -61,6 +73,17 @@ const Banner = () => {
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
+
+  const handleCheckAvailability = () => {
+
+    const queryParams = new URLSearchParams({
+      step: '1',
+      pickup: pickUp || '',
+      dropOff: dropOff || '',
+      date: selectedDate ? formatDate(selectedDate) : ""
+    });
+    router.push(`/select-service?${queryParams.toString()}`);
+  };
 
   return (
     <div
@@ -178,6 +201,10 @@ const Banner = () => {
                       prefix={<BsCalendar4 size={18} color="#ffffff" className="mx-2" />}
                       suffixIcon={''}
                       showToday={false}
+                      onChange={(value) => setSelectedDate(value)}
+                      disabledDate={(current) => {
+                        return current && current < moment().startOf('day');
+                      }}
                     />
                   </ConfigProvider>
                 </div>
@@ -187,9 +214,7 @@ const Banner = () => {
               <div className="lg:col-span-1 col-span-1">
                 <button
                   className="text-[16px] w-full text-[#286A25] bg-white h-[48px] px-6 rounded-full font-medium flex items-center justify-center gap-2"
-                  onClick={() =>
-                    router.push(`/select-service?step=1&pickup=${encodeURIComponent(pickUp)}&dropOff=${encodeURIComponent(dropOff)}`)
-                  }
+                  onClick={handleCheckAvailability}
                 >
                   <span>Check Availability</span>
                   <PiArrowBendUpRightBold size={16} color="#286A25" />
@@ -202,9 +227,7 @@ const Banner = () => {
               <div className="lg:w-[45%] w-full">
                 <button
                   className="text-[16px] w-full text-[#286A25] bg-white h-[48px] px-6 rounded-full font-medium flex items-center justify-center gap-2"
-                  onClick={() =>
-                    router.push(`/select-service?step=1&pickup=${encodeURIComponent(pickUp)}&dropOff=${encodeURIComponent(dropOff)}`)
-                  }
+                  onClick={handleCheckAvailability}
                 >
                   <span>Check Availability</span>
                   <PiArrowBendUpRightBold size={16} color="#286A25" />

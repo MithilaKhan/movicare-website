@@ -9,7 +9,7 @@ import { BookingDetails } from "../SelectServiceMainPage";
 import { useAllTimeSlotsQuery, useCheckSlotsMutation, useUnavailableDateSlotQuery } from "@/redux/features/others/booking/bookingSlice";
 import { toast } from "react-toastify";
 import { errorType } from "../../contact/SendMessage";
-import moment from "moment";
+import moment from 'moment-timezone';
 import Cookies from "js-cookie";
 
 const SelectDate = ({ next, prev, updateFormData, formData }: { next: () => void; prev: () => void, updateFormData: (newData: Partial<BookingDetails>) => void, formData: BookingDetails }) => {
@@ -20,12 +20,13 @@ const SelectDate = ({ next, prev, updateFormData, formData }: { next: () => void
   const { data: allUnavailableDates } = useUnavailableDateSlotQuery(undefined);
   const { data: timeSlots } = useAllTimeSlotsQuery(selectedDate || "");
   const [checkSlots, { isError, isSuccess, error, data }] = useCheckSlotsMutation();
-  const selectedLanguage = Cookies.get("currentLanguage") 
+  const selectedLanguage = Cookies.get("currentLanguage")
 
-  
+
   useEffect(() => {
     if (isSuccess) {
-      const endTime = moment.utc(data?.data?.end).format('hh:mm A');
+      const utcTime = moment.utc(data?.data?.end);
+      const endTime = utcTime.tz('America/Costa_Rica').format('hh:mm A');
       setEndTime(endTime)
     }
 
@@ -40,12 +41,15 @@ const SelectDate = ({ next, prev, updateFormData, formData }: { next: () => void
 
 
   const handleStartTimeChange = async (value: string) => {
+    // const utcTime = moment.utc(value);
+    // const formattedTime = utcTime.tz('America/Costa_Rica').format('HH:mm:ss A'); 
     const data = {
       date: selectedDate,
       time: value,
       dropoff_location: formData.dropoff_location,
       pickup_location: formData.pickup_location,
-    }
+    } 
+    console.log(data);
 
     await checkSlots(data)
 

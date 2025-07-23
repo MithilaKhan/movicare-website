@@ -14,17 +14,20 @@ import { imageUrl } from '@/redux/base/baseApi';
 
 const ProfileNavbar = () => {
   const router = useRouter();
-  const [language, setLanguage] = useState<string | null>("en")
+  const [language, setLanguage] = useState<string | null>("es")
   const [drawerVisible, setDrawerVisible] = useState(false);
   const userContextValue = useContext(userContext)
   const user = userContextValue?.user
 
-  // for translate  
 
   useEffect(() => {
     const storedLanguage = Cookies.get("currentLanguage");
-    if (storedLanguage) {
+    if (!storedLanguage) {
+      Cookies.set("currentLanguage", "es", { expires: 30 });
+      document.cookie = `googtrans=/en/es; path=/; max-age=${30 * 24 * 60 * 60}`;
+    } else {
       setLanguage(storedLanguage);
+      document.cookie = `googtrans=/en/${storedLanguage}; path=/; max-age=${30 * 24 * 60 * 60}`;
     }
   }, []);
 
@@ -54,10 +57,7 @@ const ProfileNavbar = () => {
     //   30 * 24 * 60 * 60
     // };`;
 
-    // Update state
     setLanguage(lang);
-
-    // Reload the page to apply the translation
     window.location.reload();
   };
 
