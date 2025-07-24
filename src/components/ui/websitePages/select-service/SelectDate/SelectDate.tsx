@@ -20,13 +20,16 @@ const SelectDate = ({ next, prev, updateFormData, formData }: { next: () => void
   const { data: allUnavailableDates } = useUnavailableDateSlotQuery(undefined);
   const { data: timeSlots } = useAllTimeSlotsQuery(selectedDate || "");
   const [checkSlots, { isError, isSuccess, error, data }] = useCheckSlotsMutation();
-  const selectedLanguage = Cookies.get("currentLanguage")
+  const selectedLanguage = Cookies.get("currentLanguage") 
+
+  console.log("timeSlots",timeSlots);
 
 
   useEffect(() => {
-    if (isSuccess) {
-      const utcTime = moment.utc(data?.data?.end);
-      const endTime = utcTime.tz('America/Costa_Rica').format('hh:mm A');
+    if (isSuccess) { 
+      const endTime = moment(data?.data?.end).format('hh:mm A')
+      // const utcTime = moment.utc(data?.data?.end);
+      // const endTime = utcTime.tz('America/Costa_Rica').format('hh:mm A');
       setEndTime(endTime)
     }
 
@@ -41,14 +44,15 @@ const SelectDate = ({ next, prev, updateFormData, formData }: { next: () => void
 
 
   const handleStartTimeChange = async (value: string) => {
-    // const utcTime = moment.utc(value);
-    // const formattedTime = utcTime.tz('America/Costa_Rica').format('HH:mm:ss A'); 
+    // const utcTime = moment.utc(value, 'hh:mm:ss A');
+    // const costaRicaTime = utcTime.tz('America/Costa_Rica').format('hh:mm:ss A'); 
+
     const data = {
       date: selectedDate,
       time: value,
       dropoff_location: formData.dropoff_location,
       pickup_location: formData.pickup_location,
-    } 
+    }
     console.log(data);
 
     await checkSlots(data)

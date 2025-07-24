@@ -92,7 +92,7 @@ const Calender = ({
             const isDisabled = disabledDate(date);
             const isToday = dayjs().isSame(date, "day");
 
-            const selectedStyle = isSelected ? "bg-primary text-white rounded-full " : isDisabled ? "cursor-not-allowed text-gray-400 bg-gray-100 opacity-50" : isToday? "text-yellow-600 bg-gray-100 rounded-full": "";
+            const selectedStyle = isSelected ? "bg-primary text-white rounded-full " : isDisabled ? " cursor-not-allowed text-gray-400 bg-gray-100 opacity-50 " : isToday? "text-yellow-600 bg-gray-100 rounded-full": "";
 
 
             const handleClick = () => {
