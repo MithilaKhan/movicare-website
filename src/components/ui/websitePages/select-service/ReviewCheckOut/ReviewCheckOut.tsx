@@ -281,7 +281,7 @@ const ReviewCheckOut = ({ prev, formData }: { prev: () => void, formData: Bookin
           </div>
           <div className="flex justify-between items-center pt-3">
             <p className="text-content2 text-lg">Total</p>
-            <p className="text-[#070707] font-semibold text-sm">${formData?.total_price}</p>
+            <p className="text-[#070707] font-semibold text-sm">${(formData?.total_price).toFixed(2)}</p>
           </div>
         </div>
       </div>
