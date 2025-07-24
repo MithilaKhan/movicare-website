@@ -53,7 +53,7 @@ const SelectServiceMainPage = () => {
     });
 
     const [current, setCurrent] = useState(0);
-    console.log("formData", formData);
+    // console.log("formData", formData);
 
     useEffect(() => {
         if (typeof window !== "undefined") {

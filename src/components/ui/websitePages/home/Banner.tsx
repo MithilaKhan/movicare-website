@@ -9,7 +9,7 @@ import { PiArrowBendUpRightBold } from 'react-icons/pi';
 import { SiRelay } from 'react-icons/si';
 import { useJsApiLoader, Autocomplete } from '@react-google-maps/api';
 import { userContext } from '@/helpers/UserProvider';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import 'dayjs/locale/en'; // English locale for dayjs
 import 'dayjs/locale/es'; // Spanish locale for dayjs
@@ -30,14 +30,14 @@ const Banner = () => {
   const GOOGLE_MAP_LIBRARIES: ("drawing" | "geometry" | "places" | "visualization")[] = ["places"];
   const selectedLanguage = Cookies.get("currentLanguage")
 
-// Set dayjs locale based on language
+  // Set dayjs locale based on language
   useEffect(() => {
     dayjs.locale(selectedLanguage);
-    console.log('Current locale:', dayjs.locale());
-    console.log('Today:', dayjs().format('dddd, MMMM D, YYYY')); 
-  }, [selectedLanguage]); 
+    // console.log('Current locale:', dayjs.locale());
+    // console.log('Today:', dayjs().format('dddd, MMMM D, YYYY'));
+  }, [selectedLanguage]);
 
-  console.log(selectedDate);
+  // console.log(selectedDate);
 
   const formatDate = (date: unknown) => {
     if (!date || !dayjs.isDayjs(date)) {
@@ -90,7 +90,10 @@ const Banner = () => {
     return <div>Loading...</div>;
   }
 
-
+  const disabledDate = (date: Dayjs): boolean => {
+    const isPastDate = date.isBefore(dayjs(), 'day');
+    return isPastDate ;
+  };
 
   const handleCheckAvailability = () => {
 
@@ -203,7 +206,7 @@ const Banner = () => {
                   {/* Date Picker */}
                   <div translate='no' >
                     <ConfigProvider
-                locale={selectedLanguage === 'en' ? enUS : esES}
+                      locale={selectedLanguage === 'en' ? enUS : esES}
                       theme={{
                         token: {
                           colorPrimary: '#53645f',
@@ -223,9 +226,7 @@ const Banner = () => {
                         suffixIcon={''}
                         showToday={false}
                         onChange={(value) => setSelectedDate(value)}
-                        disabledDate={(current) => {
-                          return current && current.isBefore(dayjs(), 'day');
-                        }}
+                        disabledDate={(current) => disabledDate(current)}
                       />
                     </ConfigProvider>
                   </div>

@@ -22,7 +22,7 @@ const SelectDate = ({ next, prev, updateFormData, formData }: { next: () => void
   const [checkSlots, { isError, isSuccess, error, data }] = useCheckSlotsMutation();
   const selectedLanguage = Cookies.get("currentLanguage") 
 
-  console.log("timeSlots",timeSlots);
+  // console.log("timeSlots",timeSlots);
 
 
   useEffect(() => {
@@ -53,7 +53,7 @@ const SelectDate = ({ next, prev, updateFormData, formData }: { next: () => void
       dropoff_location: formData.dropoff_location,
       pickup_location: formData.pickup_location,
     }
-    console.log(data);
+    // console.log(data);
 
     await checkSlots(data)
 

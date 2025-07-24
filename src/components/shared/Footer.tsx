@@ -19,7 +19,6 @@ const Footer = () => {
 
 useEffect(() => {
     const storedLanguage = Cookies.get("currentLanguage"); 
-    console.log("language", storedLanguage);
     if (!storedLanguage) {
       Cookies.set("currentLanguage", "es", { expires: 30 });
       document.cookie = `googtrans=/en/es; path=/; max-age=${30 * 24 * 60 * 60}`;
