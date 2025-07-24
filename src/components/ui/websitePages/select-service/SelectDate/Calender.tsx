@@ -16,7 +16,7 @@ const Calender = ({
   setSelectedDate,
   selectedLanguage,
 }: {
-  unavailableDay: string[] | undefined;
+  unavailableDay?: string[] | undefined;
   selectedDate: string | null;
   setSelectedDate: React.Dispatch<React.SetStateAction<string | null>>;
   selectedLanguage: string | undefined;
@@ -55,7 +55,7 @@ const Calender = ({
   };
 
   const baseStyle = "w-full h-full flex items-center justify-center transition-all";
-  const innerStyle = "w-10 h-10 flex items-center justify-center rounded-full";
+  const innerStyle = "w-10 h-10 flex items-center justify-center rounded-full p-4";
 
   return (
     <div translate="no"> 
@@ -92,7 +92,7 @@ const Calender = ({
             const isDisabled = disabledDate(date);
             const isToday = dayjs().isSame(date, "day");
 
-            const selectedStyle = isSelected ? "bg-primary text-white rounded-full" : isDisabled ? "cursor-not-allowed text-gray-400 bg-gray-100 opacity-50" : isToday ? "text-yellow-600 bg-gray-100 rounded-full" : "";
+            const selectedStyle = isSelected ? "bg-primary text-white rounded-full" : isDisabled ? "cursor-not-allowed  opacity-50" : isToday ? "text-yellow-600 bg-gray-100 rounded-full" : "";
 
             const handleClick = () => {
               if (!isDisabled) {

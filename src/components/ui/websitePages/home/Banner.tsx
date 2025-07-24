@@ -1,6 +1,6 @@
 "use client";
 
-import { ConfigProvider, DatePicker, Input } from 'antd';
+import { ConfigProvider, Input } from 'antd';
 import { useRouter } from 'next/navigation';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { BsCalendar4 } from 'react-icons/bs';
@@ -9,13 +9,11 @@ import { PiArrowBendUpRightBold } from 'react-icons/pi';
 import { SiRelay } from 'react-icons/si';
 import { useJsApiLoader, Autocomplete } from '@react-google-maps/api';
 import { userContext } from '@/helpers/UserProvider';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import updateLocale from 'dayjs/plugin/updateLocale';
-import 'dayjs/locale/en'; // English locale for dayjs
-import 'dayjs/locale/es'; // Spanish locale for dayjs
-import enUS from 'antd/es/locale/en_US'; // English locale for Ant Design
-import esES from 'antd/es/locale/es_ES';
 import Cookies from "js-cookie";
+import Calender from '../select-service/SelectDate/Calender';
+
 // import Cookies from "js-cookie";
 
 dayjs.extend(updateLocale);
@@ -24,17 +22,24 @@ const Banner = () => {
   const router = useRouter();
   const [pickUp, setPickUp] = useState('');
   const [dropOff, setDropOff] = useState('');
-  const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs | undefined>()
   const userContextValue = useContext(userContext);
   const user = userContextValue?.user;
   const GOOGLE_MAP_LIBRARIES: ("drawing" | "geometry" | "places" | "visualization")[] = ["places"];
   const selectedLanguage = Cookies.get("currentLanguage")
+  const locale = selectedLanguage === "es" ? "es" : "en";
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  
+
+  useEffect(() => {
+    dayjs.locale(locale);
+  }, [locale]);
 
   // Set dayjs locale based on language
   useEffect(() => {
     dayjs.locale(selectedLanguage);
-    // console.log('Current locale:', dayjs.locale());
-    // console.log('Today:', dayjs().format('dddd, MMMM D, YYYY'));
+    console.log('Current locale:', dayjs.locale());
+    console.log('Today:', dayjs().format('dddd, MMMM D, YYYY'));
   }, [selectedLanguage]);
 
   // console.log(selectedDate);
@@ -89,11 +94,6 @@ const Banner = () => {
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
-
-  const disabledDate = (date: Dayjs): boolean => {
-    const isPastDate = date.isBefore(dayjs(), 'day');
-    return isPastDate ;
-  };
 
   const handleCheckAvailability = () => {
 
@@ -206,7 +206,6 @@ const Banner = () => {
                   {/* Date Picker */}
                   <div translate='no' >
                     <ConfigProvider
-                      locale={selectedLanguage === 'en' ? enUS : esES}
                       theme={{
                         token: {
                           colorPrimary: '#53645f',
@@ -218,16 +217,31 @@ const Banner = () => {
                         },
                       }}
                     >
-
-                      <DatePicker
-                        placeholder="Select date & time"
-                        style={{ width: '100%', height: '48px' }}
-                        prefix={<BsCalendar4 size={18} color="#ffffff" className="mx-2" />}
-                        suffixIcon={''}
-                        showToday={false}
-                        onChange={(value) => setSelectedDate(value)}
-                        disabledDate={(current) => disabledDate(current)}
-                      />
+                      <div className="relative">
+                        <Input
+                          placeholder="Select date & time"
+                          style={{ width: '100%', height: '48px' }}
+                          prefix={<BsCalendar4 size={18} color="#ffffff" className="mx-2" />}
+                          value={selectedDate ? dayjs(selectedDate).format('YYYY-MM-DD') : ''}
+                          onClick={() => setIsCalendarOpen(true)}
+                          readOnly
+                        />
+                        {isCalendarOpen && (
+                          <div className="absolute z-10 mt-2">
+                            <Calender
+                              selectedDate={selectedDate}
+                              setSelectedDate={setSelectedDate}
+                              selectedLanguage={selectedLanguage}
+                            />
+                            <button
+                              onClick={() => setIsCalendarOpen(false)}
+                              className="mt-2 bg-primary text-white px-2 py-1 rounded text-sm font-medium"
+                            >
+                              Close
+                            </button>
+                          </div>
+                        )}
+                      </div>
                     </ConfigProvider>
                   </div>
                 </div>

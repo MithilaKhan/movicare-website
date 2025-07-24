@@ -27,10 +27,11 @@ const SelectDate = ({ next, prev, updateFormData, formData }: { next: () => void
 
   useEffect(() => {
     if (isSuccess) { 
-      // const endTime = moment(data?.data?.end).format('hh:mm A')
-      const utcTime = moment.utc(data?.data?.end);
-      const endTime = utcTime.tz('America/Costa_Rica').format('hh:mm A');
-      setEndTime(endTime)
+      // const endTime = moment(data?.data?.end).format('hh:mm A') 
+      // console.log(data?.data?.end);
+      // const utcTime = moment.utc(data?.data?.end);
+      // const endTime = utcTime.tz('America/Costa_Rica').format('hh:mm A');
+      setEndTime(data?.data?.end)
     }
 
     if (isError) {
