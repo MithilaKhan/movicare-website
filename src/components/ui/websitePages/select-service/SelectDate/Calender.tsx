@@ -25,17 +25,16 @@ const Calender = ({
   const locale = selectedLanguage === "es" ? "es" : "en";
   const antdLocale = selectedLanguage === "es" ? esES : enUS;
 
-  // Set Day.js locale
+  // Set Day.js locale with custom weekdays
   useEffect(() => {
-    dayjs.locale(locale);
-  }, [locale]); // Re-run when selectedLanguage changes
+    dayjs.locale(locale); 
+  }, [locale]);
 
   const [value, setValue] = useState<Dayjs>(dayjs());
 
   const disabledDate = (date: Dayjs): boolean => {
     const isPastDate = date.isBefore(dayjs(), 'day');
-    const isUnavailable =
-      unavailableDay?.some((d: string) => dayjs(date).isSame(dayjs(d), 'day')) ?? false;
+    const isUnavailable = unavailableDay?.some((d: string) => dayjs(date).isSame(dayjs(d), 'day')) ?? false;
     return isPastDate || isUnavailable;
   };
 
@@ -59,7 +58,7 @@ const Calender = ({
   const innerStyle = "w-10 h-10 flex items-center justify-center rounded-full";
 
   return (
-    <div>
+    <div translate="no"> 
       <ConfigProvider locale={antdLocale}>
         <Calendar
           value={value}
@@ -67,6 +66,7 @@ const Calender = ({
           fullscreen={false}
           disabledDate={disabledDate}
           headerRender={() => {
+            // const shortWeekdays = antdLocale.locale?.shortWeekdays || ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
             return (
               <div className="flex items-center justify-between py-3 px-4">
                 <div className="flex items-center space-x-4">
@@ -92,8 +92,7 @@ const Calender = ({
             const isDisabled = disabledDate(date);
             const isToday = dayjs().isSame(date, "day");
 
-            const selectedStyle = isSelected ? "bg-primary text-white rounded-full " : isDisabled ? " cursor-not-allowed text-gray-400 bg-gray-100 opacity-50 " : isToday? "text-yellow-600 bg-gray-100 rounded-full": "";
-
+            const selectedStyle = isSelected ? "bg-primary text-white rounded-full" : isDisabled ? "cursor-not-allowed text-gray-400 bg-gray-100 opacity-50" : isToday ? "text-yellow-600 bg-gray-100 rounded-full" : "";
 
             const handleClick = () => {
               if (!isDisabled) {
@@ -102,11 +101,8 @@ const Calender = ({
             };
 
             return (
-              <div
-                className={`${baseStyle} `}
-                onClick={handleClick}
-              >
-                <div className={`${innerStyle} ${selectedStyle}`}>
+              <div className={`${baseStyle}`} onClick={handleClick}>
+                <div className={`${innerStyle} ${selectedStyle} `}>
                   <span className="text-sm font-medium">{date.date()}</span>
                 </div>
               </div>

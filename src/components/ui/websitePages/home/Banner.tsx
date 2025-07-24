@@ -2,15 +2,23 @@
 
 import { ConfigProvider, DatePicker, Input } from 'antd';
 import { useRouter } from 'next/navigation';
-import { useContext, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { BsCalendar4 } from 'react-icons/bs';
 import { GrLocationPin } from 'react-icons/gr';
 import { PiArrowBendUpRightBold } from 'react-icons/pi';
 import { SiRelay } from 'react-icons/si';
 import { useJsApiLoader, Autocomplete } from '@react-google-maps/api';
 import { userContext } from '@/helpers/UserProvider';
-import dayjs from 'dayjs'
-import moment from 'moment';
+import dayjs from 'dayjs';
+import updateLocale from 'dayjs/plugin/updateLocale';
+import 'dayjs/locale/en'; // English locale for dayjs
+import 'dayjs/locale/es'; // Spanish locale for dayjs
+import enUS from 'antd/es/locale/en_US'; // English locale for Ant Design
+import esES from 'antd/es/locale/es_ES';
+import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
+
+dayjs.extend(updateLocale);
 
 const Banner = () => {
   const router = useRouter();
@@ -20,6 +28,14 @@ const Banner = () => {
   const userContextValue = useContext(userContext);
   const user = userContextValue?.user;
   const GOOGLE_MAP_LIBRARIES: ("drawing" | "geometry" | "places" | "visualization")[] = ["places"];
+  const selectedLanguage = Cookies.get("currentLanguage")
+
+// Set dayjs locale based on language
+  useEffect(() => {
+    dayjs.locale(selectedLanguage);
+    console.log('Current locale:', dayjs.locale());
+    console.log('Today:', dayjs().format('dddd, MMMM D, YYYY')); 
+  }, [selectedLanguage]); 
 
   console.log(selectedDate);
 
@@ -73,6 +89,8 @@ const Banner = () => {
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
+
+
 
   const handleCheckAvailability = () => {
 
@@ -183,30 +201,34 @@ const Banner = () => {
                   </ConfigProvider>
 
                   {/* Date Picker */}
-                  <ConfigProvider
-                    theme={{
-                      token: {
-                        colorPrimary: '#53645f',
-                        colorTextBase: '#ffffff',
-                        colorTextPlaceholder: '#a8b2af',
-                        colorBgContainer: '#666d66',
-                        colorBgElevated: '#666d66',
-                        colorIcon: '#ffffff',
-                      },
-                    }}
-                  >
-                    <DatePicker
-                      placeholder="Select date & time"
-                      style={{ width: '100%', height: '48px' }}
-                      prefix={<BsCalendar4 size={18} color="#ffffff" className="mx-2" />}
-                      suffixIcon={''}
-                      showToday={false}
-                      onChange={(value) => setSelectedDate(value)}
-                      disabledDate={(current) => {
-                        return current && current < moment().startOf('day');
+                  <div translate='no' >
+                    <ConfigProvider
+                locale={selectedLanguage === 'en' ? enUS : esES}
+                      theme={{
+                        token: {
+                          colorPrimary: '#53645f',
+                          colorTextBase: '#ffffff',
+                          colorTextPlaceholder: '#a8b2af',
+                          colorBgContainer: '#666d66',
+                          colorBgElevated: '#666d66',
+                          colorIcon: '#ffffff',
+                        },
                       }}
-                    />
-                  </ConfigProvider>
+                    >
+
+                      <DatePicker
+                        placeholder="Select date & time"
+                        style={{ width: '100%', height: '48px' }}
+                        prefix={<BsCalendar4 size={18} color="#ffffff" className="mx-2" />}
+                        suffixIcon={''}
+                        showToday={false}
+                        onChange={(value) => setSelectedDate(value)}
+                        disabledDate={(current) => {
+                          return current && current.isBefore(dayjs(), 'day');
+                        }}
+                      />
+                    </ConfigProvider>
+                  </div>
                 </div>
               </div>
 
