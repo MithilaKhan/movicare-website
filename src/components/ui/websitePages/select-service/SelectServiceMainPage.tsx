@@ -50,10 +50,9 @@ const SelectServiceMainPage = () => {
         duration: 0,
         pickup_time: '',
         dropOff_time: ""
-    });
+    }); 
 
     const [current, setCurrent] = useState(0);
-    // console.log("formData", formData);
 
     useEffect(() => {
         if (typeof window !== "undefined") {

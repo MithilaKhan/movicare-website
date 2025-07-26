@@ -11,7 +11,9 @@ export async function middleware(Request: NextRequest) {
         const accessGoogleToken = searchParams.get('accessToken') || '';
         const loginToken = cookies().get("accessToken")?.value;
         const accessToken = accessGoogleToken || loginToken;
-        const refreshToken = searchParams.get('refreshToken') || '';
+        const refreshToken = searchParams.get('refreshToken') || ''; 
+
+        
 
         if (privateRoutes.includes(url) && !accessToken) {
             return NextResponse.redirect(new URL("/login", Request.url));
@@ -44,11 +46,16 @@ export async function middleware(Request: NextRequest) {
 
     } catch (error) {
         console.error("Error in middleware:", error);
+    }  
 
+if (process.env.COMING_SOON === 'true') {
+    return NextResponse.rewrite(new URL('/coming-soon', Request.url));
+  }
+  return NextResponse.next();
 
-    }
+    
 }
 
 export const config = {
-    matcher: ['/', '/account-information', "/booking-history", "/current-booking", "/reviews-feedback", "/select-service"],
+    matcher: ['/', '/account-information', "/booking-history", "/current-booking", "/reviews-feedback", "/select-service", '/coming-soon'],
 }

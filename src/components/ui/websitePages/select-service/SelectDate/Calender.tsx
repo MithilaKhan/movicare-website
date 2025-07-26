@@ -18,7 +18,7 @@ const Calender = ({
 }: {
   unavailableDay?: string[] | undefined;
   selectedDate: string | null;
-  setSelectedDate: React.Dispatch<React.SetStateAction<string | null>>;
+  setSelectedDate: (date: string|null ) => void;
   selectedLanguage: string | undefined;
 }) => {
   // Set default locale to English if selectedLanguage is not provided
@@ -41,7 +41,7 @@ const Calender = ({
   const toggleDate = (date: Dayjs) => {
     const formatted = date.format("YYYY-MM-DD");
     if (disabledDate(date)) return;
-    setSelectedDate((prev) => (prev === formatted ? null : formatted));
+    setSelectedDate(selectedDate === formatted ? null : formatted);
   };
 
   const changeMonth = (direction: "prev" | "next") => {

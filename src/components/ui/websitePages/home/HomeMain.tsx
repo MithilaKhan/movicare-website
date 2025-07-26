@@ -8,6 +8,9 @@ import ReadyFor from '@/components/shared/ReadyFor';
 import GotQuestions from '@/components/shared/GotQuestions';
 import Animation from './Animation';
 
+ 
+
+
 const HomeMain = () => {
     return (
         <div>

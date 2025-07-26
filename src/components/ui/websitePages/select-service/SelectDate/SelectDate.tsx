@@ -22,8 +22,6 @@ const SelectDate = ({ next, prev, updateFormData, formData }: { next: () => void
   const [checkSlots, { isError, isSuccess, error, data }] = useCheckSlotsMutation();
   const selectedLanguage = Cookies.get("currentLanguage") 
 
-  // console.log("timeSlots",timeSlots);
-
 
   useEffect(() => {
     if (isSuccess) { 
