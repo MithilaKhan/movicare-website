@@ -40,7 +40,7 @@ const NavbarMobile = ({ toggleDropdown, drawerVisible, openDropdowns, navOptions
         >
             <div className="flex flex-col ">
                 <div className=" flex flex-col ">
-                    {navOptions.map((option: { label: string|JSX.Element|undefined, path?: string, subOptions?: { label: string, value: string }[] | undefined }, index: number) => {
+                    {navOptions.map((option: { label: string | JSX.Element | undefined, path?: string, subOptions?: { label: string, value: string }[] | undefined }, index: number) => {
                         const isActive = pathname === option.path;
                         const isDropdown = !!option.subOptions;
                         const isOpen = openDropdowns[index]; // Check if this dropdown is open
@@ -85,11 +85,15 @@ const NavbarMobile = ({ toggleDropdown, drawerVisible, openDropdowns, navOptions
                 <div className=" absolute bottom-6  w-[90%]">
                     <div className="w-full">
 
-                        <button className={`text-[14px] py-3 w-full mb-4   rounded-full  font-medium text-[#070707] bg-white `}>Reserve Your Ride</button>
+                        <a className={`text-[14px] py-3 w-full mb-4   rounded-full  font-medium text-[#070707] bg-white `}
+                            href="https://wa.me/50660191762"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >Reserve Your Ride</a>
                         {
                             user ? (
-                                <Link
-                                    href="/account-information"
+                                <div
+                                    // href="/account-information"
                                     className="flex items-center justify-center gap-2 h-[48px] px-2  cursor-pointer  transition border border-white rounded-full"
                                 >
                                     <Image
@@ -102,7 +106,7 @@ const NavbarMobile = ({ toggleDropdown, drawerVisible, openDropdowns, navOptions
                                     <h2 className={` text-[16px] font-medium text-white text-center  `}>
                                         {user?.name}
                                     </h2>
-                                </Link>
+                                </div>
                             ) : (
                                 <Link href="/login">
                                     <p className=" text-[16px] font-normal text-white text-center mt-3">Login</p>

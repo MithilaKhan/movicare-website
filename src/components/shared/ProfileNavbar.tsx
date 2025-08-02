@@ -22,46 +22,28 @@ const ProfileNavbar = () => {
 
   useEffect(() => {
     const storedLanguage = Cookies.get("currentLanguage");
-    if (!storedLanguage) {
-      Cookies.set("currentLanguage", "es", { expires: 30 });
-      document.cookie = `googtrans=/en/es; path=/; max-age=${30 * 24 * 60 * 60}`;
-    } else {
+    if (storedLanguage) {
       setLanguage(storedLanguage);
-      document.cookie = `googtrans=/en/${storedLanguage}; path=/; max-age=${30 * 24 * 60 * 60}`;
     }
   }, []);
 
 
-  // Switch Language Function
   const switchLanguage = (lang: string) => {
-    // Store selected language in cookies
-    Cookies.set("currentLanguage", lang, { expires: 30 });
-
-    // Correctly set the Google Translate cookie (googtrans)
-    const googleTransValue = `/en/${lang}`;
-
-    // Remove any existing "googtrans" cookies before setting a new one
-    document.cookie =
-      "googtrans=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-
-    // after add domain 
-    // document.cookie =
-    //   "googtrans=; domain=.1plus1dating.com; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;"; // Replace with your actual domain
-
-    // Now, set the new "googtrans" cookie
-    document.cookie = `googtrans=${googleTransValue}; path=/; max-age=${30 * 24 * 60 * 60
-      }`;
-
-    // for domain 
-    // document.cookie = `googtrans=${googleTransValue}; domain=.1plus1dating.com; path=/; max-age=${
-    //   30 * 24 * 60 * 60
-    // };`;
+    Cookies.set("currentLanguage", lang, {
+      expires: 30,
+      domain: "www.movicare.cr",
+      secure: true,
+      sameSite: "Lax",
+    });
 
     setLanguage(lang);
-    window.location.reload();
+
+    window.location.hash = `#googtrans/en/${lang}`;
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
   };
-
-
 
 
   const handleSelectLanguage = (value: string) => {

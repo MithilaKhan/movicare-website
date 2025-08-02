@@ -25,51 +25,32 @@ const Navbar = () => {
   const user = userContextValue?.user;
   const image = user?.image?.startsWith("https") ? user?.image : `${imageUrl}${user?.image}`
 
-
   // for translate  
 
-useEffect(() => {
-    const storedLanguage = Cookies.get("currentLanguage"); 
-    if (!storedLanguage) {
-      Cookies.set("currentLanguage", "es", { expires: 30 });
-      document.cookie = `googtrans=/en/es; path=/; max-age=${30 * 24 * 60 * 60}`;
-    } else {
+  useEffect(() => {
+    const storedLanguage = Cookies.get("currentLanguage");
+    if (storedLanguage) {
       setLanguage(storedLanguage);
-      document.cookie = `googtrans=/en/${storedLanguage}; path=/; max-age=${30 * 24 * 60 * 60}`;
     }
   }, []);
 
 
   // Switch Language Function
   const switchLanguage = (lang: string) => {
-    // Store selected language in cookies
-    Cookies.set("currentLanguage", lang, { expires: 30 });
+    Cookies.set("currentLanguage", lang, {
+      expires: 30,
+      domain: "www.movicare.cr",
+      secure: true,
+      sameSite: "Lax",
+    });
 
-    // Correctly set the Google Translate cookie (googtrans)
-    const googleTransValue = `/en/${lang}`;
-
-    // Remove any existing "googtrans" cookies before setting a new one
-    document.cookie =
-      "googtrans=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-
-    // after add domain 
-    // document.cookie =
-    //   "googtrans=; domain=.1plus1dating.com; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;"; // Replace with your actual domain
-
-    // Now, set the new "googtrans" cookie
-    document.cookie = `googtrans=${googleTransValue}; path=/; max-age=${30 * 24 * 60 * 60
-      }`;
-
-    // for domain 
-    // document.cookie = `googtrans=${googleTransValue}; domain=.1plus1dating.com; path=/; max-age=${
-    //   30 * 24 * 60 * 60
-    // };`;
-
-    // Update state
     setLanguage(lang);
 
-    // Reload the page to apply the translation
-    window.location.reload();
+    window.location.hash = `#googtrans/en/${lang}`;
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
   };
 
 
@@ -147,8 +128,11 @@ useEffect(() => {
         pathname === "/" || pathname === "/home" ? (
           <div className="bg-[#202020] text-white h-[40px] flex items-center justify-center">
             <div className=" flex items-center justify-between lg:text-[16px] text-xs container ">
-              <p className=" flex items-center gap-1 "> <span className="font-thin tracking-wide">Need Support Call Us: </span> <span> +506 6019-1762 </span>  </p>
-              
+              <div className=" flex items-center gap-1 "> <p className="font-thin tracking-wide">Need Support Call Us: </p> <a
+                href="tel:+50660191762"
+                target="_blank"
+                className=" cursor-pointer" > +506 6019-1762 </a>  </div>
+
               <p className="flex items-center gap-3"> <span className={`  lg:text-[16px] text-xs cursor-pointer 
               ${language === "en" ? "font-bold text-white" : " text-[#FFFFFF]/60 font-normal"}`} onClick={() => switchLanguage("en")}>En</span> <span className={`text-[#FFFFFF]/60 cursor-pointer ${language === "es" ? "font-bold text-white" : " text-[#FFFFFF]/60 font-normal"}`} onClick={() => switchLanguage("es")}>Es</span></p>
             </div>
@@ -227,8 +211,9 @@ useEffect(() => {
           {/* Right Icons */}
           <div className="nav-icons lg:flex items-center gap-x-4  hidden ">
             {
-              user ? <Link
-                href="/account-information"
+              user ? <div
+                // href="/account-information"  
+
                 className="flex items-center gap-2 h-[55px] px-2 rounded-md cursor-pointer  transition"
               >
                 <Image
@@ -241,15 +226,19 @@ useEffect(() => {
                 <h2 className={` text-[16px] font-medium ${pathname === "/services" ? "text-white" : "text-content1"}`}>
                   {user?.name}
                 </h2>
-              </Link> :
+              </div> :
                 <Link href="/login">
                   <p className={`text-sm font-normal ${pathname === "/services" ? "text-white" : "text-content1"} `}>Login</p>
                 </Link>
             }
 
             <div>
-              <button className={`text-[14px] py-3 px-4 rounded-full font-medium ${pathname === "/" || pathname === "/home" || pathname === "/services" ? "text-[#070707] bg-white" : "bg-primary text-white"}`}
-                onClick={() => router.push("/select-service")} >Reserve Your Ride</button>
+              <a className={`text-[14px] py-3 px-4 rounded-full font-medium cursor-pointer  ${pathname === "/" || pathname === "/home" || pathname === "/services" ? "text-[#070707] bg-white" : "bg-primary text-white"}`}
+                // onClick={() => router.push("/select-service")} 
+                href="https://wa.me/50660191762"
+                target="_blank"
+                rel="noopener noreferrer"
+              >Reserve Your Ride</a>
             </div>
           </div>
         </div>

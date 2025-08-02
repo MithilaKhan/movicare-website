@@ -17,48 +17,30 @@ const Footer = () => {
 
   // for translate  
 
-useEffect(() => {
-    const storedLanguage = Cookies.get("currentLanguage"); 
-    if (!storedLanguage) {
-      Cookies.set("currentLanguage", "es", { expires: 30 });
-      document.cookie = `googtrans=/en/es; path=/; max-age=${30 * 24 * 60 * 60}`;
-    } else {
+  useEffect(() => {
+    const storedLanguage = Cookies.get("currentLanguage");
+    if (storedLanguage) {
       setLanguage(storedLanguage);
-      document.cookie = `googtrans=/en/${storedLanguage}; path=/; max-age=${30 * 24 * 60 * 60}`;
     }
   }, []);
 
 
   // Switch Language Function
   const switchLanguage = (lang: string) => {
-    // Store selected language in cookies
-    Cookies.set("currentLanguage", lang, { expires: 30 });
+    Cookies.set("currentLanguage", lang, {
+      expires: 30,
+      domain: "www.movicare.cr",
+      secure: true,
+      sameSite: "Lax",
+    });
 
-    // Correctly set the Google Translate cookie (googtrans)
-    const googleTransValue = `/en/${lang}`;
-
-    // Remove any existing "googtrans" cookies before setting a new one
-    document.cookie =
-      "googtrans=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-
-    // after add domain 
-    // document.cookie =
-    //   "googtrans=; domain=.1plus1dating.com; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;"; // Replace with your actual domain
-
-    // Now, set the new "googtrans" cookie
-    document.cookie = `googtrans=${googleTransValue}; path=/; max-age=${30 * 24 * 60 * 60
-      }`;
-
-    // for domain 
-    // document.cookie = `googtrans=${googleTransValue}; domain=.1plus1dating.com; path=/; max-age=${
-    //   30 * 24 * 60 * 60
-    // };`;
-
-    // Update state
     setLanguage(lang);
 
-    // Reload the page to apply the translation
-    window.location.reload();
+    window.location.hash = `#googtrans/en/${lang}`;
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
   };
 
 
@@ -105,7 +87,7 @@ useEffect(() => {
                   <div className="lg:p-2 p-1  rounded-full border border-[#a0a2a1] lg:w-[50px] w-10 h-10 lg:h-[50px] flex items-center justify-center text-white cursor-pointer">
                     <FaFacebook size={25} />
                   </div>
-                </a> 
+                </a>
 
                 <a
                   href="https://www.instagram.com/movicare.cr?igsh=MWFxNWQ3bWtya3FhZg%3D%3D&utm_source=qr"
@@ -168,7 +150,7 @@ useEffect(() => {
             <ul className="lg:space-y-4 space-y-3 lg:text-[16px] text-sm text-white font-normal">
               <p className="cursor-pointer  " onClick={() => router.push("/terms")} >Terms & Conditions</p>
               <p className="cursor-pointer  " onClick={() => router.push("/services")} >Transport Services</p>
-              <p className="cursor-pointer  " onClick={() => router.push("/privacy")} >Privacy Policy</p>
+              <p className="cursor-pointer  " suppressHydrationWarning onClick={() => router.push("/privacy")} > {"privacy policy".charAt(0).toUpperCase() + "privacy policy".slice(1)}</p>
               <p className="cursor-pointer  " onClick={() => router.push("/about")} >About us</p>
 
             </ul>

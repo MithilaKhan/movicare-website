@@ -9,18 +9,21 @@ const features = [
       title: "Address",
       icon: <BsBuildings className="w-10 h-12" />,
       content: "San José, Costa Rica"
-  },
-  {
-    title: "Phone",
-    icon: <PhoneCall className="w-10 h-12" />,
-    content: "+506 6019-1762"
-  },
-  {
-    title: "Email",
-    icon: <PiMailbox className="w-10 h-12" />,
-    content: "info@movicare.cr"
-  },
-  ]; 
+    },
+    {
+      title: "Phone",
+      icon: <PhoneCall className="w-10 h-12" />,
+      content: "+506 6019-1762",
+      link: "tel:+50660191762"
+    },
+    {
+      title: "Email",
+      icon: <PiMailbox className="w-10 h-12" />,
+      content: "info@movicare.cr",
+      link: "mailto:info@movicare.cr"
+    },
+]; 
+
 const ContactHeader = () => {
     return (
         <div> 
@@ -55,8 +58,14 @@ const ContactHeader = () => {
             <h3 className="lg:text-2xl text-xl font-semibold text-content1 mb-3">
               {feature.title}
             </h3>
-            <p className="text-content2 flex-grow text-[16px]">
-              {feature.content}
+             <p className="text-content2 flex-grow text-[16px]">
+              {feature.link ? (
+                <a href={feature.link} className="text-content2 hover:text-primary transition-colors">
+                  {feature.content}
+                </a>
+              ) : (
+                feature.content
+              )}
             </p>
           </Card>
         ))}
