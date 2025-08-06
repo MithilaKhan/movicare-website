@@ -30,7 +30,8 @@
     "react-toastify": "^11.0.5",
     "redux-cli-setup": "^1.1.4",
     "redux-persist": "^6.0.0",
-    "sharp": "^0.34.1"
+    "sharp": "^0.34.1",
+    "swiper": "^11.2.10"
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",

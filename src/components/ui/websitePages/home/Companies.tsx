@@ -1,77 +1,70 @@
 "use client";
 import { imageUrl } from "@/redux/base/baseApi";
 import { useGetCompaniesQuery } from "@/redux/features/others/home/companiesSlice";
-import useEmblaCarousel from "embla-carousel-react";
-import React, { useEffect } from "react";
+import React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
 
 const Companies = () => {
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    loop: true,
-    align: "start",
-  }); 
-  const {data} = useGetCompaniesQuery(undefined);   
-  const images = data?.map((company) => company.image?.startsWith("http") ? company.image : `${imageUrl}${company.image}`) || []; 
+  const { data } = useGetCompaniesQuery(undefined);
+  const images = data?.map((company) =>
+    company.image?.startsWith("http") ? company.image : `${imageUrl}${company.image}`
+  ) || [];
 
-
-  useEffect(() => {
-    if (emblaApi) {
-      const autoplay = setInterval(() => {
-        emblaApi.scrollNext();
-      }, 8000);
-      return () => clearInterval(autoplay);
-    }
-  }, [emblaApi]);
-
-
+  // Determine if we should center/loop or not
+  const shouldCenterAndLoop = images?.length > 3;
 
   return (
-    <div className="my-16  container mx-auto">
+    <div className="my-16 container mx-auto">
       <p className="text-[16px] text-content2 text-center">
         Trusted by {data?.length} companies
       </p>
 
-      <div className="">
-        <div className="flex items-center justify-center w-full pt-10">
-          <div className="embla overflow-hidden w-full" ref={emblaRef}>
-            <div className="embla__container flex gap-2  w-full">
-              {images.map((image, index) => (
-                <div
-                  key={index}
-                  className="embla__slide px-2"
-                  style={{
-                    flex: "0 0 33.3333%", // Default: show 3 slides
-                  }}
-                >
-                  <img
-                    src={image}
-                    alt={`Company ${index + 1}`}
-                    className="h-[64px] w-[120px] object-contain mx-auto"
-                  />
-                </div>
-              ))}
-            </div>
-
-            <div className="flex justify-center gap-2 mt-6">
-              {images.map((_, index) => (
-                <button
-                  key={index}
-                  className="w-2.5 h-2.5 rounded-full bg-primary/20 transition-all duration-300 hover:bg-primary/50"
-                  onClick={() => emblaApi?.scrollTo(index)}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
+      <div className=" w-full pt-10 ">
+        <Swiper
+          modules={[Autoplay, Navigation, Pagination]}
+          spaceBetween={8}
+          slidesPerView={3}
+          centeredSlides={shouldCenterAndLoop}
+          loop={shouldCenterAndLoop}
+          autoplay={shouldCenterAndLoop ? {
+            delay: 8000,
+            disableOnInteraction: false,
+          } : false}
+          pagination={{
+            clickable: true,
+            bulletClass: "swiper-pagination-bullet",
+            bulletActiveClass: "swiper-pagination-bullet-active",
+          }}
+          breakpoints={{
+            640: {
+              slidesPerView: 3,
+              spaceBetween: 8,
+            },
+            768: {
+              slidesPerView: 4,
+              spaceBetween: 10,
+            },
+            1024: {
+              slidesPerView: 5,
+              spaceBetween: 12,
+            },
+          }}
+          className="w-full py-10  flex items-center justify-center "
+        >
+          {images.map((image, index) => (
+            <SwiperSlide key={index} className=" mx-auto ">
+              <img
+                src={image}
+                alt={`Company ${index + 1}`}
+                className="h-[64px] w-[160px] object-contain mx-auto"
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </div>
-
-      {/* Custom responsive fix */}
-      <style jsx>{`
-        @media (min-width: 1024px) {
-          .embla__slide {
-            flex: 0 0 20% !important; /* 5 slides on large screens */
-          }
-        }
-      `}</style>
     </div>
   );
 };

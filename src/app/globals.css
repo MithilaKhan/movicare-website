@@ -1,46 +1,48 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities; 
+@tailwind utilities;
 
 
-/* for Google Translate   */   
+/* for Google Translate   */
 
 /* Hide the Google Translate banner */
 
-.antialiased{
-    position: inherit ! important;
+.antialiased {
+  position: inherit ! important;
 }
 
 /* Hide the Google Translate toolbar */
 .goog-te-gadget {
   display: none !important;
-} 
+}
+
 /* Hide the Google Translate banner */
 .goog-te-banner-frame {
   display: none !important;
 }
+
 /* Remove pop-up preview */
 .goog-te-balloon-frame {
   display: none !important;
 }
- 
+
 /* Hide the floating dropdown */
 .goog-te-menu-frame {
   display: none !important;
 }
- 
+
 /* Hide Google Translate Top Bar */
 .skiptranslate {
   display: none !important;
 }
- 
+
 .VIpgJd-ZVi9od-aZ2wEe-wOHMyf.VIpgJd-ZVi9od-aZ2wEe-wOHMyf-ti6hGc {
   display: none !important;
 }
- 
+
 .VIpgJd-ZVi9od-aZ2wEe {
   display: none !important;
-} 
+}
 
 ::selection {
   background: #286a25 !important;
@@ -51,24 +53,24 @@
 
 
 
-.whyChoose-card{
-    background-color: #f0f3f1 !important;
-} 
+.whyChoose-card {
+  background-color: #f0f3f1 !important;
+}
 
 .ant-steps .ant-steps-item-finish .ant-steps-item-icon {
-    background-color: #286a25 !important;
-    border-color: #286a25 !important; 
-    color: white !important;
-} 
+  background-color: #286a25 !important;
+  border-color: #286a25 !important;
+  color: white !important;
+}
 
 .steps .ant-steps-icon {
-    color: white !important; 
-   
-} 
+  color: white !important;
+
+}
 
 
 
-/* scroll bar */ 
+/* scroll bar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -90,7 +92,7 @@
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #f6f6f6;
-}    
+}
 
 
 .animation-container {
@@ -98,34 +100,17 @@
   background: white;
   overflow: hidden;
 }
-/* 
-.text-container {
-  position: absolute;
-  top: 40%;
-  left: 10%;
-  font-size: 24px;
-  z-index: 1;
+
+
+.swiper-pagination-bullet {
+  width: 10px !important;
+  height: 10px !important;
+  background-color: rgba(0, 0, 0, 0.2) !important;
+  opacity: 1;
+  transition: all 0.3s;
+  margin-bottom: -10px !important
 }
 
-.car-container {
-  position: absolute;
-  top: 50%;
-  left: -50%;
-  transform: translateY(-50%);
-  z-index: 2;
+.swiper-pagination-bullet-active {
+  background-color: #286a25 !important;
 }
-
-.car {
-  width: 500px; 
-  height: 700px;
-} */
-
-/* For disabled cells in Calendar component */
-/* .ant-picker-calendar
-  .ant-picker-cell.ant-picker-cell-disabled
-   {
-  background-color: white !important;
-  color: #d9d9d9 !important;
-  pointer-events: none;
-} */
-

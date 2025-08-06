@@ -55,7 +55,7 @@ const ContactHeader = () => {
                 {feature.icon}
               </div>
             </div>
-            <h3 className="lg:text-2xl text-xl font-semibold text-content1 mb-3">
+            <h3 className="lg:text-2xl text-xl font-semibold text-content1 mb-3 uppercase">
               {feature.title}
             </h3>
              <p className="text-content2 flex-grow text-[16px]">
