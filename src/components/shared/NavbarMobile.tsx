@@ -8,7 +8,7 @@ import { userContext } from "@/helpers/UserProvider";
 import Image from "next/image";
 import { imageUrl } from "@/redux/base/baseApi";
 
-const NavbarMobile = ({ toggleDropdown, drawerVisible, openDropdowns, navOptions, setDrawerVisible, pathname, handleServiceClick }: {
+const NavbarMobile = ({ toggleDropdown, drawerVisible, openDropdowns, navOptions, setDrawerVisible, pathname, handleServiceClick , router}: {
     toggleDropdown: (index: number) => void,
     drawerVisible: boolean, openDropdowns: { [key: number]: boolean },
     navOptions: {
@@ -17,7 +17,8 @@ const NavbarMobile = ({ toggleDropdown, drawerVisible, openDropdowns, navOptions
         subOptions?: { label: string, value: string }[] | undefined
     }[],
     setDrawerVisible: (open: boolean) => void, pathname: string,
-    handleServiceClick: (id: string) => void
+    handleServiceClick: (id: string) => void ,
+    router:any
 }) => {
 
     const userContextValue = useContext(userContext);
@@ -85,15 +86,11 @@ const NavbarMobile = ({ toggleDropdown, drawerVisible, openDropdowns, navOptions
                 <div className=" absolute bottom-6  w-[90%]">
                     <div className="w-full">
 
-                        <a className={`text-[14px] py-3 w-full mb-4   rounded-full  font-medium text-[#070707] bg-white `}
-                            href="https://wa.me/50660191762"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >Reserve Your Ride</a>
+                        <button className={`text-[14px] py-3 w-full mb-4   rounded-full  font-medium text-[#070707] bg-white `} onClick={() => router.push("/select-service")} >Reserve Your Ride</button>
                         {
                             user ? (
-                                <div
-                                    // href="/account-information"
+                                <Link
+                                    href="/account-information"
                                     className="flex items-center justify-center gap-2 h-[48px] px-2  cursor-pointer  transition border border-white rounded-full"
                                 >
                                     <Image
@@ -106,7 +103,7 @@ const NavbarMobile = ({ toggleDropdown, drawerVisible, openDropdowns, navOptions
                                     <h2 className={` text-[16px] font-medium text-white text-center  `}>
                                         {user?.name}
                                     </h2>
-                                </div>
+                                </Link>
                             ) : (
                                 <Link href="/login">
                                     <p className=" text-[16px] font-normal text-white text-center mt-3">Login</p>

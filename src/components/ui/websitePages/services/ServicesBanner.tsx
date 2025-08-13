@@ -1,9 +1,9 @@
 "use client"
-// import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 const ServicesBanner = () => {
-    // const router = useRouter(); 
+    const router = useRouter(); 
     return (
         <div className='w-full h-screen pt-[228px] flex flex-col items-center justify-start ' style={{
             backgroundImage: `url('/serviceBanner.png')`,
@@ -18,12 +18,9 @@ const ServicesBanner = () => {
                 <p className=' text-center text-content2  text-lg lg:pt-6 pt-4'>MoviCare provides flexible and accessible transport solutions tailored to your needs. Whether for daily commutes, medical appointments, or travel adventures, we’re here to ensure a smooth journey. </p>
 
                 <div className='flex items-center justify-center gap-4 mt-10'>
-                    <a className='  text-sm  font-medium bg-white  text-[#070707]  rounded-full py-4 px-6 cursor-pointer'
-                        //  onClick={() => router.push("/select-service")}   
-                        href="https://wa.me/50660191762"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >  Reserve Your Ride </a>
+                    <div className='  text-sm  font-medium bg-white  text-[#070707]  rounded-full py-4 px-6 cursor-pointer'
+                         onClick={() => router.push("/select-service")}   
+                    >  Reserve Your Ride </div>
 
                 </div>
             </div>

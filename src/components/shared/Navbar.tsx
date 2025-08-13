@@ -51,8 +51,8 @@ const Navbar = () => {
 
     setTimeout(() => {
       window.location.reload();
-    }, 100); 
-    
+    }, 100);
+
   };
 
 
@@ -235,8 +235,8 @@ const Navbar = () => {
           {/* Right Icons */}
           <div className="nav-icons lg:flex items-center gap-x-4  hidden ">
             {
-              user ? <div
-                // href="/account-information"  
+              user ? <Link
+                href="/account-information"
 
                 className="flex items-center gap-2 h-[55px] px-2 rounded-md cursor-pointer  transition"
               >
@@ -250,26 +250,22 @@ const Navbar = () => {
                 <h2 className={` text-[16px] font-medium ${pathname === "/services" ? "text-white" : "text-content1"}`}>
                   {user?.name}
                 </h2>
-              </div> :
+              </Link> :
                 <Link href="/login">
                   <p className={`text-sm font-normal ${pathname === "/services" ? "text-white" : "text-content1"} `}>Login</p>
                 </Link>
             }
 
             <div>
-              <a className={`text-[14px] py-3 px-4 rounded-full font-medium cursor-pointer  ${pathname === "/" || pathname === "/home" || pathname === "/services" ? "text-[#070707] bg-white" : "bg-primary text-white"}`}
-                // onClick={() => router.push("/select-service")} 
-                href="https://wa.me/50660191762"
-                target="_blank"
-                rel="noopener noreferrer"
-              >Reserve Your Ride</a>
+              <button className={`text-[14px] py-3 px-4 rounded-full font-medium ${pathname === "/" || pathname === "/home" || pathname === "/services" ? "text-[#070707] bg-white" : "bg-primary text-white"}`}
+                onClick={() => router.push("/select-service")} >Reserve Your Ride</button>
             </div>
           </div>
         </div>
       </div>
 
       {/* Mobile Drawer */}
-      <NavbarMobile toggleDropdown={toggleDropdown} drawerVisible={drawerVisible} openDropdowns={openDropdowns} navOptions={navOptions} setDrawerVisible={setDrawerVisible} pathname={pathname} handleServiceClick={handleServiceClick} />
+      <NavbarMobile toggleDropdown={toggleDropdown} drawerVisible={drawerVisible} openDropdowns={openDropdowns} navOptions={navOptions} setDrawerVisible={setDrawerVisible} pathname={pathname} handleServiceClick={handleServiceClick} router={router} />
     </div>
   );
 };
