@@ -18,7 +18,7 @@ const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [openDropdowns, setOpenDropdowns] = useState<{ [key: number]: boolean }>({});
-  const [language, setLanguage] = useState<string | null>("es")
+  const [language, setLanguage] = useState<string | undefined>("es");
   const router = useRouter()
   const { data: services } = useGetServicesQuery(undefined);
   const userContextValue = useContext(userContext);
@@ -29,28 +29,30 @@ const Navbar = () => {
 
   useEffect(() => {
     const storedLanguage = Cookies.get("currentLanguage");
+
     if (storedLanguage) {
       setLanguage(storedLanguage);
+    } else {
+      Cookies.set("currentLanguage", "es");
+      window.location.hash = `#googtrans/en/es`;
     }
   }, []);
 
 
   // Switch Language Function
   const switchLanguage = (lang: string) => {
-    Cookies.set("currentLanguage", lang, {
-      expires: 30,
-      domain: "www.movicare.cr",
-      secure: true,
-      sameSite: "Lax",
-    });
 
-    setLanguage(lang);
+    Cookies.set("currentLanguage", lang);
+
+    const Language = Cookies.get("currentLanguage");
+    setLanguage(Language);
 
     window.location.hash = `#googtrans/en/${lang}`;
 
     setTimeout(() => {
       window.location.reload();
-    }, 100);
+    }, 100); 
+    
   };
 
 
@@ -122,6 +124,12 @@ const Navbar = () => {
 
   const logoSrc = ["/", "/home", "/services"].includes(pathname) ? "/logo.png" : "/logo2.png";
 
+  const allLanguages = ["en", "es"];
+
+  const handleSwitchLanguage = (lang: string) => {
+    switchLanguage(lang)
+  }
+
   return (
     <div className="w-full absolute top-0 left-0 z-50">
       {
@@ -133,8 +141,24 @@ const Navbar = () => {
                 target="_blank"
                 className=" cursor-pointer" > +506 6019-1762 </a>  </div>
 
-              <p className="flex items-center gap-3"> <span className={`  lg:text-[16px] text-xs cursor-pointer 
-              ${language === "en" ? "font-bold text-white" : " text-[#FFFFFF]/60 font-normal"}`} onClick={() => switchLanguage("en")}>En</span> <span className={`text-[#FFFFFF]/60 cursor-pointer ${language === "es" ? "font-bold text-white" : " text-[#FFFFFF]/60 font-normal"}`} onClick={() => switchLanguage("es")}>Es</span></p>
+              <p className="flex items-center gap-3">
+                {allLanguages.map((lang) => {
+                  // console.log("selected language", lang);
+                  return (
+                    <span
+                      key={lang}
+                      className={`cursor-pointer uppercase text-xs lg:text-[16px] ${language === lang
+                        ? "font-bold text-white"
+                        : "font-normal text-[#FFFFFF]/60"
+                        }`}
+                      onClick={() => { handleSwitchLanguage(lang) }}
+                    >
+                      {lang}
+                    </span>
+                  )
+
+                })}
+              </p>
             </div>
           </div>
         ) : ""

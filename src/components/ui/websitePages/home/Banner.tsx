@@ -123,7 +123,7 @@ const Banner = () => {
         >
           <div className="flex flex-col items-center lg:justify-start justify-center h-full lg:pt-[200px] pt-4">
             {/* Title */}
-            <div className="lg:text-[56px] text-[31px] text-white lg:text-start text-center">
+            <div className="lg:text-[56px] text-[31px] text-white lg:text-center text-center">
               <p>
                 <span className="font-bold">Accessible </span> Transportation,
               </p>

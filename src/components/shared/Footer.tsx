@@ -12,7 +12,7 @@ import {
 
 const Footer = () => {
   const router = useRouter();
-  const [language, setLanguage] = useState<string | null>("es")
+  const [language, setLanguage] = useState<string | undefined>("es")
 
 
   // for translate  
@@ -27,23 +27,24 @@ const Footer = () => {
 
   // Switch Language Function
   const switchLanguage = (lang: string) => {
-    Cookies.set("currentLanguage", lang, {
-      expires: 30,
-      domain: "www.movicare.cr",
-      secure: true,
-      sameSite: "Lax",
-    });
+    Cookies.set("currentLanguage", lang);
 
-    setLanguage(lang);
+    const Language = Cookies.get("currentLanguage");
+    setLanguage(Language);
 
     window.location.hash = `#googtrans/en/${lang}`;
 
     setTimeout(() => {
       window.location.reload();
     }, 100);
+
   };
 
+  const allLanguages = ["en", "es"];
 
+  const handleSwitchLanguage = (lang: string) => {
+    switchLanguage(lang)
+  }
 
   return (
     <div className="bg-black lg:h-[510px] lg:pb-0 pb-5" style={{
@@ -182,7 +183,24 @@ const Footer = () => {
 
           <div className="lg:flex hidden  justify-between lg:ms-24  gap-[96px]">
             <p className=" text-sm text-[#a0a2a1]"> © 2025 — Movicare </p>
-            <p className=" flex items-center gap-3  text-sm text-[#a0a2a1] ">  <span className={`${language === "en" ? "font-bold text-white" : " text-[#FFFFFF]/60 font-normal"} cursor-pointer`} onClick={() => switchLanguage("en")}>En </span> <span className={`text-[#FFFFFF]/60 cursor-pointer ${language === "es" ? "font-bold text-white" : " text-[#FFFFFF]/60 font-normal"}`} onClick={() => switchLanguage("es")}>Es </span></p>
+            <p className="flex items-center gap-3">
+              {allLanguages.map((lang, index) => {
+
+                return (
+                  <span
+                    key={index}
+                    className={`cursor-pointer uppercase text-xs lg:text-[16px] ${language === lang
+                      ? "font-bold text-white"
+                      : "font-normal text-[#FFFFFF]/60"
+                      }`}
+                    onClick={() => { handleSwitchLanguage(lang) }}
+                  >
+                    {lang}
+                  </span>
+                )
+
+              })}
+            </p>
           </div>
         </div>
       </div>
@@ -190,7 +208,24 @@ const Footer = () => {
       <div className="block lg:hidden">
         <div className=" flex   justify-between lg:ms-24  gap-[96px] px-2 mt-5 py-3">
           <p className=" text-sm text-[#a0a2a1]"> © 2025 — Movicare </p>
-          <p className=" flex items-center gap-3  text-sm text-[#a0a2a1] ">  <span className={`${language === "en" ? "font-bold text-white" : " text-[#FFFFFF]/60 font-normal"} cursor-pointer`} onClick={() => switchLanguage("en")}>En </span>  <span className={`text-[#FFFFFF]/60 cursor-pointer ${language === "es" ? "font-bold text-white" : " text-[#FFFFFF]/60 font-normal"}`} onClick={() => switchLanguage("es")}>Es </span></p>
+          <p className="flex items-center gap-3">
+            {allLanguages.map((lang) => {
+              // console.log("selected language", lang);
+              return (
+                <span
+                  key={lang}
+                  className={`cursor-pointer uppercase text-xs lg:text-[16px] ${language === lang
+                    ? "font-bold text-white"
+                    : "font-normal text-[#FFFFFF]/60"
+                    }`}
+                  onClick={() => { handleSwitchLanguage(lang) }}
+                >
+                  {lang.toUpperCase()}
+                </span>
+              )
+
+            })}
+          </p>
         </div>
 
       </div>

@@ -59,17 +59,17 @@ export default function RootLayout({
 
       <body
         className={`antialiased`}
-      > 
-       <ReduxProvider> 
-        <AntdRegistry> 
-          <UserProvider> 
-          <div id="google_translate_element" /> 
-           <ToastContainer position="top-right" autoClose={2000} 
-             toastClassName={ "bg-white text-black shadow-md rounded-md p-4 text-sm sm:text-base w-[90%] sm:w-[450px] lg:w-[600px] mx-auto" } 
-   />
-          {children}
-          </UserProvider>
-        </AntdRegistry> 
+      >
+        <div id="google_translate_element" suppressHydrationWarning  />
+        <ReduxProvider>
+          <AntdRegistry>
+            <UserProvider>
+              <ToastContainer position="top-right" autoClose={2000}
+                toastClassName={"bg-white text-black shadow-md rounded-md p-4 text-sm sm:text-base w-[90%] sm:w-[450px] lg:w-[600px] mx-auto"}
+              />
+              {children}
+            </UserProvider>
+          </AntdRegistry>
         </ReduxProvider>
       </body>
     </html>
