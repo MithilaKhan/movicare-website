@@ -9,9 +9,6 @@ import GotQuestions from '@/components/shared/GotQuestions';
 import Animation from './Animation';
 // import TemporaryBanner from './TemporaryBanner';
 
- 
-
-
 const HomeMain = () => {
     return (
         <div>
