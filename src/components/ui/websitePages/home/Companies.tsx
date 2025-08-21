@@ -19,7 +19,7 @@ const Companies = () => {
   return (
     <div className="my-16 container mx-auto">
       <p className="text-[16px] text-content2 text-center">
-        Trusted by {data?.length} companies
+       Supporting accessibility with
       </p>
 
       <div className=" w-full pt-10 ">
@@ -48,7 +48,7 @@ const Companies = () => {
               spaceBetween: 10,
             },
             1024: {
-              slidesPerView: 5,
+              slidesPerView: 3,
               spaceBetween: 12,
             },
           }}
@@ -59,7 +59,7 @@ const Companies = () => {
               <img
                 src={image}
                 alt={`Company ${index + 1}`}
-                className="h-[64px] w-[160px] object-contain mx-auto"
+                className="h-[64px] w-[180px]  mx-auto"
               />
             </SwiperSlide>
           ))}
