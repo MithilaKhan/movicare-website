@@ -62,7 +62,7 @@ const AllServices = () => {
               <h2 className="lg:text-[48px] text-[28px] font-semibold lg:mb-6 mb-3 text-[#070707]">{service.title}</h2>
               <p className="text-content2 mb-6 lg:text-[20px] text-[16px]">{service.description}</p>
               <div
-                className="bg-primary text-white py-3 px-6 rounded-full text-sm transition-colors duration-300"
+                className="bg-primary text-white py-3 px-6 rounded-full text-sm transition-colors duration-300  flex items-center justify-center"
                 onClick={() => router.push("/select-service")}  
               >
                 {service.buttonText}
