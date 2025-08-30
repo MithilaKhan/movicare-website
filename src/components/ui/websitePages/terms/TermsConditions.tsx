@@ -41,10 +41,10 @@ const TermsConditions = () => {
       <p className="mb-2">Users may cancel a reservation under the following conditions:</p>
       <ul className="list-disc list-inside mb-4">
         <li>
-          Cancellations made <strong>48 hours before the scheduled pickup time</strong> are automatically refunded in full.
+          Cancellations made <strong>12 hours before the scheduled pickup time</strong> are automatically refunded in full.
         </li>
         <li>
-          Cancellations made less than <strong>48 hours in advance</strong> of the scheduled pickup time must be handled directly through our customer service team.
+          Cancellations made less than <strong>12 hours in advance</strong> of the scheduled pickup time must be handled directly through our customer service team.
         </li>
       </ul>
       <p className="mb-6">

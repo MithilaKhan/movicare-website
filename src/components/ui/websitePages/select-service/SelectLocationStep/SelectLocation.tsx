@@ -82,10 +82,10 @@ const SelectLocation: React.FC<SelectLocationProps> = ({
   };
 
   // Autocomplete options restricted to Costa Rica cities
-  const autocompleteOptions: google.maps.places.AutocompleteOptions = {
-    componentRestrictions: { country: "cr" },
-    types: ["geocode"],
-    fields: ["formatted_address", "geometry", "name"],
+  const autocompleteOptions = {
+    componentRestrictions: { country: 'cr' },
+    types: ['geocode'],
+    fields: ['formatted_address', 'geometry', 'name','place_id'],
   };
 
   const onValuesChange = (_: unknown, allValues: { pickUpCity: string; dropOffCity: string }) => {

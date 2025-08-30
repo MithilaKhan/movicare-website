@@ -77,7 +77,7 @@ const Banner = () => {
   const autocompleteOptions = {
     componentRestrictions: { country: 'cr' },
     types: ['geocode'],
-    fields: ['formatted_address', 'geometry', 'name'],
+    fields: ['formatted_address', 'geometry', 'name','place_id'],
   };
 
   const handleDateSelect = (date: string | null) => {
