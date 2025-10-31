@@ -37,7 +37,7 @@ const ClientReview = () => {
     }, [emblaApi]);
 
     return (
-        <section className="  lg:py-[100px] py-14 h-[640px]" style={{
+        <section className="  lg:py-[100px] py-14 h-[640px] flex items-center justify-center" style={{
             backgroundImage: `url('/reviewBg.svg')`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
@@ -53,8 +53,8 @@ const ClientReview = () => {
                             {testimonials.map((review) => (
                                 <div key={review.id} className=" rounded-2xl space-y-4   embla__slide flex-[0_0_100%] min-w-0  ">
                                     <div className=" tracking-wider ">
-                                        <p>   <RiDoubleQuotesL size={100} color="#63B134" className="" /> </p>
-                                        <div className=" lg:mt-[40px] mt-2 lg:text-[32px] text-3xl text-white tracking-wide leading-10" >
+                                        <p className=" lg:text-[80px] text-[60px]">   <RiDoubleQuotesL color="#63B134" className="" /> </p>
+                                        <div className=" lg:mt-[40px] mt-2 lg:text-[32px] md:text-2xl text-lg text-white tracking-wide leading-10" >
                                             “{review.review}”
                                         </div>
 

@@ -1,139 +1,119 @@
-"use client";
+"use client"
 
-import { ConfigProvider, Input } from 'antd';
-import { useRouter } from 'next/navigation';
-import { useContext, useEffect, useRef, useState } from 'react';
-import { BsCalendar4 } from 'react-icons/bs';
-import { GrLocationPin } from 'react-icons/gr';
-import { PiArrowBendUpRightBold } from 'react-icons/pi';
-import { SiRelay } from 'react-icons/si';
-import { useJsApiLoader, Autocomplete } from '@react-google-maps/api';
-import { userContext } from '@/helpers/UserProvider';
-import dayjs from 'dayjs';
-import updateLocale from 'dayjs/plugin/updateLocale';
-import Cookies from 'js-cookie';
-import Calender from '../select-service/SelectDate/Calender';
+import { ConfigProvider, Input } from 'antd'
+import { useRouter } from 'next/navigation'
+import { useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { BsCalendar4 } from 'react-icons/bs'
+import { GrLocationPin } from 'react-icons/gr'
+import { PiArrowBendUpRightBold } from 'react-icons/pi'
+import { SiRelay } from 'react-icons/si'
+import { useJsApiLoader, Autocomplete } from '@react-google-maps/api'
+import { userContext } from '@/helpers/UserProvider'
+import dayjs from 'dayjs'
+import updateLocale from 'dayjs/plugin/updateLocale'
+import Cookies from 'js-cookie'
+import Calender from '../select-service/SelectDate/Calender'
 
-dayjs.extend(updateLocale);
+dayjs.extend(updateLocale)
+
+// keep libraries stable to prevent reloading
+const GOOGLE_MAP_LIBRARIES: ("drawing" | "geometry" | "places" | "visualization")[] = ['places'] as const
 
 const Banner = () => {
-  const router = useRouter();
-  const [pickUp, setPickUp] = useState('');
-  const [dropOff, setDropOff] = useState('');
-  const userContextValue = useContext(userContext);
-  const user = userContextValue?.user;
-  const GOOGLE_MAP_LIBRARIES: ("drawing" | "geometry" | "places" | "visualization")[] = ["places"];
-  const selectedLanguage = Cookies.get('currentLanguage') || 'en';
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-  const calendarRef = useRef<HTMLDivElement>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter()
+  const [pickUp, setPickUp] = useState('')
+  const [dropOff, setDropOff] = useState('')
+  const userContextValue = useContext(userContext)
+  const user = userContextValue?.user
+  const selectedLanguage = Cookies.get('currentLanguage') || 'en'
+  const [selectedDate, setSelectedDate] = useState<string | null>(null)
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false)
+  const calendarRef = useRef<HTMLDivElement>(null)
 
-  // Load Google Maps API
-  const {  loadError } = useJsApiLoader({
+  // stable loader configuration
+  const { loadError } = useJsApiLoader({
+    id: 'google-map-script',
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
-    libraries: GOOGLE_MAP_LIBRARIES,
-  });
+    libraries: GOOGLE_MAP_LIBRARIES
+  })
 
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 1500); 
-    return () => clearTimeout(timer);
-  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (calendarRef.current && !calendarRef.current.contains(event.target as Node)) {
-        setIsCalendarOpen(false);
+        setIsCalendarOpen(false)
       }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
+    }
+    document.addEventListener('mousedown', handleClickOutside)
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
 
-  const pickUpRef = useRef<google.maps.places.Autocomplete | null>(null);
-  const dropOffRef = useRef<google.maps.places.Autocomplete | null>(null);
+  const pickUpRef = useRef<google.maps.places.Autocomplete | null>(null)
+  const dropOffRef = useRef<google.maps.places.Autocomplete | null>(null)
 
   const handlePickUpPlaceChanged = () => {
     if (pickUpRef.current) {
-      const place = pickUpRef.current.getPlace();
+      const place = pickUpRef.current.getPlace()
       if (place.formatted_address) {
-        setPickUp(place.formatted_address);
+        setPickUp(place.formatted_address)
       }
     }
-  };
+  }
 
   const handleDropOffPlaceChanged = () => {
     if (dropOffRef.current) {
-      const place = dropOffRef.current.getPlace();
+      const place = dropOffRef.current.getPlace()
       if (place.formatted_address) {
-        setDropOff(place.formatted_address);
+        setDropOff(place.formatted_address)
       }
     }
-  };
+  }
 
-  const autocompleteOptions = {
-    componentRestrictions: { country: 'cr' },
-    types: ['geocode'],
-    fields: ['formatted_address', 'geometry', 'name','place_id'],
-  };
+  // memoize options so Autocomplete props are stable
+  const autocompleteOptions = useMemo(
+    () => ({
+      componentRestrictions: { country: 'cr' },
+      types: ['geocode'],
+      fields: ['formatted_address', 'geometry', 'name', 'place_id']
+    }),
+    []
+  )
 
   const handleDateSelect = (date: string | null) => {
-    setSelectedDate(date);
-    setIsCalendarOpen(false);
-  };
+    setSelectedDate(date)
+    setIsCalendarOpen(false)
+  }
 
   const handleCheckAvailability = () => {
     const queryParams = new URLSearchParams({
       step: '1',
       pickup: pickUp || '',
       dropOff: dropOff || '',
-      date: selectedDate ? selectedDate : '',
-    });
-
-    router.push(`/select-service?${queryParams.toString()}`);
-  };
-
-  const Loader = () => (
-    <div className="flex items-center justify-center h-[calc(90vh-20px)]">
-      <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary"></div>
-    </div>
-  );
+      date: selectedDate ? selectedDate : ''
+    })
+    router.push(`/select-service?${queryParams.toString()}`)
+  }
 
   if (loadError) {
-    return <div>Error loading Google Maps API</div>;
+    return <div>Error loading Google Maps API</div>
   }
 
   return (
     <div className="w-full h-screen">
-      {isLoading ? (
-        <Loader />
-      ) : (
         <div
           className="w-full h-screen"
-          style={{
-            backgroundImage: `url('/home.svg')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            objectFit: 'cover',
-          }}
+        style={{ backgroundImage:  "url('/home.svg')", backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', objectFit: 'cover', }}
         >
           <div className="flex flex-col items-center lg:justify-start justify-center h-full lg:pt-[200px] pt-4">
-            {/* Title */}
             <div className="lg:text-[56px] text-[31px] text-white lg:text-center text-center">
               <p>
                 <span className="font-bold">Accessible </span> Transportation,
               </p>
               <div className="flex items-center lg:justify-start justify-center gap-2 font-bold">
                 <span>Redefined in</span>
-                <img
-                  src="/FlagIcon.png"
-                  alt=""
-                  className="w-[49px] h-[49px] mx-3 lg:block hidden"
-                />
+                <img src="/FlagIcon.png" alt="" className="w-[49px] h-[49px] mx-3 lg:block hidden" />
                 <span>Costa Rica</span>
               </div>
             </div>
@@ -175,8 +155,8 @@ const Banner = () => {
                             onChange={(e) => setPickUp(e.target.value)}
                           />
                         </Autocomplete>
-                      </ConfigProvider> 
-                    
+                      </ConfigProvider>
+
 
                       {/* Dropoff */}
                       <ConfigProvider
@@ -280,7 +260,6 @@ const Banner = () => {
             </div>
           </div>
         </div>
-      )}
     </div>
   );
 };

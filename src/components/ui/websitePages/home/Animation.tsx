@@ -68,7 +68,7 @@ export default function Animation() {
                 {
                     showAlternate ? <AfterAnimation /> : <div className="flex flex-col items-center justify-center lg:mt-0 mt-5">
                         <p className="uppercase lg:text-[16px] text-[14px] text-[#000] font-normal text-center">about us</p>
-                        <p className="lg:text-[62px] text-[24] font-normal text-content1">
+                        <p className="lg:text-[62px] md:text-[48px] text-[24px] font-normal text-content1">
                             Our Mission: <span className="font-bold">Accessible Mobility For All</span>
                         </p>
                     </div>
