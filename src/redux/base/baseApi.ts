@@ -5,7 +5,7 @@ import Cookies from 'js-cookie';
 export const baseApi = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://api.movicare.cr/api/v1", 
+    baseUrl: "http://31.97.102.139:5005/api/v1", 
       // baseUrl: "http://10.10.7.6:5006/api/v1" ,
     prepareHeaders: (headers) => {
       const token = Cookies.get("accessToken"); 
@@ -19,5 +19,5 @@ export const baseApi = createApi({
   tagTypes: ["profile"],
 });
 
-export const imageUrl = "https://api.movicare.cr/"; 
+export const imageUrl = "http://31.97.102.139:5005/"; 
 // export const imageUrl = "http://10.10.7.6:5006/api/v1";  
