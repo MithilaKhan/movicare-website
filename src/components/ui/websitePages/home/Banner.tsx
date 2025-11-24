@@ -1,7 +1,6 @@
 "use client"
 
 import { ConfigProvider, Input } from 'antd'
-import { useRouter } from 'next/navigation'
 import { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { BsCalendar4 } from 'react-icons/bs'
 import { GrLocationPin } from 'react-icons/gr'
@@ -13,6 +12,7 @@ import dayjs from 'dayjs'
 import updateLocale from 'dayjs/plugin/updateLocale'
 import Cookies from 'js-cookie'
 import Calender from '../select-service/SelectDate/Calender'
+import { useRouter } from 'next/navigation'
 
 dayjs.extend(updateLocale)
 
@@ -103,8 +103,8 @@ const Banner = () => {
   return (
     <div className="w-full h-screen">
         <div
-          className="w-full h-screen"
-        style={{ backgroundImage:  "url('/home.svg')", backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', objectFit: 'cover', }}
+          className=" w-full h-screen bg-[#055b66] "
+        style={{ backgroundImage:  "url('/home.svg')", backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', objectFit: 'cover' }}
         >
           <div className="flex flex-col items-center lg:justify-start justify-center h-full lg:pt-[200px] pt-4">
             <div className="lg:text-[56px] text-[31px] text-white lg:text-center text-center">
