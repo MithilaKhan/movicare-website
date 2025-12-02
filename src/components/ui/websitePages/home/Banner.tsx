@@ -13,6 +13,7 @@ import updateLocale from 'dayjs/plugin/updateLocale'
 import Cookies from 'js-cookie'
 import Calender from '../select-service/SelectDate/Calender'
 import { useRouter } from 'next/navigation'
+import Loader from '@/components/shared/Loader'
 
 dayjs.extend(updateLocale)
 
@@ -31,7 +32,7 @@ const Banner = () => {
   const calendarRef = useRef<HTMLDivElement>(null)
 
   // stable loader configuration
-  const { loadError } = useJsApiLoader({
+  const {isLoaded, loadError  } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
     libraries: GOOGLE_MAP_LIBRARIES
@@ -98,7 +99,11 @@ const Banner = () => {
 
   if (loadError) {
     return <div>Error loading Google Maps API</div>
-  }
+  } 
+
+  if (!isLoaded) {
+  return <Loader />
+}
 
   return (
     <div className="w-full h-screen">

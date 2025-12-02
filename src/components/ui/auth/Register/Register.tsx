@@ -1,9 +1,9 @@
 "use client";
 
-import LoginWithGoogle from "@/components/shared/LoginWithGoogle";
+// import LoginWithGoogle from "@/components/shared/LoginWithGoogle";
 import TextInput from "@/components/shared/TextInput";
 import { useRegisterUserMutation } from "@/redux/features/auth/authApi";
-import { Checkbox, ConfigProvider, Divider, Form, Input } from "antd";
+import { Checkbox, ConfigProvider,  Form, Input } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
@@ -50,9 +50,9 @@ const Register: React.FC = () => {
         <h1 className="text-[23px] font-medium mb-2">Register Now</h1>
       </div>
 
-      <LoginWithGoogle />
+      {/* <LoginWithGoogle />
 
-      <Divider style={{ borderColor: '#e6e6e6' }}> <span className="text-sm font-medium text-[#636363]"> Or </span></Divider>
+      <Divider style={{ borderColor: '#e6e6e6' }}> <span className="text-sm font-medium text-[#636363]"> Or </span></Divider> */}
 
       <ConfigProvider
         theme={{

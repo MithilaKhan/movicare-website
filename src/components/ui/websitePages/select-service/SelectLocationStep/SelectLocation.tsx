@@ -13,6 +13,7 @@ import { useSearchParams } from "next/navigation";
 import { toast } from "react-toastify";
 import PriceDetails from "../PriceDetails";
 import { BookingDetails } from "../SelectServiceMainPage";
+import Loader from "@/components/shared/Loader";
 
 interface SelectLocationProps {
   next: () => void;
@@ -32,11 +33,11 @@ const SelectLocation: React.FC<SelectLocationProps> = ({
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const searchParams = useSearchParams();
   const pickup = searchParams.get("pickup");
-  const dropOff = searchParams.get("dropOff"); 
+  const dropOff = searchParams.get("dropOff");
   const date = searchParams.get("date");
   const [pickUpInput, setPickUpInput] = useState("");
-  const [dropOffInput, setDropOffInput] = useState(""); 
-  const [selectedDate, setSelectedDate]=useState<string|null>(null)
+  const [dropOffInput, setDropOffInput] = useState("");
+  const [selectedDate, setSelectedDate] = useState<string | null>(null)
   const pickUpRef = useRef<google.maps.places.Autocomplete | null>(null);
   const dropOffRef = useRef<google.maps.places.Autocomplete | null>(null);
   const [viewport, setViewport] = useState({
@@ -47,10 +48,11 @@ const SelectLocation: React.FC<SelectLocationProps> = ({
   const [pickUpMarker, setPickUpMarker] = useState<google.maps.LatLngLiteral | null>(null);
   const [dropOffMarker, setDropOffMarker] = useState<google.maps.LatLngLiteral | null>(null);
 
-  const { isLoaded } = useJsApiLoader({
+  const { isLoaded, loadError } = useJsApiLoader({
+    id: "google-map-script",
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? "",
     libraries: ["places"],
-  }); 
+  });
 
   // Handle place selection for pickup
   const handlePickUpPlaceChanged = () => {
@@ -85,7 +87,7 @@ const SelectLocation: React.FC<SelectLocationProps> = ({
   const autocompleteOptions = {
     componentRestrictions: { country: 'cr' },
     types: ['geocode'],
-    fields: ['formatted_address', 'geometry', 'name','place_id'],
+    fields: ['formatted_address', 'geometry', 'name', 'place_id'],
   };
 
   const onValuesChange = (_: unknown, allValues: { pickUpCity: string; dropOffCity: string }) => {
@@ -105,14 +107,14 @@ const SelectLocation: React.FC<SelectLocationProps> = ({
   }, [form, formData]);
 
   useEffect(() => {
-    if (pickup || dropOff||date) {
-      form.setFieldsValue({ pickUpCity: pickup, dropOffCity: dropOff }); 
+    if (pickup || dropOff || date) {
+      form.setFieldsValue({ pickUpCity: pickup, dropOffCity: dropOff });
       setSelectedDate(date)
       setPickUpInput(pickup || "");
       setDropOffInput(dropOff || "");
       setIsSelected(!!pickup && !!dropOff);
     }
-  }, [form, pickup, dropOff,date]);
+  }, [form, pickup, dropOff, date]);
 
   const geocodeAddress = (address: string): Promise<google.maps.LatLngLiteral> => {
     return new Promise((resolve, reject) => {
@@ -182,8 +184,8 @@ const SelectLocation: React.FC<SelectLocationProps> = ({
         pickup_location: values.pickUpCity,
         dropoff_location: values.dropOffCity,
         distance,
-        duration, 
-        date:selectedDate
+        duration,
+        date: selectedDate
       });
 
       next();
@@ -254,7 +256,11 @@ const SelectLocation: React.FC<SelectLocationProps> = ({
   };
 
   if (!isLoaded) {
-    return <div>Loading Google Maps...</div>;
+    return <Loader />;
+  }
+
+  if (loadError) {
+    return <div>Error loading Google Maps API</div>
   }
 
   return (
@@ -340,9 +346,8 @@ const SelectLocation: React.FC<SelectLocationProps> = ({
           <Form.Item className="mt-8 w-full">
             <button
               type="submit"
-              className={`${
-                isSelected ? "bg-primary" : "bg-[#b5b5b5] cursor-not-allowed"
-              } text-white py-3 px-6 rounded-full text-[16px] transition-colors duration-300 w-full`}
+              className={`${isSelected ? "bg-primary" : "bg-[#b5b5b5] cursor-not-allowed"
+                } text-white py-3 px-6 rounded-full text-[16px] transition-colors duration-300 w-full`}
               disabled={!isSelected}
             >
               Choose Date & Service

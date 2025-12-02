@@ -176,7 +176,7 @@ const SelectDate = ({ next, prev, updateFormData, formData }: { next: () => void
             className="mt-4"
             rules={[{ required: true, message: "Please enter the number of adults" }]}
           >
-            <Input type="number" placeholder="Enter number of adults" style={{ height: "48px" }} />
+            <Input type="number" min={0} placeholder="Enter number of adults" style={{ height: "48px" }} />
           </Form.Item>
 
           <Form.Item
@@ -185,7 +185,7 @@ const SelectDate = ({ next, prev, updateFormData, formData }: { next: () => void
             className="mt-4"
             rules={[{ required: true, message: "Please enter the number of children" }]}
           >
-            <Input type="number" placeholder="Enter number of children" style={{ height: "48px" }} />
+            <Input type="number" min={0} placeholder="Enter number of children" style={{ height: "48px" }} />
           </Form.Item>
 
           {/* <p className="lg:text-[17px] text-sm text-[#000000] mb-8">

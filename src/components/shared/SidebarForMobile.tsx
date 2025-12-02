@@ -1,3 +1,4 @@
+"use client"
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IoCloseSharp } from "react-icons/io5";
 import { Drawer } from 'antd';

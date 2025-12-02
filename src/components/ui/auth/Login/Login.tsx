@@ -1,9 +1,8 @@
 "use client"
-
-import LoginWithGoogle from "@/components/shared/LoginWithGoogle";
+// import LoginWithGoogle from "@/components/shared/LoginWithGoogle"; 
 import TextInput from "@/components/shared/TextInput";
 import { useLoginUserMutation } from "@/redux/features/auth/authApi";
-import { Checkbox, Divider, Form, Input } from "antd";
+import { Checkbox, Form, Input } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useContext, useEffect } from "react";
@@ -15,21 +14,21 @@ import { userContext } from "@/helpers/UserProvider";
 const Login = () => {
   const router = useRouter()
   const [loginUser, { isLoading, isSuccess, isError, error, data }] = useLoginUserMutation();
-  const [form] = Form.useForm(); 
+  const [form] = Form.useForm();
   const userCtx = useContext(userContext);
   const refetch = userCtx?.refetch;
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success(data?.message); 
+      toast.success(data?.message);
       Cookies.set("accessToken", data?.data?.createToken || "");
       Cookies.set("refreshToken", data?.data?.refreshToken || "");
       localStorage.removeItem("resetToken");
-      form.resetFields(); 
-        setTimeout(() => {
-      refetch?.();
+      form.resetFields();
+      // setTimeout(() => {
+      // refetch?.();
       router.push("/");
-    }, 200);
+      // }, 200);
 
     }
 
@@ -52,9 +51,9 @@ const Login = () => {
         <h1 className="text-[23px] font-medium mb-2">Log in to your account </h1>
       </div>
 
-      <LoginWithGoogle />
+      {/* <LoginWithGoogle />  */}
 
-      <Divider style={{ borderColor: '#e6e6e6' }}> <span className="text-sm font-medium text-[#636363]"> Or </span></Divider>
+      {/* <Divider style={{ borderColor: '#e6e6e6' }}> <span className="text-sm font-medium text-[#636363]"> Or </span></Divider> */}
 
       <Form
         onFinish={onFinish}
